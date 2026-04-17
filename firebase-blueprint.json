@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Profil pengguna LMS Matematika",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique ID dari Firebase Auth" },
+        "displayName": { "type": "string", "description": "Nama tampilan pengguna" },
+        "email": { "type": "string", "description": "Email pengguna" },
+        "role": { "type": "string", "enum": ["siswa", "guru"], "description": "Peran pengguna dalam LMS" },
+        "xp": { "type": "number", "description": "Total Experience Points" },
+        "completedModules": { "type": "array", "description": "Daftar ID modul yang sudah diselesaikan" }
+      },
+      "required": ["uid", "xp"]
+    },
+    "QuizResult": {
+      "title": "QuizResult",
+      "description": "Hasil kuis yang dikerjakan pengguna",
+      "type": "object",
+      "properties": {
+        "moduleId": { "type": "string", "description": "ID Modul kuis" },
+        "userId": { "type": "string", "description": "ID Pengguna" },
+        "score": { "type": "number", "description": "Skor kuis (0-100)" },
+        "timestamp": { "type": "number", "description": "Waktu pengerjaan" }
+      },
+      "required": ["moduleId", "userId", "score", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Data profil dan progres pengguna"
+    },
+    "/quiz_results/{resultId}": {
+      "schema": "QuizResult",
+      "description": "Data history hasil kuis"
+    }
+  }
+}
