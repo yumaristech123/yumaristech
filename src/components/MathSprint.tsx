@@ -332,7 +332,9 @@ export function MathSprint({ onClose, onComplete, playerName = 'Pemain 1' }: Mat
                       mul: 'Perkalian (x)', 
                       div: 'Pembagian (:)' 
                     };
-                    onComplete(finalScore, `${opLabels[op]} - Level ${lvId || 1}`, timeTaken);
+                    if (mode === 'single') {
+                      onComplete(finalScore, `${opLabels[op]} - Level ${lvId || 1}`, timeTaken);
+                    }
                     onClose();
                   }}
                   className="bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-gray-800 transition-all"

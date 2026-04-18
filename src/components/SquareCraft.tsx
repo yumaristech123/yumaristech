@@ -448,12 +448,14 @@ export function SquareCraft({ onClose, onComplete, playerName = 'Pemain 1' }: Sq
                   const maxScore = Math.max(...players.map(p => p.score));
                   const timeTaken = Math.floor((Date.now() - startTime) / 1000);
                   const maxLvl = Math.max(...players.map(p => p.level));
-                  onComplete(maxScore, `Kuadrat - Level ${maxLvl}`, timeTaken);
+                  if (players.length === 1) {
+                    onComplete(maxScore, `Kuadrat - Level ${maxLvl}`, timeTaken);
+                  }
                   onClose();
                 }}
                 className="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl text-[11px] uppercase shadow-xl shadow-indigo-100 tracking-[0.2em] hover:bg-indigo-700 transition-all"
                >
-                 Kembali ke Base
+                 {players.length === 1 ? 'Simpan & Kembali ke Base' : 'Kembali ke Base'}
                </button>
             </div>
           </motion.div>

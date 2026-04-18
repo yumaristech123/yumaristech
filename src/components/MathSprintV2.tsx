@@ -381,12 +381,14 @@ export function MathSprintV2({ onClose, onComplete, playerName = 'Pemain 1' }: M
                       'x': 'Perkalian (x)', 
                       ':': 'Pembagian (:)' 
                     };
-                    onComplete(bestScore, `${opLabels[operation]} - Level ${level}`, timeTaken);
+                    if (playerCount === 1) {
+                      onComplete(bestScore, `${opLabels[operation]} - Level ${level}`, timeTaken);
+                    }
                     onClose();
                   }}
                   className="w-full bg-white text-black py-5 rounded-[1.5rem] font-black tracking-widest uppercase text-xs hover:scale-[1.02] active:scale-95 transition-all"
                  >
-                   Simpan & Selesai
+                   {playerCount === 1 ? 'Simpan & Selesai' : 'Selesai'}
                  </button>
                  <button onClick={quitToMenu} className="w-full border-2 border-white/10 py-5 rounded-[1.5rem] font-black tracking-widest uppercase text-xs hover:bg-white/5 transition-all text-white/40">
                    Menu Utama
