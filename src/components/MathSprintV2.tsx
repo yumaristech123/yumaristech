@@ -375,7 +375,12 @@ export function MathSprintV2({ onClose, onComplete, playerName = 'Pemain 1' }: M
                   onClick={() => {
                     const bestScore = Math.max(...activePlayers.map(p => p.score));
                     const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                    const opLabels: Record<Operation, string> = { '+': 'Penjumlahan', '-': 'Pengurangan', 'x': 'Perkalian', ':': 'Pembagian' };
+                    const opLabels: Record<Operation, string> = { 
+                      '+': 'Penjumlahan (+)', 
+                      '-': 'Pengurangan (-)', 
+                      'x': 'Perkalian (x)', 
+                      ':': 'Pembagian (:)' 
+                    };
                     onComplete(bestScore, `${opLabels[operation]} - Level ${level}`, timeTaken);
                     onClose();
                   }}

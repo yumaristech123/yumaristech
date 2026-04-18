@@ -326,7 +326,12 @@ export function MathSprint({ onClose, onComplete, playerName = 'Pemain 1' }: Mat
                   onClick={() => {
                     const finalScore = Math.max(...players.map(p => p.score));
                     const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                    const opLabels = { add: 'Penjumlahan', sub: 'Pengurangan', mul: 'Perkalian', div: 'Pembagian' };
+                    const opLabels = { 
+                      add: 'Penjumlahan (+)', 
+                      sub: 'Pengurangan (-)', 
+                      mul: 'Perkalian (x)', 
+                      div: 'Pembagian (:)' 
+                    };
                     onComplete(finalScore, `${opLabels[op]} - Level ${lvId || 1}`, timeTaken);
                     onClose();
                   }}
