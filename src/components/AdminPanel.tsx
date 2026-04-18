@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { UserPlus, User, ShieldCheck, Mail, Lock, UserCircle, X, CheckCircle2, Users, Search, GraduationCap, Edit2, Trash2, Save, RotateCcw } from 'lucide-react';
-import { db, registerWithEmail, updateUser, deleteUserDoc } from '../lib/firebase';
+import { UserPlus, User, ShieldCheck, Mail, Lock, UserCircle, X, CheckCircle2, Users, Search, GraduationCap, Edit2, Trash2, Save, RotateCcw, Plus, Trash } from 'lucide-react';
+import { db, registerWithEmail, updateUser, deleteUserDoc, addClass, deleteClass } from '../lib/firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { cn } from '../lib/utils';
 
@@ -19,13 +19,19 @@ interface UserData {
   xp: number;
 }
 
+interface ClassData {
+  id: string;
+  name: string;
+}
+
 export function AdminPanel({ onClose }: AdminPanelProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   
-  const [activeTab, setActiveTab] = useState<'register' | 'users'>('register');
+  const [activeTab, setActiveTab] = useState<'register' | 'users' | 'classes'>('register');
   const [userList, setUserList] = useState<UserData[]>([]);
+  const [classList, setClassList] = useState<ClassData[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
@@ -35,17 +41,31 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const [name, setName] = useState('');
   const [kelas, setKelas] = useState('');
   const [role, setRole] = useState<'siswa' | 'guru'>('siswa');
+  const [newClassName, setNewClassName] = useState('');
 
   useEffect(() => {
-    const q = query(collection(db, 'users'), orderBy('displayName'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const qUsers = query(collection(db, 'users'), orderBy('displayName'));
+    const unsubUsers = onSnapshot(qUsers, (snapshot) => {
       const users: UserData[] = [];
       snapshot.forEach((doc) => {
         users.push(doc.data() as UserData);
       });
       setUserList(users);
     });
-    return () => unsubscribe();
+
+    const qClasses = query(collection(db, 'classes'), orderBy('name'));
+    const unsubClasses = onSnapshot(qClasses, (snapshot) => {
+      const classes: ClassData[] = [];
+      snapshot.forEach((doc) => {
+        classes.push(doc.data() as ClassData);
+      });
+      setClassList(classes);
+    });
+
+    return () => {
+      unsubUsers();
+      unsubClasses();
+    };
   }, []);
 
   const handleRegisterOrUpdate = async (e: React.FormEvent) => {
@@ -86,6 +106,30 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       setError(err.message || 'Terjadi kesalahan sistem.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddClass = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newClassName.trim()) return;
+    setLoading(true);
+    try {
+      await addClass(newClassName);
+      setNewClassName('');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteClass = async (id: string, name: string) => {
+    if (window.confirm(`Hapus kelas "${name}"? Siswa yang terdaftar di kelas ini tidak akan terhapus, namun label kelas mereka mungkin perlu diperbarui.`)) {
+      try {
+        await deleteClass(id);
+      } catch (err: any) {
+        alert(err.message);
+      }
     }
   };
 
@@ -150,11 +194,11 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
            </button>
         </div>
 
-        <div className="flex border-b border-slate-100 shrink-0">
+        <div className="flex border-b border-slate-100 shrink-0 overflow-x-auto custom-scrollbar">
           <button 
             onClick={() => setActiveTab('register')}
             className={cn(
-              "flex-1 py-4 font-bold text-xs uppercase tracking-widest transition-all border-b-2",
+              "flex-1 min-w-[140px] py-4 font-bold text-xs uppercase tracking-widest transition-all border-b-2",
               activeTab === 'register' ? "border-indigo-600 text-indigo-600 bg-indigo-50/50" : "border-transparent text-slate-400 hover:text-slate-600"
             )}
           >
@@ -166,12 +210,23 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
           <button 
             onClick={() => setActiveTab('users')}
             className={cn(
-              "flex-1 py-4 font-bold text-xs uppercase tracking-widest transition-all border-b-2",
+              "flex-1 min-w-[140px] py-4 font-bold text-xs uppercase tracking-widest transition-all border-b-2",
               activeTab === 'users' ? "border-indigo-600 text-indigo-600 bg-indigo-50/50" : "border-transparent text-slate-400 hover:text-slate-600"
             )}
           >
             <div className="flex items-center justify-center gap-2">
               <Users size={16} /> Daftar Pengguna ({userList.length})
+            </div>
+          </button>
+          <button 
+            onClick={() => setActiveTab('classes')}
+            className={cn(
+              "flex-1 min-w-[140px] py-4 font-bold text-xs uppercase tracking-widest transition-all border-b-2",
+              activeTab === 'classes' ? "border-indigo-600 text-indigo-600 bg-indigo-50/50" : "border-transparent text-slate-400 hover:text-slate-600"
+            )}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <GraduationCap size={16} /> Kelola Kelas ({classList.length})
             </div>
           </button>
         </div>
@@ -259,11 +314,18 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                     </div>
                     <div className="relative">
                       <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                      <input 
-                        type="text" placeholder="Kelas / Kelompok" required
-                        value={kelas} onChange={(e) => setKelas(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none focus:border-indigo-400 transition-all focus:bg-white"
-                      />
+                      <select
+                        required
+                        value={kelas}
+                        onChange={(e) => setKelas(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none focus:border-indigo-400 transition-all focus:bg-white appearance-none"
+                      >
+                        <option value="">Pilih Kelas / Kelompok</option>
+                        {classList.map(c => (
+                          <option key={c.id} value={c.name}>{c.name}</option>
+                        ))}
+                        {classList.length === 0 && <option value="" disabled>Belum ada daftar kelas</option>}
+                      </select>
                     </div>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
@@ -294,7 +356,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                   </button>
                 </form>
               </motion.div>
-            ) : (
+            ) : activeTab === 'users' ? (
               <motion.div 
                 key="users-tab"
                 initial={{ opacity: 0, x: 10 }}
@@ -378,6 +440,56 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                   )}
                 </div>
               </motion.div>
+            ) : (
+              <motion.div 
+                key="classes-tab"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="max-w-xl mx-auto"
+              >
+                <form onSubmit={handleAddClass} className="flex gap-2 mb-8">
+                  <input 
+                    type="text" 
+                    placeholder="Masukkan Nama Kelas (contoh: 4B)"
+                    value={newClassName}
+                    onChange={(e) => setNewClassName(e.target.value)}
+                    required
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-indigo-400 focus:bg-white transition-all shadow-sm"
+                  />
+                  <button 
+                    type="submit"
+                    disabled={loading}
+                    className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-indigo-700 transition-all flex items-center gap-2 shadow-lg shadow-indigo-100 disabled:bg-slate-300"
+                  >
+                    <Plus size={16} /> Tambah
+                  </button>
+                </form>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {classList.map(c => (
+                    <div key={c.id} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl shadow-sm hover:border-indigo-200 transition-all group">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+                          <GraduationCap size={16} />
+                        </div>
+                        <span className="font-bold text-slate-700">{c.name}</span>
+                      </div>
+                      <button 
+                        onClick={() => handleDeleteClass(c.id, c.name)}
+                        className="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                      >
+                        <Trash size={16} />
+                      </button>
+                    </div>
+                  ))}
+                  {classList.length === 0 && (
+                    <div className="col-span-full py-10 text-center bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-100">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Belum ada daftar kelas</p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -385,5 +497,6 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     </div>
   );
 }
+
 
 

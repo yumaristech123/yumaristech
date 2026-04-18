@@ -201,3 +201,21 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
     throw handleFirestoreError(error, OperationType.WRITE, 'users/quiz_results');
   }
 };
+
+// Class management
+export const addClass = async (name: string) => {
+  try {
+    const id = name.trim().replace(/\s+/g, '-').toLowerCase();
+    await setDoc(doc(db, 'classes', id), { id, name });
+  } catch (error) {
+    throw handleFirestoreError(error, OperationType.WRITE, 'classes');
+  }
+};
+
+export const deleteClass = async (id: string) => {
+  try {
+    await deleteDoc(doc(db, 'classes', id));
+  } catch (error) {
+    throw handleFirestoreError(error, OperationType.DELETE, `classes/${id}`);
+  }
+};

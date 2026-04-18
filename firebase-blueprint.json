@@ -22,9 +22,20 @@
         "moduleId": { "type": "string", "description": "ID Modul kuis" },
         "userId": { "type": "string", "description": "ID Pengguna" },
         "score": { "type": "number", "description": "Skor kuis (0-100)" },
+        "timeTaken": { "type": "number", "description": "Waktu pengerjaan dalam detik" },
         "timestamp": { "type": "number", "description": "Waktu pengerjaan" }
       },
       "required": ["moduleId", "userId", "score", "timestamp"]
+    },
+    "Class": {
+      "title": "Class",
+      "description": "Daftar kelas yang tersedia",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "description": "Nama kelas (e.g., 4A, 5B)" }
+      },
+      "required": ["id", "name"]
     }
   },
   "firestore": {
@@ -35,6 +46,10 @@
     "/quiz_results/{resultId}": {
       "schema": "QuizResult",
       "description": "Data history hasil kuis"
+    },
+    "/classes/{classId}": {
+      "schema": "Class",
+      "description": "Daftar pilihan kelas untuk siswa"
     }
   }
 }
