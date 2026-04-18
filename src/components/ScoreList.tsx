@@ -80,7 +80,8 @@ export function ScoreList() {
     .filter(res => {
       const user = users[res.userId];
       const nameMatch = user?.displayName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                        res.moduleId.toLowerCase().includes(searchTerm.toLowerCase());
+                        res.moduleId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        (res.level && res.level.toLowerCase().includes(searchTerm.toLowerCase()));
       const roleMatch = filterRole === 'all' || user?.role === filterRole;
       const classMatch = filterClass === 'all' || user?.kelas === filterClass;
       return nameMatch && roleMatch && classMatch;
@@ -260,7 +261,9 @@ export function ScoreList() {
                         </p>
                         <p className="font-bold text-slate-600 truncate max-w-[150px]">{getModuleLabel(res.moduleId)}</p>
                         <div className="flex items-center justify-end gap-2 mt-1">
-                           <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-50 text-slate-500 rounded lowercase border border-slate-100">Lv {res.level || '-'}</span>
+                           <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-50 text-slate-500 rounded uppercase border border-slate-100 italic">
+                             {res.level?.includes('Level') ? res.level : `Lv ${res.level || '-'}`}
+                           </span>
                            <span className={cn(
                              "text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 border",
                              sortBy === 'time' ? "bg-indigo-50 border-indigo-100 text-indigo-600" : "bg-slate-50 border-slate-100 text-slate-500"
