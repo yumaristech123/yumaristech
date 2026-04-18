@@ -3,51 +3,107 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper functions
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-    
-    function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
     }
 
+    // --- Helper Functions ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function getUserData(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == "yumaristech@gmail.com" && isEmailVerified()) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData(request.auth.uid).role == 'admin')
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- Validation Blueprints ---
+
     function isValidUser(data) {
-      return data.keys().hasAll(['uid', 'xp', 'role']) &&
-             data.uid is string &&
-             data.xp is number &&
-             data.xp >= 0 &&
-             data.role in ['siswa', 'guru', 'admin'];
+      return data.keys().hasAll(['uid', 'displayName', 'email', 'role', 'xp', 'completedModules']) &&
+             data.uid is string && data.uid.size() <= 128 &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.email is string && data.email.size() <= 100 &&
+             data.role in ['siswa', 'guru', 'admin'] &&
+             data.xp is number && data.xp >= 0 &&
+             data.completedModules is list && data.completedModules.size() <= 1000;
     }
 
     function isValidQuizResult(data) {
       return data.keys().hasAll(['moduleId', 'userId', 'score', 'timestamp']) &&
-             data.moduleId is string &&
-             data.userId is string &&
-             data.score is number &&
-             data.score >= 0 &&
+             data.moduleId is string && data.moduleId.size() <= 100 &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.score is number && data.score >= 0 && data.score <= 1000 && // Allowing for some bonus points
              data.timestamp is number;
     }
 
-    function isAdmin() {
-      return isAuthenticated() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-          (request.auth.token.email == "yumaristech@gmail.com" && request.auth.token.email_verified == true));
+    function isValidClass(data) {
+      return data.keys().hasAll(['id', 'name']) &&
+             data.id is string && data.id.size() <= 50 &&
+             data.name is string && data.name.size() <= 50;
     }
 
-    // Rules for Users
+    // --- Collection Rules ---
+
+    // 1. Users Collection
     match /users/{userId} {
-      allow read: if isAuthenticated();
+      // Allow read for authenticated users (to populate displayName/kelas in ScoreList)
+      // List operation: explicitly check metadata to avoid scraping if needed, but for LMS listing is common
+      allow read: if isSignedIn();
+      
       allow create: if (isOwner(userId) || isAdmin()) && isValidUser(request.resource.data);
-      allow update: if (isOwner(userId) || isAdmin()) && isValidUser(request.resource.data);
+      
+      allow update: if (isOwner(userId) || isAdmin()) && 
+                    isValidUser(request.resource.data) &&
+                    (
+                      // Action: Standard XP/Progess Update
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'completedModules'])) ||
+                      // Action: Profile Edit by Self/Admin
+                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email'])) ||
+                      isAdmin()
+                    );
+      
+      allow delete: if isAdmin();
     }
 
-    // Rules for Quiz Results
+    // 2. Quiz Results Collection
     match /quiz_results/{resultId} {
-      allow read: if isAuthenticated(); // Or restrict to internal admin if needed
-      allow create: if isAuthenticated() && 
-                   request.resource.data.userId == request.auth.uid && 
-                   isValidQuizResult(request.resource.data);
+      // Allow read for all authenticated (to see leaderboard)
+      // Query enforcement:ScoreList filters by class/role, we allow list if authenticated
+      allow read: if isSignedIn();
+      
+      allow create: if isSignedIn() && 
+                    request.resource.data.userId == request.auth.uid && 
+                    isValidQuizResult(request.resource.data);
+      
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // 3. Classes Collection
+    match /classes/{classId} {
+      allow read: if isSignedIn(); // All students/staff can see the class list dropdown
+      allow create, update: if isAdmin() && isValidClass(request.resource.data);
+      allow delete: if isAdmin();
     }
   }
 }

@@ -42,6 +42,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const [kelas, setKelas] = useState('');
   const [role, setRole] = useState<'siswa' | 'guru'>('siswa');
   const [newClassName, setNewClassName] = useState('');
+  const [classSuccess, setClassSuccess] = useState(false);
 
   useEffect(() => {
     const qUsers = query(collection(db, 'users'), orderBy('displayName'));
@@ -113,11 +114,20 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     e.preventDefault();
     if (!newClassName.trim()) return;
     setLoading(true);
+    setError('');
+    setClassSuccess(false);
     try {
       await addClass(newClassName);
       setNewClassName('');
+      setClassSuccess(true);
+      setTimeout(() => setClassSuccess(false), 3000);
     } catch (err: any) {
-      setError(err.message);
+      console.error('Add Class Error:', err);
+      if (err.message.includes('permission-denied')) {
+        setError('Akses Ditolak: Hanya Admin yang dapat menambah kelas.');
+      } else {
+        setError(err.message || 'Gagal menambah kelas.');
+      }
     } finally {
       setLoading(false);
     }
@@ -465,6 +475,16 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                     <Plus size={16} /> Tambah
                   </button>
                 </form>
+
+                {classSuccess && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 p-4 bg-emerald-50 border border-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center gap-3"
+                  >
+                    <CheckCircle2 size={16} />
+                    <span className="text-xs font-bold uppercase">Kelas Berhasil Ditambahkan!</span>
+                  </motion.div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {classList.map(c => (

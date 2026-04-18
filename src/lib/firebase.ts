@@ -49,6 +49,9 @@ export const signInWithGoogle = async () => {
         xp: 0,
         completedModules: []
       });
+    } else if (isAdmin && snap.data().role !== 'admin') {
+      // Ensure the admin role is synced if missing
+      await updateDoc(userRef, { role: 'admin' });
     }
     return result.user;
   } catch (error) {
@@ -205,8 +208,17 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
 // Class management
 export const addClass = async (name: string) => {
   try {
-    const id = name.trim().replace(/\s+/g, '-').toLowerCase();
-    await setDoc(doc(db, 'classes', id), { id, name });
+    // Sanitize ID: only lowercase letters, numbers, and hyphens. 
+    // This prevents slashes (/) from being interpreted as subcollections.
+    const id = name.trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]+/g, '-') // Replace any non-safe character with a hyphen
+      .replace(/^-+|-+$/g, '');     // Remove leading/trailing hyphens
+
+    // Ensure ID is not empty after sanitization
+    const finalId = id || `class-${Date.now()}`;
+    
+    await setDoc(doc(db, 'classes', finalId), { id: finalId, name });
   } catch (error) {
     throw handleFirestoreError(error, OperationType.WRITE, 'classes');
   }
