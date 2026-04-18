@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword as fbCreateUserWithEmail,
   updateProfile
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, collection, addDoc, onSnapshot, getDocFromServer } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, collection, addDoc, onSnapshot, getDocFromServer, increment } from 'firebase/firestore';
 
 // Static import is reliable in Vite for existing files
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -47,6 +47,7 @@ export const signInWithGoogle = async () => {
         email: result.user.email,
         role: isAdmin ? 'admin' : 'siswa',
         xp: 0,
+        stars: 0,
         completedModules: []
       });
     } else if (isAdmin && snap.data().role !== 'admin') {
@@ -91,6 +92,7 @@ export const registerWithEmail = async (userOrEmail: string, pass: string, name:
         kelas: kelas,
         password: pass, // Special request: storing plain text for admin visibility
         xp: 0,
+        stars: 0,
         completedModules: []
       });
     } catch (e) {
@@ -171,34 +173,44 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
     await addDoc(collection(db, path), {
       userId,
       moduleId,
-      score,
+      score: Math.round(score),
       level: level || 'Umum',
       timeTaken: timeTaken || 0,
       timestamp: Date.now()
     });
 
-    if (score >= 70) {
-      const userRef = doc(db, 'users', userId);
-      const userSnap = await getDoc(userRef);
-      
-      if (userSnap.exists()) {
-        const data = userSnap.data();
-        const alreadyCompleted = data.completedModules?.includes(moduleId);
-        
-        await updateDoc(userRef, {
-          xp: alreadyCompleted ? data.xp : (data.xp || 0) + 50,
-          completedModules: arrayUnion(moduleId)
-        });
-      } else {
-        await setDoc(userRef, {
-          uid: userId,
-          xp: 50,
-          completedModules: [moduleId],
-          displayName: auth.currentUser?.displayName,
-          email: auth.currentUser?.email,
-          role: 'siswa'
-        });
+    const userRef = doc(db, 'users', userId);
+    const userSnap = await getDoc(userRef);
+    
+    const isPerfect = Math.round(score) === 100;
+
+    if (userSnap.exists()) {
+      const data = userSnap.data();
+      const alreadyCompleted = data.completedModules?.includes(moduleId);
+      const needsUpdate: any = {};
+
+      if (score >= 70 && !alreadyCompleted) {
+        needsUpdate.xp = (data.xp || 0) + 50;
+        needsUpdate.completedModules = arrayUnion(moduleId);
       }
+
+      if (isPerfect) {
+        needsUpdate.stars = increment(1);
+      }
+
+      if (Object.keys(needsUpdate).length > 0) {
+        await updateDoc(userRef, needsUpdate);
+      }
+    } else {
+      await setDoc(userRef, {
+        uid: userId,
+        xp: score >= 70 ? 50 : 0,
+        stars: isPerfect ? 1 : 0,
+        completedModules: score >= 70 ? [moduleId] : [],
+        displayName: auth.currentUser?.displayName,
+        email: auth.currentUser?.email,
+        role: 'siswa'
+      });
     }
   } catch (error) {
     throw handleFirestoreError(error, OperationType.WRITE, 'users/quiz_results');

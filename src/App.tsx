@@ -22,6 +22,7 @@ export default function App() {
   const [userRole, setUserRole] = useState<'siswa' | 'guru' | 'admin' | null>(null);
   const [userKelas, setUserKelas] = useState('');
   const [userXp, setUserXp] = useState(0);
+  const [userStars, setUserStars] = useState(0);
   const [completedModules, setCompletedModules] = useState<string[]>([]);
   const [currentLevel, setCurrentLevel] = useState<Level | null>(null);
   const [currentModule, setCurrentModule] = useState<Module | null>(null);
@@ -44,6 +45,7 @@ export default function App() {
       setIsAuthReady(true);
       if (!u) {
         setUserXp(0);
+        setUserStars(0);
         setCompletedModules([]);
       }
     });
@@ -56,6 +58,7 @@ export default function App() {
         if (doc.exists()) {
           const data = doc.data();
           setUserXp(data.xp || 0);
+          setUserStars(data.stars || 0);
           setCompletedModules(data.completedModules || []);
           setUserRole(data.role || 'siswa');
           setUserKelas(data.kelas || '');
@@ -139,7 +142,7 @@ export default function App() {
 
             <div className="hidden sm:flex items-center gap-2.5 bg-white border border-slate-200 px-4 py-2 rounded-2xl shadow-sm">
               <Star size={18} className="text-amber-500 fill-amber-500" />
-              <span className="font-bold text-slate-700">{userXp} XP</span>
+              <span className="font-bold text-slate-700">{userStars}</span>
             </div>
             {isAuthReady && (
               user ? (
