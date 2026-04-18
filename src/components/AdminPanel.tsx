@@ -55,18 +55,23 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     setSuccess(false);
 
     try {
+      const cleanEmail = email.trim();
+      const cleanPass = password.trim();
+      const cleanName = name.trim();
+      const cleanKelas = kelas.trim();
+
       if (isEditMode && editingUserId) {
         await updateUser(editingUserId, {
-          displayName: name,
-          email: email,
-          password: password,
+          displayName: cleanName,
+          email: cleanEmail,
+          password: cleanPass,
           role: role,
-          kelas: kelas
+          kelas: cleanKelas
         });
         setSuccess(true);
         setTimeout(() => setIsEditMode(false), 2000);
       } else {
-        await registerWithEmail(email, password, name, role, kelas);
+        await registerWithEmail(cleanEmail, cleanPass, cleanName, role, cleanKelas);
         setSuccess(true);
       }
       
@@ -233,6 +238,15 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                       <span className="text-xs font-bold uppercase">Guru</span>
                     </button>
                   </div>
+
+                  {isEditMode && (
+                    <div className="mb-6 p-3 bg-amber-50 border border-amber-100 rounded-xl">
+                      <p className="text-[9px] font-bold text-amber-700 leading-tight">
+                        CATATAN: Mengubah "Username/Email" di sini hanya akan mengubah tampilan di dashboard. 
+                        Untuk mengubah data login akun sebenarnya, silakan hapus dan buat akun baru.
+                      </p>
+                    </div>
+                  )}
 
                   <div className="space-y-4">
                     <div className="relative">

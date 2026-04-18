@@ -58,12 +58,14 @@ export const signInWithGoogle = async () => {
 };
 
 export const loginWithEmail = async (userOrEmail: string, pass: string) => {
-  const finalEmail = userOrEmail.includes('@') ? userOrEmail : `${userOrEmail.toLowerCase()}@zonaprestasi.com`;
+  const normalized = userOrEmail.trim().toLowerCase();
+  const finalEmail = normalized.includes('@') ? normalized : `${normalized}@zonaprestasi.com`;
   return fbSignInWithEmail(auth, finalEmail, pass);
 };
 
 export const registerWithEmail = async (userOrEmail: string, pass: string, name: string, role: 'guru' | 'siswa', kelas: string = '') => {
-  const finalEmail = userOrEmail.includes('@') ? userOrEmail : `${userOrEmail.toLowerCase()}@zonaprestasi.com`;
+  const normalized = userOrEmail.trim().toLowerCase();
+  const finalEmail = normalized.includes('@') ? normalized : `${normalized}@zonaprestasi.com`;
   
   // Use a secondary app instance to avoid signing out the current (admin) user
   const secondaryApp = getApps().length > 1 

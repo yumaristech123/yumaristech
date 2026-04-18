@@ -38,14 +38,16 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
     setError('');
 
     try {
-      await loginWithEmail(email, password);
+      await loginWithEmail(email.trim(), password.trim());
       onSuccess();
     } catch (err: any) {
-      console.error(err);
+      console.error('Login error:', err);
       if (err.code === 'auth/operation-not-allowed' || err.message?.includes('operation-not-allowed')) {
         setError('Fitur Login Email/Password belum diaktifkan oleh Admin di Firebase Console.');
+      } else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setError('Kredensial tidak valid. Silakan cek username/email dan password Anda.');
       } else {
-        setError('Kredensial tidak valid atau akun tidak ditemukan.');
+        setError(`Terjadi kesalahan: ${err.message || 'Gagal masuk.'}`);
       }
     } finally {
       setLoading(false);
