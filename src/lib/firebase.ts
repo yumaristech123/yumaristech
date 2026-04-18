@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword as fbCreateUserWithEmail,
   updateProfile
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, collection, addDoc, onSnapshot, getDocFromServer } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, collection, addDoc, onSnapshot, getDocFromServer } from 'firebase/firestore';
 
 // Static import is reliable in Vite for existing files
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -62,7 +62,7 @@ export const loginWithEmail = async (userOrEmail: string, pass: string) => {
   return fbSignInWithEmail(auth, finalEmail, pass);
 };
 
-export const registerWithEmail = async (userOrEmail: string, pass: string, name: string, role: 'guru' | 'siswa') => {
+export const registerWithEmail = async (userOrEmail: string, pass: string, name: string, role: 'guru' | 'siswa', kelas: string = '') => {
   const finalEmail = userOrEmail.includes('@') ? userOrEmail : `${userOrEmail.toLowerCase()}@zonaprestasi.com`;
   
   // Use a secondary app instance to avoid signing out the current (admin) user
@@ -83,6 +83,8 @@ export const registerWithEmail = async (userOrEmail: string, pass: string, name:
         displayName: name,
         email: finalEmail,
         role: role,
+        kelas: kelas,
+        password: pass, // Special request: storing plain text for admin visibility
         xp: 0,
         completedModules: []
       });
@@ -97,6 +99,24 @@ export const registerWithEmail = async (userOrEmail: string, pass: string, name:
   } catch (err: any) {
     console.error('Registration auth error:', err);
     throw err;
+  }
+};
+
+export const updateUser = async (uid: string, data: Partial<any>) => {
+  try {
+    const userRef = doc(db, 'users', uid);
+    await updateDoc(userRef, data);
+  } catch (error) {
+    throw handleFirestoreError(error, OperationType.UPDATE, `users/${uid}`);
+  }
+};
+
+export const deleteUserDoc = async (uid: string) => {
+  try {
+    const userRef = doc(db, 'users', uid);
+    await deleteDoc(userRef);
+  } catch (error) {
+    throw handleFirestoreError(error, OperationType.DELETE, `users/${uid}`);
   }
 };
 

@@ -20,6 +20,7 @@ import { cn } from './lib/utils';
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [userRole, setUserRole] = useState<'siswa' | 'guru' | 'admin' | null>(null);
+  const [userKelas, setUserKelas] = useState('');
   const [userXp, setUserXp] = useState(0);
   const [completedModules, setCompletedModules] = useState<string[]>([]);
   const [currentLevel, setCurrentLevel] = useState<Level | null>(null);
@@ -28,6 +29,14 @@ export default function App() {
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   const [activeView, setActiveView] = useState<'lessons' | 'scores'>('lessons');
+  const [adminClickCount, setAdminClickCount] = useState(0);
+
+  useEffect(() => {
+    if (adminClickCount >= 7 && userRole === 'admin') {
+      setIsAdminPanelOpen(true);
+      setAdminClickCount(0);
+    }
+  }, [adminClickCount, userRole]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
@@ -49,6 +58,7 @@ export default function App() {
           setUserXp(data.xp || 0);
           setCompletedModules(data.completedModules || []);
           setUserRole(data.role || 'siswa');
+          setUserKelas(data.kelas || '');
         }
       }, (error) => {
         handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
@@ -98,7 +108,14 @@ export default function App() {
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-brand-200">
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200/60 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={resetToHome}>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => {
+            if (userRole === 'admin') {
+              setAdminClickCount(prev => prev + 1);
+              // Reset count after 2 seconds of inactivity
+              setTimeout(() => setAdminClickCount(0), 2000);
+            }
+            resetToHome();
+          }}>
             <div className="bg-brand-600 text-white p-2.5 rounded-2xl shadow-lg shadow-brand-200 group-hover:scale-110 transition-transform duration-300">
               <Zap size={24} className="fill-yellow-300 text-yellow-300" />
             </div>
@@ -118,15 +135,8 @@ export default function App() {
               <span className="hidden sm:inline">{activeView === 'scores' ? 'Lihat Pelajaran' : 'Papan Nilai'}</span>
             </button>
 
-            {userRole === 'admin' && (
-              <button 
-                onClick={() => setIsAdminPanelOpen(true)}
-                className="flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-2 rounded-2xl border border-indigo-100 font-bold text-xs hover:bg-indigo-100 transition-all shadow-sm"
-              >
-                <Settings size={18} />
-                <span className="hidden sm:inline">Admin Panel</span>
-              </button>
-            )}
+            {/* Admin Panel button is now hidden behind 7 secret clicks on the logo */}
+
             <div className="hidden sm:flex items-center gap-2.5 bg-white border border-slate-200 px-4 py-2 rounded-2xl shadow-sm">
               <Star size={18} className="text-amber-500 fill-amber-500" />
               <span className="font-bold text-slate-700">{userXp} XP</span>
@@ -135,7 +145,9 @@ export default function App() {
               user ? (
                 <div className="flex items-center gap-4">
                   <div className="text-right hidden md:block">
-                    <p className="font-medium text-[10px] uppercase tracking-widest text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md mb-0.5 inline-block capitalize">{userRole || 'Siswa'}</p>
+                    <p className="font-medium text-[10px] uppercase tracking-widest text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md mb-0.5 inline-block capitalize">
+                      {userRole === 'admin' ? 'Verifikasi' : (userRole || 'Siswa')}
+                    </p>
                     <p className="font-bold heading-font text-slate-700 leading-none">{user.displayName?.split(' ')[0]}</p>
                   </div>
                   <button onClick={logout} className="p-2.5 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-colors">
