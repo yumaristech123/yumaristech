@@ -259,10 +259,29 @@ export function ScoreList() {
                         <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1 flex items-center justify-end gap-1">
                           <BookOpen size={10} /> Modul / Operasi
                         </p>
-                        <p className="font-bold text-slate-600 truncate max-w-[150px]">{getModuleLabel(res.moduleId)}</p>
+                        <p className="font-bold text-slate-600 truncate max-w-[200px]">
+                          {(() => {
+                            const fullLevel = res.level || '';
+                            const hasOp = fullLevel.includes(' - ');
+                            const moduleLabel = getModuleLabel(res.moduleId);
+                            if (hasOp) {
+                              const [opPart] = fullLevel.split(' - ');
+                              return `${moduleLabel}, ${opPart}`;
+                            }
+                            return moduleLabel;
+                          })()}
+                        </p>
                         <div className="flex items-center justify-end gap-2 mt-1">
                            <span className="text-[9px] font-bold px-1.5 py-0.5 bg-slate-50 text-slate-500 rounded uppercase border border-slate-100 italic">
-                             {res.level?.includes('Level') ? res.level : `Lv ${res.level || '-'}`}
+                             {(() => {
+                               const fullLevel = res.level || '';
+                               const hasOp = fullLevel.includes(' - ');
+                               if (hasOp) {
+                                 const [, lvPart] = fullLevel.split(' - ');
+                                 return lvPart;
+                               }
+                               return fullLevel.includes('Level') ? fullLevel : `Lv ${fullLevel || '-'}`;
+                             })()}
                            </span>
                            <span className={cn(
                              "text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 border",
