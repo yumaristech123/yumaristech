@@ -114,6 +114,9 @@ export function ScoreList() {
     if (id === 'mod-math-sprint') return 'Math Sprint';
     if (id === 'mod-math-sprint-v2') return 'Math Sprint V2';
     if (id === 'mod-square-craft') return 'Square Craft';
+    if (id === 'mod-psas-9') return 'Latihan PSAS Kelas 9';
+    if (id === 'mod-psas-8') return 'Latihan PSAS Kelas 8';
+    if (id === 'mod-psas-7') return 'Latihan PSAS Kelas 7';
     if (id === 'matematika-dasar-1') return 'Penjumlahan & Pengurangan';
     return id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
