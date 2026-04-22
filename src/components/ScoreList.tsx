@@ -37,7 +37,7 @@ export function ScoreList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'siswa' | 'guru'>('all');
   const [filterClass, setFilterClass] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'score' | 'time' | 'date'>('date');
+  const [sortBy, setSortBy] = useState<'score' | 'time' | 'date' | 'name'>('date');
 
   useEffect(() => {
     // Fetch users first to map names
@@ -90,6 +90,11 @@ export function ScoreList() {
     .sort((a, b) => {
       if (sortBy === 'score') return b.score - a.score;
       if (sortBy === 'time') return (a.timeTaken || 9999) - (b.timeTaken || 9999);
+      if (sortBy === 'name') {
+        const nameA = users[a.userId]?.displayName || '';
+        const nameB = users[b.userId]?.displayName || '';
+        return nameA.localeCompare(nameB);
+      }
       return b.timestamp - a.timestamp;
     });
 
@@ -134,17 +139,17 @@ export function ScoreList() {
             
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2">Urutkan:</span>
-              <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-                {(['date', 'score', 'time'] as const).map(s => (
+              <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm overflow-x-auto no-scrollbar max-w-full">
+                {(['date', 'score', 'time', 'name'] as const).map(s => (
                   <button
                     key={s}
                     onClick={() => setSortBy(s)}
                     className={cn(
-                      "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all",
+                      "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all whitespace-nowrap",
                       sortBy === s ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" : "text-slate-400 hover:text-slate-600"
                     )}
                   >
-                    {s === 'date' ? 'Terbaru' : s === 'score' ? 'Skor' : 'Waktu'}
+                    {s === 'date' ? 'Terbaru' : s === 'score' ? 'Skor' : s === 'name' ? 'Nama' : 'Waktu'}
                   </button>
                 ))}
               </div>
