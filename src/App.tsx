@@ -78,7 +78,7 @@ export default function App() {
 
   const handleModuleSelect = (module: Module) => {
     setCurrentModule(module);
-    setIsQuizActive(false);
+    setIsQuizActive(true);
   };
 
   const handleQuizComplete = async (score: number, level?: string, timeTaken?: number) => {
@@ -238,42 +238,10 @@ export default function App() {
                 </div>
               </div>
               <div className="lg:col-span-2">
-                <AnimatePresence mode="wait">
-                  {currentModule ? (
-                    <motion.div
-                      key={currentModule.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="bg-white border border-slate-300 rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-300/50"
-                    >
-                      <div className="bg-brand-600 p-10 text-white relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-8 opacity-10">
-                          <BookOpen size={160} />
-                        </div>
-                        <BookOpen size={48} className="mb-6" />
-                        <h2 className="text-4xl font-bold heading-font tracking-tight">{currentModule.title}</h2>
-                        <p className="text-brand-100 font-medium text-lg mt-2">{currentModule.description}</p>
-                      </div>
-                      <div className="p-10">
-                        <div className="font-medium text-slate-700 space-y-6 text-xl leading-relaxed whitespace-pre-wrap">
-                          {currentModule.content}
-                        </div>
-                        <div className="mt-12 p-10 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2rem] text-center">
-                          <h4 className="text-2xl font-bold heading-font mb-2">Tantangan Menanti!</h4>
-                          <p className="text-slate-500 font-medium mb-8">Selesaikan pelajaran ini dan dapatkan XP bonus.</p>
-                          <button onClick={() => setIsQuizActive(true)} className="bg-brand-600 text-white px-10 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm hover:bg-brand-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-brand-100">
-                            Mulai Kuis Sekarang
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <div className="h-full border-4 border-dashed border-gray-300 rounded-3xl flex flex-col items-center justify-center p-12 text-center text-gray-400">
-                      <Layout size={64} className="mb-4" />
-                      <p className="text-xl font-black uppercase tracking-widest italic text-center">Pilih modul di sebelah kiri untuk mulai belajar!</p>
-                    </div>
-                  )}
-                </AnimatePresence>
+                <div className="h-full border-4 border-dashed border-slate-300 rounded-[2.5rem] flex flex-col items-center justify-center p-12 text-center text-slate-300">
+                  <Layout size={64} className="mb-4" />
+                  <p className="text-xl font-black uppercase tracking-widest italic text-center">Pilih modul di sebelah kiri untuk mulai belajar!</p>
+                </div>
               </div>
             </motion.div>
           ) : (
