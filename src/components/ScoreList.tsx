@@ -83,7 +83,8 @@ export function ScoreList() {
                         res.moduleId.toLowerCase().includes(searchTerm.toLowerCase()) ||
                         (res.level && res.level.toLowerCase().includes(searchTerm.toLowerCase()));
       const roleMatch = filterRole === 'all' || user?.role === filterRole;
-      const classMatch = filterClass === 'all' || user?.kelas === filterClass;
+      const classMatch = filterClass === 'all' || 
+                         (user?.kelas && user.kelas.split(', ').includes(filterClass));
       return nameMatch && roleMatch && classMatch;
     })
     .sort((a, b) => {

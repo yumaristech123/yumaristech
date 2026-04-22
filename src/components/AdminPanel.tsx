@@ -40,6 +40,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [kelas, setKelas] = useState('');
+  const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [role, setRole] = useState<'siswa' | 'guru'>('siswa');
   const [newClassName, setNewClassName] = useState('');
   const [classSuccess, setClassSuccess] = useState(false);
@@ -79,7 +80,8 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       const cleanEmail = email.trim();
       const cleanPass = password.trim();
       const cleanName = name.trim();
-      const cleanKelas = kelas.trim();
+      
+      let finalKelas = role === 'guru' ? selectedClasses.join(', ') : kelas.trim();
 
       if (isEditMode && editingUserId) {
         await updateUser(editingUserId, {
@@ -87,12 +89,12 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
           email: cleanEmail,
           password: cleanPass,
           role: role,
-          kelas: cleanKelas
+          kelas: finalKelas
         });
         setSuccess(true);
         setTimeout(() => setIsEditMode(false), 2000);
       } else {
-        await registerWithEmail(cleanEmail, cleanPass, cleanName, role, cleanKelas);
+        await registerWithEmail(cleanEmail, cleanPass, cleanName, role, finalKelas);
         setSuccess(true);
       }
       
@@ -101,6 +103,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       setPassword('');
       setName('');
       setKelas('');
+      setSelectedClasses([]);
       setEditingUserId(null);
     } catch (err: any) {
       console.error(err);
@@ -149,8 +152,13 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     setName(u.displayName);
     setEmail(u.email);
     setPassword(u.password || '');
-    setKelas(u.kelas || '');
-    setRole(u.role as 'siswa' | 'guru');
+    const currentRole = u.role as 'siswa' | 'guru';
+    setRole(currentRole);
+    if (currentRole === 'guru') {
+      setSelectedClasses((u.kelas || '').split(', ').filter(Boolean));
+    } else {
+      setKelas(u.kelas || '');
+    }
     setActiveTab('register');
   };
 
@@ -161,6 +169,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     setEmail('');
     setPassword('');
     setKelas('');
+    setSelectedClasses([]);
     setRole('siswa');
   };
 
@@ -323,19 +332,51 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                       />
                     </div>
                     <div className="relative">
-                      <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                      <select
-                        required
-                        value={kelas}
-                        onChange={(e) => setKelas(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none focus:border-indigo-400 transition-all focus:bg-white appearance-none"
-                      >
-                        <option value="">Pilih Kelas / Kelompok</option>
-                        {classList.map(c => (
-                          <option key={c.id} value={c.name}>{c.name}</option>
-                        ))}
-                        {classList.length === 0 && <option value="" disabled>Belum ada daftar kelas</option>}
-                      </select>
+                      {role === 'guru' ? (
+                        <div className="space-y-3 bg-slate-50 border border-slate-100 rounded-xl p-4">
+                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-2 mb-2">
+                            <GraduationCap size={14} /> Pilih Beberapa Kelas
+                          </label>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-y-auto max-h-[160px] p-1">
+                            {classList.map(c => (
+                              <label key={c.id} className="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-100 cursor-pointer hover:border-indigo-200 transition-all">
+                                <input 
+                                  type="checkbox"
+                                  className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                  checked={selectedClasses.includes(c.name)}
+                                  onChange={(e) => {
+                                    if (e.target.checked) {
+                                      setSelectedClasses(prev => [...prev, c.name]);
+                                    } else {
+                                      setSelectedClasses(prev => prev.filter(cn => cn !== c.name));
+                                    }
+                                  }}
+                                />
+                                <span className="text-xs font-bold text-slate-600">{c.name}</span>
+                              </label>
+                            ))}
+                            {classList.length === 0 && (
+                              <p className="col-span-full text-center py-2 text-[10px] font-bold text-slate-400 italic">Belum ada daftar kelas</p>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                          <select
+                            required
+                            value={kelas}
+                            onChange={(e) => setKelas(e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none focus:border-indigo-400 transition-all focus:bg-white appearance-none"
+                          >
+                            <option value="">Pilih Kelas / Kelompok</option>
+                            {classList.map(c => (
+                              <option key={c.id} value={c.name}>{c.name}</option>
+                            ))}
+                            {classList.length === 0 && <option value="" disabled>Belum ada daftar kelas</option>}
+                          </select>
+                        </>
+                      )}
                     </div>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
