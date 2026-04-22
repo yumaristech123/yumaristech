@@ -20,16 +20,16 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-slate-100 text-slate-900 antialiased;
   }
 }
 
 .glass {
-  @apply bg-white/70 backdrop-blur-md border border-white/20;
+  @apply bg-white/80 backdrop-blur-md border border-slate-200;
 }
 
 .modern-card {
-  @apply bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-brand-300 transition-all duration-300;
+  @apply bg-white rounded-3xl border border-slate-300 shadow-md hover:shadow-xl hover:border-brand-400 transition-all duration-300;
 }
 
 .heading-font {

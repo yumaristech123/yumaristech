@@ -487,5 +487,233 @@ export const LEVELS: Level[] = [
         ]
       }
     ]
+  },
+  {
+    id: 'lvl-osn',
+    title: 'OSN Matematika',
+    description: 'Kumpulan soal Olimpiade Sains Nasional (OSN) tingkat Kabupaten untuk tingkat SMP.',
+    minXp: 0,
+    modules: [
+      {
+        id: 'mod-osn-1',
+        title: 'OSN Kabupaten-1',
+        description: 'Latihan soal OSN Matematika Kabupaten (Nomor 1-5).',
+        icon: 'Trophy',
+        content: 'Modul ini berisi soal-soal seleksi tingkat kabupaten yang mencakup teori bilangan, aljabar, dan geometri dasar.',
+        quiz: [
+          {
+            id: 'osn-1',
+            question: 'Suku-suku barisan bilangan: 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, ... diperoleh dengan menghilangkan semua bilangan kelipatan 5. Suku ke-2025 barisan tersebut adalah ....',
+            options: ['2430', '2530', '2531', '2532'],
+            correctAnswer: '2531',
+            explanation: 'Dalam setiap 5 bilangan, 4 yang diambil. 2025 = 506 * 4 + 1. Suku ke-2025 = (506 * 5) + 1 = 2531.'
+          },
+          {
+            id: 'osn-2',
+            question: 'Jika a = ((-1)⁴ × 4 + (-1)³ × 3 + (-1)² × 2 + (-1)¹ × 1) / 2³, tentukan nilai dari (a + √a) / (a - √a).',
+            options: ['-3', '-1/3', '1/3', '3'],
+            correctAnswer: '-3',
+            explanation: 'a = (4 - 3 + 2 - 1) / 8 = 2/8 = 1/4. Nilai = (1/4 + 1/2) / (1/4 - 1/2) = (3/4) / (-1/4) = -3.'
+          },
+          {
+            id: 'osn-3',
+            question: 'Dua bilangan bulat positif memiliki jumlah 40 dan kelipatan persekutuan terkecil (KPK) 48. Faktor persekutuan terbesar (FPB) dari kedua bilangan tersebut adalah ....',
+            options: ['8', '12', '16', '24'],
+            correctAnswer: '8',
+            explanation: 'Bilangan tersebut adalah 16 dan 24 (16+24=40, KPK=48). FPB(16, 24) = 8.'
+          },
+          {
+            id: 'osn-4',
+            question: 'Enam bilangan prima yang kurang dari 160 membentuk barisan aritmetika dengan beda lebih dari 1. Jumlah keenam bilangan tersebut adalah ....',
+            options: ['240', '300', '492', '926'],
+            correctAnswer: '492',
+            explanation: 'Bilangan tersebut adalah 7, 37, 67, 97, 127, 157 (beda 30). Jumlahnya = 492.'
+          },
+          {
+            id: 'osn-5',
+            question: 'Berapakah banyaknya pasangan terurut bilangan bulat (x, y) dengan -5 ≤ x ≤ 5 dan -5 ≤ y ≤ 5, yang memenuhi nilai 10 ≤ x² + y² ≤ 30?',
+            options: ['10', '25', '34', '68'],
+            correctAnswer: '68',
+            explanation: 'Berdasarkan enumerasi pasangan (x,y) yang memenuhi ketidaksamaan kuadrat tersebut.'
+          }
+        ]
+      },
+      {
+        id: 'mod-osn-2',
+        title: 'OSN Kabupaten-2',
+        description: 'Latihan soal OSN Matematika Kabupaten (Nomor 6-10).',
+        icon: 'Trophy',
+        content: 'Melanjutkan eksplorasi soal OSN dengan fokus pada sistem huruf, deret bilangan unik, dan pemecahan masalah uang saku.',
+        quiz: [
+          {
+            id: 'osn-6',
+            question: 'Bilangan bulat positif ditulis dalam sistem huruf: A, AB, AC, AA, ABB, ABC, ABA, ACB, ACC, ACA (untuk 1-10). Berapakah nilai dari ABAB ditambah ACAC?',
+            options: ['ABCCC', 'ABCBB', 'ABCAC', 'ABCAB'],
+            correctAnswer: 'ABCAC',
+            explanation: 'Aturan menggunakan basis 3 dengan A=0/1 tergantung posisi. Estimasi nilai berdasarkan urutan.'
+          },
+          {
+            id: 'osn-7',
+            question: 'Bilangan Super Ganjil adalah bilangan bulat positif yang semua digitnya ganjil. Berapakah hasil penjumlahan semua bilangan Super Ganjil yang kurang dari 1000?',
+            options: ['45130', '55250', '60125', '70775'],
+            correctAnswer: '60125',
+            explanation: 'Digit ganjil: 1, 3, 5, 7, 9. Hitung jumlah untuk 1 digit, 2 digit, dan 3 digit.'
+          },
+          {
+            id: 'osn-8',
+            question: 'Diketahui total uang saku Ana, Bona, dan Cinta adalah Rp700.000 dengan pecahan 5rb, 10rb, dan 20rb. Berdasarkan distribusi lembaran (x,y,z), manakah kesimpulan yang benar?',
+            options: ['Ana dapat tepat 20 lembar', 'Bona dapat nilai terbesar', 'Cinta dapat nilai terkecil', 'Ketiganya dapat jumlah lembar 10rb sama banyak'],
+            correctAnswer: 'Ana, Bona, dan Cinta mendapatkan uang saku lembaran Rp10.000 yang sama banyaknya.',
+            explanation: 'Variabel x, y, z terdistribusi sedemikian rupa sehingga distribusi lembar 10.000 (y, z, x) menghasilkan nilai yang sama jika dianalisis persamaannya.'
+          },
+          {
+            id: 'osn-9',
+            question: 'Diketahui p-1 = (k²-4k-3)² dan q-1 = (k²-4k-5)². Jika pq adalah bilangan prima, tentukan nilai terbesar dari p² + q².',
+            options: ['10', '26', '122', '1370'],
+            correctAnswer: '1370',
+            explanation: 'Nilai p, q akan menghasilkan bilangan prima hanya pada nilai k tertentu (misalnya k=4).'
+          },
+          {
+            id: 'osn-10',
+            question: 'Sejumlah kertas dilipat untuk membentuk buku. Jika sebuah lembar diambil dan jumlah keempat nomor halamannya adalah 122, berapakah banyak kertas awal yang digunakan?',
+            options: ['60', '15', '12', '10'],
+            correctAnswer: '15',
+            explanation: 'Nomor halaman pada satu lembar: k, k+1, n-k, n-k+1. Total 122 dikaitkan dengan jumlah halaman total.'
+          }
+        ]
+      },
+      {
+        id: 'mod-osn-3',
+        title: 'OSN Kabupaten-3',
+        description: 'Latihan soal OSN Matematika Kabupaten (Nomor 11-15).',
+        icon: 'Trophy',
+        content: 'Modul ini mencakup barisan geometri, bilangan segi-lima, fungsi rasional, dan geometri lingkaran.',
+        quiz: [
+          {
+            id: 'osn-11',
+            question: 'Diketahui barisan geometri: 80, x, y, z, 3125. Berapakah nilai terkecil yang mungkin dari x - y + z?',
+            options: ['-3120', '-1950', '480', '950'],
+            correctAnswer: '-1950',
+            explanation: 'Rasio r bisa positif atau negatif. Nilai terkecil didapat saat rasio negatif.'
+          },
+          {
+            id: 'osn-12',
+            question: 'Bilangan segi lima ke-n (Pn) memiliki pola: P0=1, P1=5, P2=12, P3=22. Manakah indeks n yang membuat Pn paling dekat dengan 2025?',
+            options: ['30', '33', '36', '39'],
+            correctAnswer: '36',
+            explanation: 'Rumus Pn = n(3n-1)/2 + 1 (pengembangan). Untuk n=36, nilai mendekati 2025.'
+          },
+          {
+            id: 'osn-13',
+            question: 'Jika f(x) = 2025 + (x+1)/x + (x²+2)/x² + ... + (x¹⁰+10)/x¹⁰, tentukan nilai f(2) + f(1) - f(-1) - f(-2).',
+            options: ['0', '565/256', '13365/256', '11430'],
+            correctAnswer: '11430',
+            explanation: 'Evaluasi fungsi dengan sifat penyederhanaan variabel x.'
+          },
+          {
+            id: 'osn-14',
+            question: 'Jajar genjang ABCD memiliki keliling 106 cm, AB = 3x+1, BC = 5x-20. Jika DE tegak lurus AB dan DE = 3x-7, berapakah luas daerah yang dibentuk (sesuai parameter geometri OSN)?',
+            options: ['122,5', '185', '262,5', '280'],
+            correctAnswer: '262,5',
+            explanation: 'Selesaikan nilai x dari keliling: 2(3x+1 + 5x-20) = 106. Didapat x=9. Luas dihitung berdasarkan tinggi DE.'
+          },
+          {
+            id: 'osn-15',
+            question: 'Lingkaran berpusat di O jari-jari 7, segitiga ABC di dalam lingkaran dengan AC diameter dan ∠ACB = 60°. CD memotong lingkaran di D melalui tengah AB. Panjang CD adalah ....',
+            options: ['3√7', '5√7', '6√7', '7√7'],
+            correctAnswer: '7√7',
+            explanation: 'Gunakan hukum sinus/cosinus atau dalil Stewart untuk menghitung panjang garis dalam lingkaran.'
+          }
+        ]
+      },
+      {
+        id: 'mod-osn-4',
+        title: 'OSN Kabupaten-4',
+        description: 'Latihan soal OSN Matematika Kabupaten (Nomor 16-20).',
+        icon: 'Trophy',
+        content: 'Eksplorasi geometri bidang, volume bangun ruang, jaring-jaring oktahedron, dan teori himpunan.',
+        quiz: [
+          {
+            id: 'osn-16',
+            question: 'Dua segitiga sama sisi ABC dan DEF sisi 1 cm bertumpang tindih. Jika luas daerah tertentu sama (sesuai soal), berapakah keliling segi lima AEFGC?',
+            options: ['6 - 0.5√2', '6 - √2', '6 - 1.5√2', '6 - 3√2'],
+            correctAnswer: '6 - 3√2',
+            explanation: 'Analisis geometri pada perpotongan dua segitiga sama sisi.'
+          },
+          {
+            id: 'osn-17',
+            question: 'Bidang empat TABC memiliki sisi TBC, TBA, dan ABC yang saling tegak lurus. Jika rasio Luas TBC:TBA:ABC = 1:2:3 dan AC = 10 cm, berapakah volumenya?',
+            options: ['80/9 √5', '80/3 √5', '80√5', '320√5'],
+            correctAnswer: '80/3 √5',
+            explanation: 'V = 1/3 * Luas Alas * Tinggi. Gunakan perbandingan luas dan panjang diagonal untuk mencari rusuk.'
+          },
+          {
+            id: 'osn-18',
+            question: 'Pada jaring-jaring oktahedron, angka di bidang adalah jumlah angka di bidang yang berbagi rusuk. Jika a=-4, c=0, g=-10, berapakah nilai b?',
+            options: ['-10', '-8', '8', '10'],
+            correctAnswer: '-8',
+            explanation: 'Bentuk sistem persamaan linear dari aturan hubungan bidang pada oktahedron.'
+          },
+          {
+            id: 'osn-19',
+            question: 'Segitiga ABC sama kaki (AC=BC, AB=10, Luas=25). Titik D, E, F membagi sisi dengan rasio 2:3. Berapakah perbandingan luas segitiga PQR (potongan garis) terhadap ABC?',
+            options: ['1/19', '2/19', '3/25', '1/5'],
+            correctAnswer: '1/19',
+            explanation: 'Gunakan dalil Menelaus atau Vektor untuk menentukan rasio luas daerah potongan.'
+          },
+          {
+            id: 'osn-20',
+            question: 'Dari 2000 baterai, ditemukan kerusakan: Pelat (30), Elektrolit (50), Terminal (40), Term+Pelat (10), Pelat+Elek (19), Term+Elek (15), ketiganya (5). Berapa baterai yang memenuhi standar?',
+            options: ['1804', '1880', '1919', '1920'],
+            correctAnswer: '1919',
+            explanation: 'Gunakan prinsip inklusi-eksklusi: Total rusak = (30+50+40) - (10+19+15) + 5 = 81. Standar = 2000 - 81 = 1919.'
+          }
+        ]
+      },
+      {
+        id: 'mod-osn-5',
+        title: 'OSN Kabupaten-5',
+        description: 'Latihan soal OSN Matematika Kabupaten (Nomor 21-25).',
+        icon: 'Trophy',
+        content: 'Modul terakhir mencakup statistika rata-rata, perhitungan jalur (jalur langkah), probabilitas angka, dan semut pada kubus.',
+        quiz: [
+          {
+            id: 'osn-21',
+            question: 'Data 35 bilangan bulat positif memiliki median 22 dan terbesar 29. Jika x adalah rata-rata terkecil dan y adalah rata-rata terbesar yang mungkin, x + y = ....',
+            options: ['40,4', '37,4', '36,4', '25,4'],
+            correctAnswer: '37,4',
+            explanation: 'x didapat saat 17 data bernilai 1. y didapat saat 17 data bernilai 29.'
+          },
+          {
+            id: 'osn-22',
+            question: 'Suatu objek di (0,0) bergerak ke (x+1, y), (x, y+1), atau (x+1, y+1). Banyaknya jalur berbeda untuk mencapai titik (5,5) adalah ....',
+            options: ['25', '252', '1683', '3125'],
+            correctAnswer: '1683',
+            explanation: 'Gunakan bilangan Delannoy D(n,m) atau rekursi jalur.'
+          },
+          {
+            id: 'osn-23',
+            question: 'Alma memiliki 9 stiker. Dia menempel 8 stiker berjejer dengan syarat stiker sama tidak bersebelahan dan stiker hati di paling kanan. Berapa banyak caranya?',
+            options: ['26', '32', '35', '36'],
+            correctAnswer: '26',
+            explanation: 'Gunakan kombinatorika dengan batasan posisi dan jenis stiker.'
+          },
+          {
+            id: 'osn-24',
+            question: 'Liam memilih nomor 6 digit (0-9). Hadiah diberikan jika minimal ada tiga bilangan ganjil berurutan. Peluang Liam menang adalah ....',
+            options: ['1/8', '3/16', '1/4', '5/16'],
+            correctAnswer: '5/16',
+            explanation: 'Hitung komplemen (tidak ada 3 ganjil berurutan) atau enumerasi pola ganjil-genap.'
+          },
+          {
+            id: 'osn-25',
+            question: 'Delapan semut di tiap sudut kubus bergerak ke sudut tetangga secara acak. Peluang tidak ada semut yang bertemu (di jalan atau tujuan) adalah ....',
+            options: ['2/3^8', '5/3^8', '4/3^7', '8/3^7'],
+            correctAnswer: '2/3^8',
+            explanation: 'Setiap semut punya 3 pilihan. Hanya ada 2 siklus (CW/CCW) yang memungkinkan tidak ada pertemuan.'
+          }
+        ]
+      }
+    ]
   }
 ];

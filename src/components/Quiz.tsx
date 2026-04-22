@@ -93,7 +93,7 @@ export function QuizSession({ questions, onComplete, onCancel, hideFeedback = fa
   return (
     <div className="max-w-2xl mx-auto">
       {/* Navigation Grid */}
-      <div className="mb-8 p-6 bg-white border border-slate-200 rounded-[2rem] shadow-sm">
+      <div className="mb-8 p-6 bg-white border border-slate-300 rounded-[2rem] shadow-md">
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4 px-1">Navigasi Soal</p>
         <div className="flex flex-wrap gap-2">
           {questions.map((_, idx) => {
@@ -139,7 +139,7 @@ export function QuizSession({ questions, onComplete, onCancel, hideFeedback = fa
           initial={{ x: 20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -20, opacity: 0 }}
-          className="bg-white border border-slate-200 p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40"
+          className="bg-white border border-slate-300 p-10 rounded-[2.5rem] shadow-xl shadow-slate-300/40"
         >
           <h3 className="text-2xl font-bold heading-font mb-10 leading-snug text-slate-800">
             {currentQuestion.question}
@@ -157,7 +157,7 @@ export function QuizSession({ questions, onComplete, onCancel, hideFeedback = fa
                   onClick={() => handleAnswer(option)}
                   className={cn(
                     "p-5 text-left border-2 rounded-2xl font-bold text-lg transition-all duration-200",
-                    !isAnswered && "bg-white border-slate-100 hover:border-brand-300 hover:bg-brand-50/30",
+                    !isAnswered && "bg-white border-slate-300 hover:border-brand-400 hover:bg-brand-50/10",
                     isAnswered && !hideFeedback && isCorrect && "bg-emerald-50 border-emerald-500 text-emerald-800",
                     isAnswered && !hideFeedback && isSelected && !isCorrect && "bg-rose-50 border-rose-500 text-rose-800",
                     isAnswered && hideFeedback && isSelected && "bg-brand-50 border-brand-500 text-brand-800",

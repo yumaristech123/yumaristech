@@ -20,8 +20,8 @@ export function LevelCard({ level, userXp, onSelect }: LevelCardProps) {
       className={cn(
         "relative p-8 rounded-[2.5rem] transition-all duration-300 border-2",
         isLocked 
-          ? "bg-slate-100/50 border-slate-200/60 opacity-60 grayscale cursor-not-allowed" 
-          : "bg-white cursor-pointer border-transparent shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-brand-100 hover:border-brand-100"
+          ? "bg-slate-200/50 border-slate-300 opacity-60 grayscale cursor-not-allowed" 
+          : "bg-white cursor-pointer border-slate-200 shadow-xl shadow-slate-300/40 hover:shadow-2xl hover:shadow-brand-100 hover:border-brand-300"
       )}
       onClick={() => !isLocked && onSelect(level)}
     >
@@ -84,8 +84,8 @@ export function ModuleCard({ module, isCompleted, onSelect }: ModuleCardProps) {
       className={cn(
         "p-4 rounded-2xl cursor-pointer flex items-center gap-4 border transition-all duration-200",
         isCompleted 
-          ? "bg-emerald-50/50 border-emerald-100 hover:bg-emerald-50" 
-          : "bg-white border-slate-100 hover:border-brand-200 shadow-sm"
+          ? "bg-emerald-50 border-emerald-200 hover:bg-emerald-100" 
+          : "bg-white border-slate-300 hover:border-brand-400 shadow-md"
       )}
       onClick={() => onSelect(module)}
     >

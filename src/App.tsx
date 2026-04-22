@@ -148,7 +148,7 @@ export default function App() {
 
             {/* Admin Panel button is now hidden behind 7 secret clicks on the logo */}
 
-            <div className="hidden sm:flex items-center gap-2.5 bg-white border border-slate-200 px-4 py-2 rounded-2xl shadow-sm">
+            <div className="hidden sm:flex items-center gap-2.5 bg-white border border-slate-300 px-4 py-2 rounded-2xl shadow-md">
               <Star size={18} className="text-amber-500 fill-amber-500" />
               <span className="font-bold text-slate-700">{userStars}</span>
             </div>
@@ -220,7 +220,7 @@ export default function App() {
                 <button onClick={resetToHome} className="flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] text-brand-600 hover:translate-x-[-4px] transition-transform">
                   <ChevronLeft size={16} /> Kembali ke Menu
                 </button>
-                <div className="bg-white border border-slate-200 p-8 rounded-[2rem] shadow-sm">
+                <div className="bg-white border border-slate-300 p-8 rounded-[2rem] shadow-md">
                   <span className="bg-brand-50 text-brand-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border border-brand-100">Level {currentLevel.title}</span>
                   <h3 className="text-3xl font-bold heading-font mt-4 mb-2 tracking-tight text-slate-800">{currentLevel.title}</h3>
                   <p className="text-slate-500 font-medium mb-8 leading-relaxed text-sm">{currentLevel.description}</p>
@@ -244,7 +244,7 @@ export default function App() {
                       key={currentModule.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-200/50"
+                      className="bg-white border border-slate-300 rounded-[2.5rem] overflow-hidden shadow-xl shadow-slate-300/50"
                     >
                       <div className="bg-brand-600 p-10 text-white relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-8 opacity-10">

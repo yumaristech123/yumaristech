@@ -128,8 +128,8 @@ export function ScoreList() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
-      <div className="p-8 border-b border-slate-100 bg-slate-50/50">
+    <div className="flex flex-col h-full bg-white rounded-[2rem] shadow-xl border border-slate-300 overflow-hidden">
+      <div className="p-8 border-b border-slate-200 bg-slate-100/50">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -222,7 +222,7 @@ export function ScoreList() {
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="flex items-center justify-between p-5 bg-white border border-slate-100 rounded-2xl hover:border-indigo-200 hover:shadow-lg transition-all group relative overflow-hidden"
+                    className="flex items-center justify-between p-5 bg-white border border-slate-300 rounded-2xl hover:border-indigo-400 hover:shadow-lg transition-all group relative overflow-hidden"
                   >
                     {/* Rank Number for Rank views */}
                     {sortBy !== 'date' && (
@@ -303,7 +303,7 @@ export function ScoreList() {
                       
                       <div className={cn(
                         "px-5 py-3 rounded-xl border transition-colors min-w-[90px] text-center",
-                        sortBy === 'score' ? "bg-indigo-50 border-indigo-200 shadow-sm" : "bg-slate-50 border-slate-100"
+                        sortBy === 'score' ? "bg-indigo-50 border-indigo-300 shadow-sm" : "bg-slate-100 border-slate-300"
                       )}>
                         <p className={cn(
                           "text-[9px] font-black uppercase tracking-widest mb-1",
