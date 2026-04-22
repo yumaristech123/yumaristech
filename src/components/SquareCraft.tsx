@@ -43,7 +43,12 @@ export function SquareCraft({ onClose, onComplete, playerName = 'Pemain 1' }: Sq
     const end = level * 10;
     let pool = [];
     for (let i = start; i <= end; i++) pool.push(i);
-    return pool.sort(() => Math.random() - 0.5);
+    // Fisher-Yates Shuffle
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    return pool;
   };
 
   const handleStartGame = (playerNames: string[]) => {
@@ -386,7 +391,7 @@ export function SquareCraft({ onClose, onComplete, playerName = 'Pemain 1' }: Sq
                     </div>
                 </div>
 
-                <div className="flex-1 flex flex-col p-6 items-center justify-between overflow-hidden">
+                <div key={p.currentIndex} className="flex-1 flex flex-col p-6 items-center justify-between overflow-hidden">
                    <div className="w-full text-center">
                       <div className="text-6xl md:text-8xl font-black text-indigo-700 italic tracking-tighter leading-none py-6 mb-2">
                         {p.num}<sup className="text-2xl not-italic ml-1">2</sup>

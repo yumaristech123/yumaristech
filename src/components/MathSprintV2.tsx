@@ -299,7 +299,7 @@ export function MathSprintV2({ onClose, onComplete, playerName = 'Pemain 1' }: M
                       </div>
                    </div>
 
-                   <div className="flex-1 flex flex-col items-center justify-center p-4">
+                   <div key={p.questionsAnswered} className="flex-1 flex flex-col items-center justify-center p-4">
                       {p.questionsAnswered < totalQuestions ? (
                         <>
                           <div className="text-center mb-8">

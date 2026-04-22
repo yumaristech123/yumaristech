@@ -56,7 +56,12 @@ export function MathSprint({ onClose, onComplete, playerName = 'Pemain 1' }: Mat
         basePool.push({ a: qA, b: qB, ans, sym: symbols[operation] });
       }
     }
-    return basePool.sort(() => Math.random() - 0.5);
+    // Fisher-Yates Shuffle
+    for (let i = basePool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [basePool[i], basePool[j]] = [basePool[j], basePool[i]];
+    }
+    return basePool;
   };
 
   const startGame = () => {
@@ -253,7 +258,7 @@ export function MathSprint({ onClose, onComplete, playerName = 'Pemain 1' }: Mat
 
                 <div className="flex-grow flex flex-col p-6 items-center justify-center">
                   {!p.finished ? (
-                    <div className="w-full flex flex-col items-center">
+                    <div key={`${p.id}-${p.idx}`} className="w-full flex flex-col items-center">
                       <div className="mb-4 text-slate-400 font-black text-3xl">0:{gameTimer.toString().padStart(2, '0')}</div>
                       <div className="mb-2 text-[10px] font-black uppercase tracking-widest text-slate-300">Soal {p.idx + 1} / {totalSoal}</div>
                       <div className="text-6xl font-black mb-10 uppercase tracking-tighter text-slate-900">
