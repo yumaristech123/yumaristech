@@ -83,10 +83,18 @@ export default function App() {
 
   const handleQuizComplete = async (score: number, level?: string, timeTaken?: number) => {
     if (user && currentModule) {
-      await saveQuizResult(user.uid, currentModule.id, score, level, timeTaken);
+      // For Topik Matematika levels, only record if score >= 90
+      const isTopikMatematika = currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika');
+      
+      if (isTopikMatematika && score < 90) {
+        console.log('Score too low for Topik Matematika, not recording.');
+      } else {
+        await saveQuizResult(user.uid, currentModule.id, score, level, timeTaken);
+      }
     } else if (!user) {
       // Offline/Guest local state update
-      if (score >= 70 && currentModule) {
+      const passingScore = (currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika')) ? 90 : 70;
+      if (score >= passingScore && currentModule) {
         if (!completedModules.includes(currentModule.id)) {
           setCompletedModules(p => [...p, currentModule.id]);
           setUserXp(p => p + 50);
@@ -299,6 +307,7 @@ export default function App() {
                   questions={currentModule.quiz} 
                   onComplete={handleQuizComplete}
                   onCancel={() => setIsQuizActive(false)}
+                  hideFeedback={currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika')}
                 />
               ) : null}
             </motion.div>

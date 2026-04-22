@@ -36,25 +36,9 @@ export const LEVELS: Level[] = [
   {
     id: 'lvl-topik',
     title: 'Topik Matematika',
-    description: 'Pelajari konsep matematika yang lebih spesifik seperti pecahan dan logika.',
+    description: 'Pelajari konsep matematika yang lebih spesifik.',
     minXp: 0,
     modules: [
-      {
-        id: 'mod-pecahan',
-        title: 'Dunia Pecahan',
-        description: 'Membagi satu kesatuan menjadi bagian-bagian kecil.',
-        icon: 'Divide',
-        content: 'Pecahan mewakili bagian dari satu kesatuan yang utuh. Pecahan sangat sering digunakan dalam kehidupan sehari-hari, seperti saat membagi makanan.',
-        quiz: [
-          {
-            id: 'q1',
-            question: 'Manakah yang lebih besar: 1/2 atau 1/4?',
-            options: ['1/2', '1/4', 'Sama saja', 'Tidak bisa dibandingkan'],
-            correctAnswer: '1/2',
-            explanation: 'Bayangkan pizza. 1/2 pizza lebih besar daripada 1/4 pizza karena dipotong menjadi bagian yang lebih sedikit.'
-          }
-        ]
-      },
       {
         id: 'mod-psas-9',
         title: 'Latihan PSAS Kelas 9',
@@ -141,7 +125,7 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas-12',
-            question: 'Berdasarkan grafik wisatawan, pada periode manakah terjadi penurunan jumlah wisatawan yang berkunjung ke kota tersebut?',
+            question: 'Diketahui data jumlah wisatawan: 2019 (120rb), 2020 (80rb), 2021 (100rb), 2022 (140rb), dan 2023 (180rb). Pada periode manakah terjadi penurunan jumlah wisatawan?',
             options: ['2019-2020', '2020-2021', '2021-2022', '2022-2023'],
             correctAnswer: '2019-2020',
             explanation: 'Grafik menunjukkan garis yang menurun dari titik tahun 2019 (120rb) ke titik tahun 2020 (80rb).'
@@ -234,7 +218,7 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas8-4',
-            question: 'Sebuah kapal berlayar dari Pelabuhan D menuju C melalui Pelabuhan B. Berapakah total jarak terdekat yang dilalui kapal tersebut? (D-B-C)',
+            question: 'Diketahui jarak Pelabuhan D ke B adalah 13 km dan B ke C adalah 4 km. Jika sebuah kapal berlayar dari Pelabuhan D menuju C melalui Pelabuhan B, berapakah total jarak terdekat yang dilalui kapal tersebut?',
             options: ['14 km', '15 km', '16 km', '17 km'],
             correctAnswer: '17 km',
             explanation: 'Jarak D ke B = 13 km, B ke C = 4 km. Total jarak = 13 + 4 = 17 km.'
@@ -283,14 +267,14 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas8-11',
-            question: 'Perhatikan gambar tenda prisma segitiga ABC-DEF. Manakah dari pilihan berikut yang merupakan rusuk pada prisma tersebut?',
+            question: 'Diketahui sebuah tenda berbentuk prisma segitiga ABC-DEF dengan alas ABC dan tutup DEF. Manakah dari pilihan berikut yang merupakan rusuk pada prisma tersebut?',
             options: ['Rusuk AC dan BE', 'Rusuk AF dan BE', 'Rusuk AC dan AE', 'Rusuk FAB dan ABC'],
             correctAnswer: 'Rusuk AC dan BE',
             explanation: 'AC, BC, AB, DF, EF, DE, AD, BE, dan CF adalah rusuk prisma segitiga.'
           },
           {
             id: 'psas8-12',
-            question: 'Pada prisma tenda ABC-DEF, manakah yang merupakan sisi samping berbentuk persegi panjang?',
+            question: 'Pada sebuah prisma segitiga ABC-DEF dengan alas ABC dan tutup DEF, manakah yang merupakan sisi samping berbentuk persegi panjang?',
             options: ['ABED dan FDBC', 'ABC dan DEF', 'FAB dan CBE', 'ACFD dan ABED'],
             correctAnswer: 'ABED dan FDBC',
             explanation: 'Sisi samping pada prisma ini adalah ABED, FDBC, dan ACFE (jika alasnya ABC).'
@@ -304,14 +288,14 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas8-14',
-            question: 'Siapakah siswa yang memiliki tinggi badan di bawah tinggi Fania (155 cm)?',
+            question: 'Diketahui data tinggi badan: Abi(140), Bima(145), Citra(160), Danu(155), Elita(150), Fania(155). Siapakah siswa yang memiliki tinggi badan di bawah tinggi Fania (155 cm)?',
             options: ['Citra dan Danu', 'Citra dan Elita', 'Abimanyu dan Bima', 'Citra dan Bima'],
             correctAnswer: 'Abimanyu dan Bima',
             explanation: 'Fania 155 cm. Siswa di bawahnya adalah Abimanyu(140), Bima(145), dan Elita(150).'
           },
           {
             id: 'psas8-15',
-            question: 'Siapakah siswa yang memiliki tinggi badan tepat 155 cm?',
+            question: 'Diketahui data tinggi badan: Abi(140), Bima(145), Citra(160), Danu(155), Elita(150), Fania(155). Siapakah siswa yang memiliki tinggi badan tepat 155 cm?',
             options: ['Citra', 'Danu', 'Fania', 'Bima'],
             correctAnswer: 'Fania',
             explanation: 'Berdasarkan grafik, Danu dan Fania memiliki tinggi 155 cm.'
@@ -390,17 +374,17 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas7-5',
-            question: 'Diberikan 4 bangun datar gabungan beberapa persegi (sisi 1). Manakah bangun yang memiliki keliling 10 satuan?',
+            question: 'Terdapat 4 bangun datar gabungan persegi satuan: (i) persegi panjang 2x3, (ii) bentuk L dengan 4 persegi, (iii) persegi panjang 3x3, (iv) bentuk T dengan 4 persegi. Manakah bangun yang memiliki keliling 10 satuan?',
             options: ['Hanya (i) dan (ii)', 'Bangun (i), (ii), dan (iv)', 'Hanya (iii) dan (iv)', 'Bangun (ii) dan (iii)'],
             correctAnswer: 'Bangun (i), (ii), dan (iv)',
-            explanation: 'Berdasarkan gambar, bangun (i) persegi panjang 2x3 keliling 10. (ii) L-shape keliling 10. (iv) keliling 10. (iii) keliling 12.'
+            explanation: 'Bangun (i) 2+3+2+3=10. Bangun (ii) dan (iv) juga memiliki keliling 10 meskipun bentuknya tidak beraturan. Bangun (iii) 3+3+3+3=12.'
           },
           {
             id: 'psas7-6',
-            question: 'Manakah bangun datar gabungan beberapa persegi yang memiliki luas yang sama?',
-            options: ['Bangun (i) dan (ii)', 'Bangun (ii) dan (iii)', 'Bangun (i) dan (iii)', 'Bangun (iii) dan (iv)'],
-            correctAnswer: 'Bangun (i) dan (iii)',
-            explanation: 'Bangun (i) memiliki 6 kotak, Bangun (iii) juga memiliki 6 kotak. Maka luasnya sama (6 satuan luas).'
+            question: 'Berdasarkan data soal sebelumnya (i:Luas 6, ii:Luas 4, iii:Luas 9, iv:Luas 4), manakah bangun datar gabungan persegi yang memiliki LUAS yang sama?',
+            options: ['Bangun (i) dan (ii)', 'Bangun (ii) dan (iv)', 'Bangun (i) dan (iii)', 'Bangun (iii) dan (iv)'],
+            correctAnswer: 'Bangun (ii) dan (iv)',
+            explanation: 'Bangun (ii) dan (iv) keduanya terdiri dari 4 persegi satuan, sehingga luasnya sama yaitu 4 satuan luas.'
           },
           {
             id: 'psas7-7',
@@ -425,7 +409,7 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas7-10',
-            question: 'Berapakah persentase jumlah siswa yang tuntas (Nilai >= 7,5) jika 28 dari 40 siswa dinyatakan tuntas?',
+            question: 'Berdasarkan data nilai sebelumnya di mana 40 siswa ikut ujian, jika 28 siswa dinyatakan tuntas, berapakah persentase jumlah siswa yang tuntas tersebut?',
             options: ['60 %', '65 %', '70 %', '75 %'],
             correctAnswer: '70 %',
             explanation: 'Persentase = 28/40 × 100% = 0,7 × 100% = 70%.'
@@ -439,21 +423,21 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas7-12',
-            question: 'Andi ingin beli celana (200k) dan baju (100k). Toko pilihan: Barokah (cel15%, baju20%), Mekar (cel25%, baju10%), Maju (cel20%, baju20%). Manakah yang termurah?',
-            options: ['Barokah', 'Mekar', 'Merdeka', 'Maju'],
+            question: 'Andi ingin beli celana (200rb) dan baju (100rb). Diskon toko: Barokah (celana 15%, baju 20%), Mekar (celana 25%, baju 15%), Maju (celana 10%, baju 30%), Merdeka (celana 20%, baju 10%). Manakah yang termurah?',
+            options: ['Barokah', 'Mekar', 'Maju', 'Merdeka'],
             correctAnswer: 'Mekar',
-            explanation: 'Mekar: 150k + 90k = 240k. Maju: 160k + 80k = 240k. Tapi diskon Mekar per celana tertinggi.'
+            explanation: 'Total bayar Mekar: (200rb - 25%) + (100rb - 15%) = 150rb + 85rb = 235rb. Toko lain lebih mahal (Barokah 250rb, Maju 250rb, Merdeka 250rb).'
           },
           {
             id: 'psas7-13',
-            question: 'Pada denah perumahan, blok F (Sandy) dan blok C (Eka) terletak di area yang sama terhadap garis transversalnya. Manakah rumah yang sehadap dengan rumah Sandy?',
-            options: ['Rumah Pak Darma', 'Rumah Pak Eka', 'Rumah Pak Candra', 'Rumah Pak Yusuf'],
+            question: 'Dua jalan sejajar dipotong oleh jalan transversal. Rumah Sandy berada di salah satu sudut (Blok F), dan rumah Eka berada di posisi yang sama pada persimpangan jalan berikutnya (Blok C). Apakah kedudukan rumah Sandy terhadap rumah Eka?',
+            options: ['Berseberangan luar', 'Sehadap', 'Sepihak dalam', 'Bertolak belakang'],
             correctAnswer: 'Rumah Pak Eka',
             explanation: 'Dalam geometri transversalnya, rumah yang berada di posisi yang sama disebut sehadap.'
           },
           {
             id: 'psas7-14',
-            question: 'Jika sudut jalan di depan masjid adalah 72°, berapakah besar sudut pelurus di depan rumah Pak Sandy?',
+            question: 'Jika jalan di depan masjid membentuk sudut 72° dan rumah Sandy berada di posisi sudut pelurusnya, berapakah besar sudut di depan rumah Sandy?',
             options: ['18°', '72°', '108°', '110°'],
             correctAnswer: '108°',
             explanation: 'Sudut pelurus dijumlahkan menghasilkan 180°. Maka 180° - 72° = 108°.'
@@ -474,7 +458,7 @@ export const LEVELS: Level[] = [
           },
           {
             id: 'psas7-17',
-            question: 'Diberikan garis sejajar dipotong transversal. Apakah hubungan antara sudut sepihak luar (A1 dan B1 posisi sehadap)?',
+            question: 'Diberikan dua garis sejajar dipotong oleh sebuah garis transversal. Jika sudut A1 dan B1 berada di posisi yang sama pada lintasan dua garis tersebut, disebut hubungan sudut apakah itu?',
             options: ['Bertolak belakang', 'Sehadap', 'Berpelurus', 'Berseberangan'],
             correctAnswer: 'Sehadap',
             explanation: 'Sudut yang berada di posisi yang sama pada garis sejajar yang dipotong transversal disebut sudut sehadap.'
