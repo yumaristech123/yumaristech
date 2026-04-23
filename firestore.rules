@@ -25,6 +25,10 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(userId)).data;
     }
 
+    function isGuru() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData(request.auth.uid).role == 'guru';
+    }
+
     function isAdmin() {
       return isSignedIn() && (
         (request.auth.token.email == "yumaristech@gmail.com" && isEmailVerified()) ||
@@ -96,7 +100,7 @@ service cloud.firestore {
                     isValidQuizResult(request.resource.data);
       
       allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow delete: if isAdmin() || isGuru();
     }
 
     // 3. Classes Collection

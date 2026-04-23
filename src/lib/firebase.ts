@@ -217,6 +217,14 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
   }
 };
 
+export const deleteQuizResult = async (id: string) => {
+  try {
+    await deleteDoc(doc(db, 'quiz_results', id));
+  } catch (error) {
+    throw handleFirestoreError(error, OperationType.DELETE, `quiz_results/${id}`);
+  }
+};
+
 // Class management
 export const addClass = async (name: string) => {
   try {

@@ -181,7 +181,7 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="h-[calc(100vh-160px)]"
             >
-               <ScoreList />
+               <ScoreList currentUserRole={userRole} />
             </motion.div>
           ) : !currentLevel ? (
             <motion.div

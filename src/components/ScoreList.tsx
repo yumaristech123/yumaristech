@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { db } from '../lib/firebase';
+import { db, deleteQuizResult } from '../lib/firebase';
 import { collection, query, orderBy, onSnapshot, getDocs } from 'firebase/firestore';
-import { Trophy, Clock, User, BookOpen, Search, X, Filter } from 'lucide-react';
+import { Trophy, Clock, User, BookOpen, Search, X, Filter, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface QuizResult {
@@ -29,7 +29,11 @@ interface ClassData {
   name: string;
 }
 
-export function ScoreList() {
+interface ScoreListProps {
+  currentUserRole?: 'siswa' | 'guru' | 'admin' | null;
+}
+
+export function ScoreList({ currentUserRole }: ScoreListProps) {
   const [results, setResults] = useState<QuizResult[]>([]);
   const [users, setUsers] = useState<Record<string, UserData>>({});
   const [classList, setClassList] = useState<ClassData[]>([]);
@@ -126,6 +130,16 @@ export function ScoreList() {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     return m > 0 ? `${m}m ${s}s` : `${s}s`;
+  };
+
+  const handleDeleteResult = async (id: string, userName: string) => {
+    if (window.confirm(`Hapus nilai milik "${userName}"? Tindakan ini tidak dapat dibatalkan.`)) {
+      try {
+        await deleteQuizResult(id);
+      } catch (err: any) {
+        alert('Gagal menghapus: ' + err.message);
+      }
+    }
   };
 
   const getModuleLabel = (id: string) => {
@@ -329,6 +343,16 @@ export function ScoreList() {
                           {Math.round(res.score)}
                         </p>
                       </div>
+
+                      {(currentUserRole === 'guru' || currentUserRole === 'admin') && (
+                        <button 
+                          onClick={() => handleDeleteResult(res.id, user?.displayName || 'Siswa')}
+                          className="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                          title="Hapus Nilai"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      )}
                     </div>
                   </motion.div>
                 );

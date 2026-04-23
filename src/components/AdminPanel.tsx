@@ -50,7 +50,8 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     const unsubUsers = onSnapshot(qUsers, (snapshot) => {
       const users: UserData[] = [];
       snapshot.forEach((doc) => {
-        users.push(doc.data() as UserData);
+        const data = doc.data();
+        users.push({ ...data, uid: doc.id } as UserData);
       });
       setUserList(users);
     });
@@ -92,7 +93,11 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
           kelas: finalKelas
         });
         setSuccess(true);
-        setTimeout(() => setIsEditMode(false), 2000);
+        setTimeout(() => {
+          setIsEditMode(false);
+          setActiveTab('users');
+          setSuccess(false);
+        }, 1500);
       } else {
         await registerWithEmail(cleanEmail, cleanPass, cleanName, role, finalKelas);
         setSuccess(true);
@@ -434,7 +439,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                           <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Nama & Peran</th>
                           <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Kelas</th>
                           <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Login Info</th>
-                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center">Aksi</th>
+                          <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-center sticky right-0 bg-slate-50/80">Aksi</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-50">
@@ -459,22 +464,24 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
                                 <span className="font-mono text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded tracking-tighter">{u.password || '••••••'}</span>
                               </div>
                             </td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center justify-center gap-2">
+                            <td className="px-6 py-4 sticky right-0 bg-white group-hover:bg-slate-50/50 transition-colors">
+                              <div className="flex items-center justify-center gap-2 min-w-[150px]">
                                 <button 
                                   onClick={() => startEdit(u)}
-                                  className="p-2 text-indigo-500 hover:bg-indigo-50 rounded-lg transition-all"
+                                  className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md active:scale-95"
                                   title="Edit Data"
                                 >
-                                  <Edit2 size={16} />
+                                  <Edit2 size={14} />
+                                  <span className="text-[10px] font-bold uppercase tracking-wider">Edit</span>
                                 </button>
                                 {u.role !== 'admin' && (
                                   <button 
                                     onClick={() => handleDelete(u.uid, u.displayName)}
-                                    className="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                                    className="flex items-center gap-1.5 px-4 py-2 bg-rose-600 text-white rounded-xl hover:bg-rose-700 transition-all shadow-sm hover:shadow-md active:scale-95"
                                     title="Hapus Akun"
                                   >
-                                    <Trash2 size={16} />
+                                    <Trash2 size={14} />
+                                    <span className="text-[10px] font-bold uppercase tracking-wider">Hapus</span>
                                   </button>
                                 )}
                               </div>
