@@ -17,7 +17,7 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             <div className="bg-brand-600 p-2 rounded-xl text-white shadow-lg shadow-brand-100/50">
               <GraduationCap size={24} />
             </div>
-            <h1 className="text-xl font-bold heading-font tracking-tight text-slate-900">
+            <h1 className="text-xl font-extrabold heading-font tracking-tight text-slate-900">
               Zona <span className="text-brand-600">Prestasi</span>
             </h1>
           </div>
@@ -39,13 +39,13 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             transition={{ duration: 0.8 }}
             className="relative z-10 max-w-4xl mx-auto"
           >
-            <span className="inline-block px-4 py-1.5 bg-brand-50 text-brand-600 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
+            <span className="inline-block px-4 py-1.5 bg-brand-50 text-brand-600 rounded-full text-[10px] font-extrabold uppercase tracking-[0.2em] mb-6">
               Platform Pembelajaran Modern
             </span>
-            <h2 className="text-4xl md:text-7xl font-extrabold text-slate-900 heading-font mb-8 leading-[1.1] tracking-tight">
+            <h2 className="text-4xl md:text-7xl font-black text-slate-900 heading-font mb-8 leading-[1.1] tracking-tight">
               Raih Prestasi Terbaikmu di <span className="text-brand-600">Zona Prestasi</span>
             </h2>
-            <p className="text-lg md:text-2xl text-slate-500 font-medium mb-12 leading-relaxed mx-auto max-w-2xl">
+            <p className="text-lg md:text-2xl text-slate-500 font-semibold mb-12 leading-relaxed mx-auto max-w-2xl">
               Pembelajaran interaktif yang dirancang khusus untuk membantumu menguasai materi dengan cara yang seru dan menyenangkan.
             </p>
             <div className="flex justify-center items-center gap-4">
@@ -67,12 +67,12 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
              <div className="h-px w-8 bg-slate-200 md:w-16" />
              <div className="flex items-center gap-2">
                 <span className="text-yellow-400">✨</span>
-                <h4 className="text-lg font-bold text-slate-400 uppercase tracking-widest text-[10px]">Pilih Kurikulum</h4>
+                <h4 className="text-lg font-black text-slate-400 uppercase tracking-widest text-[10px]">Pilih Kurikulum</h4>
                 <span className="text-yellow-400">✨</span>
              </div>
              <div className="h-px w-8 bg-slate-200 md:w-16" />
           </motion.div>
-          <h3 className="text-3xl md:text-4xl font-bold text-slate-800 heading-font">Mulai Belajar Sekarang</h3>
+          <h3 className="text-3xl md:text-4xl font-black text-slate-800 heading-font">Mulai Belajar Sekarang</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
@@ -85,8 +85,8 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full blur-[60px] opacity-50 group-hover:opacity-100 transition-opacity" />
             
             <div className="flex-1 w-full">
-              <h5 className="text-4xl lg:text-6xl font-bold text-indigo-900 mb-6 heading-font">English</h5>
-              <p className="text-slate-500 font-medium mb-12 leading-relaxed max-w-sm mx-auto">
+              <h5 className="text-4xl lg:text-6xl font-black text-indigo-900 mb-6 heading-font">English</h5>
+              <p className="text-slate-500 font-semibold mb-12 leading-relaxed max-w-sm mx-auto">
                 Tingkatkan kemampuan bahasa Inggris Anda melalui materi interaktif dan latihan menarik.
               </p>
               
@@ -110,7 +110,7 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
 
             <button 
               onClick={() => onSelectCourse('english')}
-              className="mt-16 w-full max-w-xs flex cursor-pointer items-center justify-center gap-3 bg-indigo-600 text-white rounded-2xl py-5 font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all active:scale-95"
+              className="mt-16 w-full max-w-xs flex cursor-pointer items-center justify-center gap-3 bg-indigo-600 text-white rounded-2xl py-5 font-black uppercase tracking-widest text-[11px] shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all active:scale-95"
             >
               Masuk ke Course <ArrowRight size={18} />
             </button>
@@ -125,8 +125,8 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             <div className="absolute top-0 left-0 w-32 h-32 bg-blue-50 rounded-full blur-[60px] opacity-50 group-hover:opacity-100 transition-opacity" />
 
             <div className="flex-1 w-full">
-              <h5 className="text-4xl lg:text-6xl font-bold text-brand-900 mb-6 heading-font">Math</h5>
-              <p className="text-slate-500 font-medium mb-12 leading-relaxed max-w-sm mx-auto">
+              <h5 className="text-4xl lg:text-6xl font-black text-brand-900 mb-6 heading-font">Math</h5>
+              <p className="text-slate-500 font-semibold mb-12 leading-relaxed max-w-sm mx-auto">
                 Pahami konsep matematika dengan cara yang mudah, menyenangkan, dan berstruktur.
               </p>
               
@@ -150,7 +150,7 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
 
             <button 
               onClick={() => onSelectCourse('math')}
-              className="mt-16 w-full max-w-xs flex cursor-pointer items-center justify-center gap-3 bg-brand-600 text-white rounded-2xl py-5 font-bold uppercase tracking-widest text-[11px] shadow-lg shadow-brand-200 hover:bg-brand-700 transition-all active:scale-95"
+              className="mt-16 w-full max-w-xs flex cursor-pointer items-center justify-center gap-3 bg-brand-600 text-white rounded-2xl py-5 font-black uppercase tracking-widest text-[11px] shadow-lg shadow-brand-200 hover:bg-brand-700 transition-all active:scale-95"
             >
               Masuk ke Course <ArrowRight size={18} />
             </button>
@@ -160,7 +160,7 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
 
       {/* Footer */}
       <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-slate-100 text-center">
-        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">© 2026 Zona Prestasi - Level Up Your Skills</p>
+        <p className="text-slate-400 text-xs font-black uppercase tracking-widest">© 2026 Zona Prestasi - Level Up Your Skills</p>
       </footer>
     </div>
   );
