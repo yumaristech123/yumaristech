@@ -8,7 +8,23 @@ import {
   createUserWithEmailAndPassword as fbCreateUserWithEmail,
   updateProfile
 } from 'firebase/auth';
-import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, collection, addDoc, onSnapshot, getDocFromServer, increment } from 'firebase/firestore';
+import { 
+  getFirestore, 
+  doc, 
+  setDoc, 
+  getDoc, 
+  updateDoc, 
+  deleteDoc, 
+  arrayUnion, 
+  collection, 
+  addDoc, 
+  onSnapshot, 
+  getDocFromServer, 
+  increment,
+  query,
+  where,
+  getDocs
+} from 'firebase/firestore';
 
 // Static import is reliable in Vite for existing files
 import firebaseConfig from '../../firebase-applet-config.json';
@@ -232,10 +248,65 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
   }
 };
 
+export interface UserData {
+  uid: string;
+  displayName: string;
+  email: string;
+  role: string;
+  kelas?: string;
+  password?: string;
+  xp: number;
+  stars: number;
+  completedModules: string[];
+}
+
+export const syncUserStars = async (userId: string, courseId: CourseId = 'math') => {
+  try {
+    const collResults = getCollName('quiz_results', courseId);
+    const collUsers = getCollName('users', courseId);
+    
+    // Count all perfect scores (100) for this user
+    const q = query(
+      collection(db, collResults), 
+      where('userId', '==', userId), 
+      where('score', '==', 100)
+    );
+    const snap = await getDocs(q);
+    const count = snap.size;
+    
+    const userRef = doc(db, collUsers, userId);
+    await updateDoc(userRef, { stars: count });
+    return count;
+  } catch (error) {
+    console.error('Error syncing stars:', error);
+    return 0;
+  }
+};
+
 export const deleteQuizResult = async (id: string, courseId: CourseId = 'math') => {
   try {
-    const coll = getCollName('quiz_results', courseId);
-    await deleteDoc(doc(db, coll, id));
+    const collResults = getCollName('quiz_results', courseId);
+    const collUsers = getCollName('users', courseId);
+    
+    // Get the document first to check the score and userId
+    const resRef = doc(db, collResults, id);
+    const resSnap = await getDoc(resRef);
+    
+    if (resSnap.exists()) {
+      const { score, userId } = resSnap.data();
+      const isPerfect = Math.round(score) === 100;
+      
+      // Delete the result
+      await deleteDoc(resRef);
+      
+      // If it was a perfect score, decrement user's stars atomically
+      if (isPerfect) {
+        const userRef = doc(db, collUsers, userId);
+        await updateDoc(userRef, {
+          stars: increment(-1)
+        });
+      }
+    }
   } catch (error) {
     throw handleFirestoreError(error, OperationType.DELETE, `quiz_results/${id}`);
   }

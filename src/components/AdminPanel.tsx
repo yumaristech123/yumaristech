@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserPlus, User, ShieldCheck, Mail, Lock, UserCircle, X, CheckCircle2, Users, Search, GraduationCap, Edit2, Trash2, Save, RotateCcw, Plus, Trash } from 'lucide-react';
-import { db, registerWithEmail, updateUser, deleteUserDoc, addClass, deleteClass, CourseId, getCollName } from '../lib/firebase';
+import { db, registerWithEmail, updateUser, deleteUserDoc, addClass, deleteClass, CourseId, getCollName, UserData } from '../lib/firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { cn } from '../lib/utils';
 
 interface AdminPanelProps {
   onClose: () => void;
   courseId?: CourseId | null;
-}
-
-interface UserData {
-  uid: string;
-  displayName: string;
-  email: string;
-  role: string;
-  kelas?: string;
-  password?: string;
-  xp: number;
 }
 
 interface ClassData {

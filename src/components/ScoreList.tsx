@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { db, deleteQuizResult, CourseId, getCollName } from '../lib/firebase';
+import { db, deleteQuizResult, CourseId, getCollName, UserData } from '../lib/firebase';
 import { collection, query, orderBy, onSnapshot, getDocs } from 'firebase/firestore';
-import { Trophy, Clock, User, BookOpen, Search, X, Filter, Trash2 } from 'lucide-react';
+import { Trophy, Clock, User, BookOpen, Search, X, Filter, Trash2, Star } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface QuizResult {
@@ -15,13 +15,6 @@ interface QuizResult {
   level?: string;
   timeTaken?: number;
   timestamp: number;
-}
-
-interface UserData {
-  uid: string;
-  displayName: string;
-  role: string;
-  kelas?: string;
 }
 
 interface ClassData {
@@ -280,7 +273,15 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
                         <User size={20} />
                       </div>
                       <div>
-                        <h4 className="font-bold text-slate-800 leading-tight">{user?.displayName || 'Unknown User'}</h4>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-bold text-slate-800 leading-tight">{user?.displayName || 'Unknown User'}</h4>
+                          {user?.stars !== undefined && (
+                            <div className="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100 shadow-sm transform scale-90">
+                              <Star size={10} className="text-amber-500 fill-amber-500" />
+                              <span className="text-[10px] font-black text-amber-700">{user.stars}</span>
+                            </div>
+                          )}
+                        </div>
                         <div className="flex items-center gap-2 mt-1">
                           <span className={cn(
                             "text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded border",

@@ -10,6 +10,7 @@
         "email": { "type": "string", "description": "Email pengguna" },
         "role": { "type": "string", "enum": ["siswa", "guru"], "description": "Peran pengguna dalam LMS" },
         "xp": { "type": "number", "description": "Total Experience Points" },
+        "stars": { "type": "number", "description": "Jumlah nilai 100 yang diperoleh" },
         "completedModules": { "type": "array", "description": "Daftar ID modul yang sudah diselesaikan" }
       },
       "required": ["uid", "xp"]

@@ -12,7 +12,7 @@ import { AuthPage } from './components/AuthPage';
 import { AdminPanel } from './components/AdminPanel';
 import { ScoreList } from './components/ScoreList';
 import { LandingPage } from './components/LandingPage';
-import { auth, signInWithGoogle, logout, db, saveQuizResult, handleFirestoreError, OperationType, getCollName, CourseId } from './lib/firebase';
+import { auth, signInWithGoogle, logout, db, saveQuizResult, handleFirestoreError, OperationType, getCollName, CourseId, syncUserStars } from './lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { doc, onSnapshot, collection } from 'firebase/firestore';
 import { Settings } from 'lucide-react';
@@ -62,6 +62,9 @@ export default function App() {
 
   useEffect(() => {
     if (user && selectedCourse) {
+      // Sync stars from previous results to ensure data consistency (legacy data fix)
+      syncUserStars(user.uid, selectedCourse);
+
       const coll = getCollName('users', selectedCourse);
       const unsub = onSnapshot(doc(db, coll, user.uid), (doc) => {
         if (doc.exists()) {
