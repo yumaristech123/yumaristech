@@ -32,10 +32,29 @@ async function testConnection() {
 }
 testConnection();
 
-export const signInWithGoogle = async () => {
+export enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+export type CourseId = 'math' | 'english';
+
+export function getCollName(base: string, courseId?: CourseId | null) {
+  if (courseId === 'english') {
+    return `${base}_en`;
+  }
+  return base; // Default is math (uses 'users', 'quiz_results', 'classes')
+}
+
+export const signInWithGoogle = async (courseId: CourseId = 'math') => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    const userRef = doc(db, 'users', result.user.uid);
+    const coll = getCollName('users', courseId);
+    const userRef = doc(db, coll, result.user.uid);
     const snap = await getDoc(userRef);
     
     const isAdmin = result.user.email === ADMIN_EMAIL;
@@ -67,7 +86,7 @@ export const loginWithEmail = async (userOrEmail: string, pass: string) => {
   return fbSignInWithEmail(auth, finalEmail, pass);
 };
 
-export const registerWithEmail = async (userOrEmail: string, pass: string, name: string, role: 'guru' | 'siswa', kelas: string = '') => {
+export const registerWithEmail = async (userOrEmail: string, pass: string, name: string, role: 'guru' | 'siswa', kelas: string = '', courseId: CourseId = 'math') => {
   const normalized = userOrEmail.trim().toLowerCase();
   const finalEmail = normalized.includes('@') ? normalized : `${normalized}@zonaprestasi.com`;
   
@@ -82,9 +101,10 @@ export const registerWithEmail = async (userOrEmail: string, pass: string, name:
     await updateProfile(result.user, { displayName: name });
     
     // Create user record in firestore using the MAIN db instance
-    const path = `users/${result.user.uid}`;
+    const coll = getCollName('users', courseId);
+    const path = `${coll}/${result.user.uid}`;
     try {
-      await setDoc(doc(db, 'users', result.user.uid), {
+      await setDoc(doc(db, coll, result.user.uid), {
         uid: result.user.uid,
         displayName: name,
         email: finalEmail,
@@ -109,18 +129,20 @@ export const registerWithEmail = async (userOrEmail: string, pass: string, name:
   }
 };
 
-export const updateUser = async (uid: string, data: Partial<any>) => {
+export const updateUser = async (uid: string, data: Partial<any>, courseId: CourseId = 'math') => {
   try {
-    const userRef = doc(db, 'users', uid);
+    const coll = getCollName('users', courseId);
+    const userRef = doc(db, coll, uid);
     await updateDoc(userRef, data);
   } catch (error) {
     throw handleFirestoreError(error, OperationType.UPDATE, `users/${uid}`);
   }
 };
 
-export const deleteUserDoc = async (uid: string) => {
+export const deleteUserDoc = async (uid: string, courseId: CourseId = 'math') => {
   try {
-    const userRef = doc(db, 'users', uid);
+    const coll = getCollName('users', courseId);
+    const userRef = doc(db, coll, uid);
     await deleteDoc(userRef);
   } catch (error) {
     throw handleFirestoreError(error, OperationType.DELETE, `users/${uid}`);
@@ -128,15 +150,6 @@ export const deleteUserDoc = async (uid: string) => {
 };
 
 export const logout = () => signOut(auth);
-
-export enum OperationType {
-  CREATE = 'create',
-  UPDATE = 'update',
-  DELETE = 'delete',
-  LIST = 'list',
-  GET = 'get',
-  WRITE = 'write',
-}
 
 export interface FirestoreErrorInfo {
   error: string;
@@ -167,10 +180,12 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
 }
 
 // Helper for results
-export const saveQuizResult = async (userId: string, moduleId: string, score: number, level?: string, timeTaken?: number) => {
+export const saveQuizResult = async (userId: string, moduleId: string, score: number, level?: string, timeTaken?: number, courseId: CourseId = 'math') => {
   try {
-    const path = 'quiz_results';
-    await addDoc(collection(db, path), {
+    const collResults = getCollName('quiz_results', courseId);
+    const collUsers = getCollName('users', courseId);
+    
+    await addDoc(collection(db, collResults), {
       userId,
       moduleId,
       score: Math.round(score),
@@ -179,7 +194,7 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
       timestamp: Date.now()
     });
 
-    const userRef = doc(db, 'users', userId);
+    const userRef = doc(db, collUsers, userId);
     const userSnap = await getDoc(userRef);
     
     const isPerfect = Math.round(score) === 100;
@@ -213,21 +228,23 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
       });
     }
   } catch (error) {
-    throw handleFirestoreError(error, OperationType.WRITE, 'users/quiz_results');
+    throw handleFirestoreError(error, OperationType.WRITE, 'quiz_results');
   }
 };
 
-export const deleteQuizResult = async (id: string) => {
+export const deleteQuizResult = async (id: string, courseId: CourseId = 'math') => {
   try {
-    await deleteDoc(doc(db, 'quiz_results', id));
+    const coll = getCollName('quiz_results', courseId);
+    await deleteDoc(doc(db, coll, id));
   } catch (error) {
     throw handleFirestoreError(error, OperationType.DELETE, `quiz_results/${id}`);
   }
 };
 
 // Class management
-export const addClass = async (name: string) => {
+export const addClass = async (name: string, courseId: CourseId = 'math') => {
   try {
+    const coll = getCollName('classes', courseId);
     // Sanitize ID: only lowercase letters, numbers, and hyphens. 
     // This prevents slashes (/) from being interpreted as subcollections.
     const id = name.trim()
@@ -238,15 +255,16 @@ export const addClass = async (name: string) => {
     // Ensure ID is not empty after sanitization
     const finalId = id || `class-${Date.now()}`;
     
-    await setDoc(doc(db, 'classes', finalId), { id: finalId, name });
+    await setDoc(doc(db, coll, finalId), { id: finalId, name });
   } catch (error) {
     throw handleFirestoreError(error, OperationType.WRITE, 'classes');
   }
 };
 
-export const deleteClass = async (id: string) => {
+export const deleteClass = async (id: string, courseId: CourseId = 'math') => {
   try {
-    await deleteDoc(doc(db, 'classes', id));
+    const coll = getCollName('classes', courseId);
+    await deleteDoc(doc(db, coll, id));
   } catch (error) {
     throw handleFirestoreError(error, OperationType.DELETE, `classes/${id}`);
   }

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LogIn, UserPlus, User, GraduationCap, ArrowRight, ShieldCheck, Mail, Lock, UserCircle } from 'lucide-react';
-import { loginWithEmail, registerWithEmail, signInWithGoogle } from '../lib/firebase';
+import { BookOpen, GraduationCap, ArrowRight, Mail, Lock } from 'lucide-react';
+import { CourseId, getCollName, loginWithEmail, registerWithEmail, signInWithGoogle } from '../lib/firebase';
 import { cn } from '../lib/utils';
 
 interface AuthPageProps {
   onSuccess: () => void;
+  courseId: CourseId;
 }
 
-export function AuthPage({ onSuccess }: AuthPageProps) {
+export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showGoogle, setShowGoogle] = useState(false);
@@ -17,6 +18,8 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
   // Form states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const isEnglish = courseId === 'english';
 
   const handleSecretTrigger = () => {
     setClickCount(prev => {
@@ -27,7 +30,6 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
       }
       return newCount;
     });
-    // Reset counter if not clicked again within 2 seconds
     const timer = setTimeout(() => setClickCount(0), 2000);
     return () => clearTimeout(timer);
   };
@@ -57,8 +59,14 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 relative overflow-hidden">
       {/* Background Decor */}
-      <div className="fixed -top-20 -left-20 w-96 h-96 bg-brand-100 rounded-full blur-[120px] opacity-60 animate-pulse" />
-      <div className="fixed -bottom-20 -right-20 w-96 h-96 bg-indigo-100 rounded-full blur-[120px] opacity-60" />
+      <div className={cn(
+        "fixed -top-20 -left-20 w-96 h-96 rounded-full blur-[120px] opacity-60 animate-pulse",
+        isEnglish ? "bg-indigo-100" : "bg-brand-100"
+      )} />
+      <div className={cn(
+        "fixed -bottom-20 -right-20 w-96 h-96 rounded-full blur-[120px] opacity-60",
+        isEnglish ? "bg-purple-100" : "bg-indigo-100"
+      )} />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -68,15 +76,23 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
         <div className="text-center mb-8">
           <div 
             onClick={handleSecretTrigger}
-            className="inline-flex p-3 bg-brand-600 rounded-2xl shadow-xl shadow-brand-100 mb-4 cursor-default active:scale-95 transition-transform"
+            className={cn(
+              "inline-flex p-3 rounded-2xl shadow-xl mb-4 cursor-default active:scale-95 transition-transform",
+              isEnglish ? "bg-indigo-600 shadow-indigo-100" : "bg-brand-600 shadow-brand-100"
+            )}
           >
-            <GraduationCap className="text-white" size={32} />
+            {isEnglish ? <BookOpen size={32} className="text-white" /> : <GraduationCap className="text-white" size={32} />}
           </div>
-          <h1 className="text-3xl font-bold heading-font tracking-tight text-slate-900">ZONA <span className="text-brand-600">PRESTASI</span></h1>
-          <p className="text-slate-500 font-medium mt-1">Platform Pembelajaran Matematika Masa Depan</p>
+          <h1 className="text-3xl font-bold heading-font tracking-tight text-slate-900">
+            ZONA <span className={isEnglish ? "text-indigo-600" : "text-brand-600"}>{isEnglish ? 'ENGLISH' : 'PRESTASI'}</span>
+          </h1>
+          <p className="text-slate-500 font-medium mt-1">Platform Pembelajaran {isEnglish ? 'Bahasa Inggris' : 'Matematika'} Masa Depan</p>
         </div>
 
-        <div className="bg-white border border-slate-100 rounded-[2.5rem] shadow-2xl shadow-brand-100/50 overflow-hidden">
+        <div className={cn(
+          "bg-white border border-slate-100 rounded-[2.5rem] shadow-2xl overflow-hidden",
+          isEnglish ? "shadow-indigo-100/50" : "shadow-brand-100/50"
+        )}>
           <div className="p-10">
             <h2 className="text-xl font-bold text-slate-800 mb-6 text-center">Masuk ke LMS</h2>
             
@@ -96,7 +112,10 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none focus:border-brand-400 transition-all focus:bg-white"
+                    className={cn(
+                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
+                      isEnglish ? "focus:border-indigo-400" : "focus:border-brand-400"
+                    )}
                   />
                 </div>
                 <div className="relative">
@@ -107,7 +126,10 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none focus:border-brand-400 transition-all focus:bg-white"
+                    className={cn(
+                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
+                      isEnglish ? "focus:border-indigo-400" : "focus:border-brand-400"
+                    )}
                   />
                 </div>
               </div>
@@ -115,7 +137,10 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
               <button 
                 type="submit"
                 disabled={loading}
-                className="w-full bg-brand-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-lg shadow-brand-100 hover:bg-brand-700 transition-all flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:shadow-none"
+                className={cn(
+                  "w-full text-white py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-lg transition-all flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:shadow-none",
+                  isEnglish ? "bg-indigo-600 shadow-indigo-100 hover:bg-indigo-700" : "bg-brand-600 shadow-brand-100 hover:bg-brand-700"
+                )}
               >
                 {loading ? 'Memproses...' : 'Masuk Sekarang'}
                 {!loading && <ArrowRight size={16} />}
@@ -138,7 +163,7 @@ export function AuthPage({ onSuccess }: AuthPageProps) {
                     onClick={async () => {
                       setLoading(true);
                       try {
-                        await signInWithGoogle();
+                        await signInWithGoogle(courseId);
                         onSuccess();
                       } catch (err) {
                         setError('Gagal masuk dengan Google.');

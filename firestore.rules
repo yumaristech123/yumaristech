@@ -21,18 +21,20 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    function getUserData(userId) {
-      return get(/databases/$(database)/documents/users/$(userId)).data;
+    function getUserData(userColl, userId) {
+      return get(/databases/$(database)/documents/$(userColl)/$(userId)).data;
     }
 
-    function isGuru() {
-      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData(request.auth.uid).role == 'guru';
+    function isGuru(userColl) {
+      return isSignedIn() && 
+             exists(/databases/$(database)/documents/$(userColl)/$(request.auth.uid)) && 
+             getUserData(userColl, request.auth.uid).role == 'guru';
     }
 
-    function isAdmin() {
+    function isAdmin(userColl) {
       return isSignedIn() && (
         (request.auth.token.email == "yumaristech@gmail.com" && isEmailVerified()) ||
-        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && getUserData(request.auth.uid).role == 'admin')
+        (exists(/databases/$(database)/documents/$(userColl)/$(request.auth.uid)) && getUserData(userColl, request.auth.uid).role == 'admin')
       );
     }
 
@@ -59,7 +61,7 @@ service cloud.firestore {
       return data.keys().hasAll(['moduleId', 'userId', 'score', 'timestamp']) &&
              data.moduleId is string && data.moduleId.size() <= 100 &&
              data.userId is string && data.userId.size() <= 128 &&
-             data.score is number && data.score >= 0 && data.score <= 1000 && // Allowing for some bonus points
+             data.score is number && data.score >= 0 && data.score <= 1000 && 
              data.timestamp is number;
     }
 
@@ -69,48 +71,60 @@ service cloud.firestore {
              data.name is string && data.name.size() <= 50;
     }
 
-    // --- Collection Rules ---
+    // --- Mathematics Course ---
 
-    // 1. Users Collection
     match /users/{userId} {
-      // Allow read for authenticated users (to populate displayName/kelas in ScoreList)
-      // List operation: explicitly check metadata to avoid scraping if needed, but for LMS listing is common
       allow read: if isSignedIn();
-      
-      allow create: if (isOwner(userId) || isAdmin()) && isValidUser(request.resource.data);
-      
-      allow update: if (isOwner(userId) || isAdmin()) && 
+      allow create: if (isOwner(userId) || isAdmin('users')) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) || isAdmin('users')) && 
                     isValidUser(request.resource.data) &&
                     (
-                      // Action: Standard XP/Progess Update
                       (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'completedModules'])) ||
-                      // Action: Profile Edit by Self/Admin
-                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email'])) ||
-                      isAdmin()
+                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email', 'stars'])) ||
+                      isAdmin('users')
                     );
-      
-      allow delete: if isAdmin();
+      allow delete: if isAdmin('users');
     }
 
-    // 2. Quiz Results Collection
     match /quiz_results/{resultId} {
-      // Allow read for all authenticated (to see leaderboard)
-      // Query enforcement:ScoreList filters by class/role, we allow list if authenticated
       allow read: if isSignedIn();
-      
-      allow create: if isSignedIn() && 
-                    request.resource.data.userId == request.auth.uid && 
-                    isValidQuizResult(request.resource.data);
-      
-      allow update: if isAdmin();
-      allow delete: if isAdmin() || isGuru();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid && isValidQuizResult(request.resource.data);
+      allow update: if isAdmin('users');
+      allow delete: if isAdmin('users') || isGuru('users');
     }
 
-    // 3. Classes Collection
     match /classes/{classId} {
-      allow read: if isSignedIn(); // All students/staff can see the class list dropdown
-      allow create, update: if isAdmin() && isValidClass(request.resource.data);
-      allow delete: if isAdmin();
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin('users') && isValidClass(request.resource.data);
+      allow delete: if isAdmin('users');
+    }
+
+    // --- English Course ---
+
+    match /users_en/{userId} {
+      allow read: if isSignedIn();
+      allow create: if (isOwner(userId) || isAdmin('users_en')) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) || isAdmin('users_en')) && 
+                    isValidUser(request.resource.data) &&
+                    (
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'completedModules'])) ||
+                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email', 'stars'])) ||
+                      isAdmin('users_en')
+                    );
+      allow delete: if isAdmin('users_en');
+    }
+
+    match /quiz_results_en/{resultId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid && isValidQuizResult(request.resource.data);
+      allow update: if isAdmin('users_en');
+      allow delete: if isAdmin('users_en') || isGuru('users_en');
+    }
+
+    match /classes_en/{classId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin('users_en') && isValidClass(request.resource.data);
+      allow delete: if isAdmin('users_en');
     }
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { db, deleteQuizResult } from '../lib/firebase';
+import { db, deleteQuizResult, CourseId, getCollName } from '../lib/firebase';
 import { collection, query, orderBy, onSnapshot, getDocs } from 'firebase/firestore';
 import { Trophy, Clock, User, BookOpen, Search, X, Filter, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -31,9 +31,10 @@ interface ClassData {
 
 interface ScoreListProps {
   currentUserRole?: 'siswa' | 'guru' | 'admin' | null;
+  courseId?: CourseId | null;
 }
 
-export function ScoreList({ currentUserRole }: ScoreListProps) {
+export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps) {
   const [results, setResults] = useState<QuizResult[]>([]);
   const [users, setUsers] = useState<Record<string, UserData>>({});
   const [classList, setClassList] = useState<ClassData[]>([]);
@@ -44,8 +45,12 @@ export function ScoreList({ currentUserRole }: ScoreListProps) {
   const [sortBy, setSortBy] = useState<'score' | 'time' | 'date' | 'name' | 'kelas'>('date');
 
   useEffect(() => {
+    const userColl = getCollName('users', courseId);
+    const classColl = getCollName('classes', courseId);
+    const resultsColl = getCollName('quiz_results', courseId);
+
     // Listen for users live to keep mapping updated
-    const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
+    const unsubUsers = onSnapshot(collection(db, userColl), (snapshot) => {
       const userMap: Record<string, UserData> = {};
       snapshot.forEach(doc => {
         userMap[doc.id] = doc.data() as UserData;
@@ -53,7 +58,7 @@ export function ScoreList({ currentUserRole }: ScoreListProps) {
       setUsers(userMap);
     });
 
-    const unsubClasses = onSnapshot(collection(db, 'classes'), (snapshot) => {
+    const unsubClasses = onSnapshot(collection(db, classColl), (snapshot) => {
       const classes: ClassData[] = [];
       snapshot.forEach(doc => {
         classes.push(doc.data() as ClassData);
@@ -62,7 +67,7 @@ export function ScoreList({ currentUserRole }: ScoreListProps) {
     });
 
     // Listen for results
-    const q = query(collection(db, 'quiz_results'), orderBy('timestamp', 'desc'));
+    const q = query(collection(db, resultsColl), orderBy('timestamp', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const resultsData: QuizResult[] = [];
       snapshot.forEach((doc) => {
@@ -77,7 +82,7 @@ export function ScoreList({ currentUserRole }: ScoreListProps) {
       unsubClasses();
       unsubscribe();
     };
-  }, []);
+  }, [courseId]);
 
   const filteredResults = results
     .filter(res => {
@@ -135,7 +140,7 @@ export function ScoreList({ currentUserRole }: ScoreListProps) {
   const handleDeleteResult = async (id: string, userName: string) => {
     if (window.confirm(`Hapus nilai milik "${userName}"? Tindakan ini tidak dapat dibatalkan.`)) {
       try {
-        await deleteQuizResult(id);
+        await deleteQuizResult(id, courseId as CourseId);
       } catch (err: any) {
         alert('Gagal menghapus: ' + err.message);
       }

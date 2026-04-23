@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { UserPlus, User, ShieldCheck, Mail, Lock, UserCircle, X, CheckCircle2, Users, Search, GraduationCap, Edit2, Trash2, Save, RotateCcw, Plus, Trash } from 'lucide-react';
-import { db, registerWithEmail, updateUser, deleteUserDoc, addClass, deleteClass } from '../lib/firebase';
+import { db, registerWithEmail, updateUser, deleteUserDoc, addClass, deleteClass, CourseId, getCollName } from '../lib/firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { cn } from '../lib/utils';
 
 interface AdminPanelProps {
   onClose: () => void;
+  courseId?: CourseId | null;
 }
 
 interface UserData {
@@ -24,7 +25,7 @@ interface ClassData {
   name: string;
 }
 
-export function AdminPanel({ onClose }: AdminPanelProps) {
+export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -46,7 +47,10 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const [classSuccess, setClassSuccess] = useState(false);
 
   useEffect(() => {
-    const qUsers = query(collection(db, 'users'), orderBy('displayName'));
+    const userColl = getCollName('users', courseId);
+    const classColl = getCollName('classes', courseId);
+
+    const qUsers = query(collection(db, userColl), orderBy('displayName'));
     const unsubUsers = onSnapshot(qUsers, (snapshot) => {
       const users: UserData[] = [];
       snapshot.forEach((doc) => {
@@ -56,7 +60,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       setUserList(users);
     });
 
-    const qClasses = query(collection(db, 'classes'), orderBy('name'));
+    const qClasses = query(collection(db, classColl), orderBy('name'));
     const unsubClasses = onSnapshot(qClasses, (snapshot) => {
       const classes: ClassData[] = [];
       snapshot.forEach((doc) => {
@@ -69,7 +73,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
       unsubUsers();
       unsubClasses();
     };
-  }, []);
+  }, [courseId]);
 
   const handleRegisterOrUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +95,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
           password: cleanPass,
           role: role,
           kelas: finalKelas
-        });
+        }, courseId as CourseId);
         setSuccess(true);
         setTimeout(() => {
           setIsEditMode(false);
@@ -99,7 +103,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
           setSuccess(false);
         }, 1500);
       } else {
-        await registerWithEmail(cleanEmail, cleanPass, cleanName, role, finalKelas);
+        await registerWithEmail(cleanEmail, cleanPass, cleanName, role, finalKelas, courseId as CourseId);
         setSuccess(true);
       }
       
@@ -125,7 +129,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
     setError('');
     setClassSuccess(false);
     try {
-      await addClass(newClassName);
+      await addClass(newClassName, courseId as CourseId);
       setNewClassName('');
       setClassSuccess(true);
       setTimeout(() => setClassSuccess(false), 3000);
@@ -144,7 +148,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const handleDeleteClass = async (id: string, name: string) => {
     if (window.confirm(`Hapus kelas "${name}"? Siswa yang terdaftar di kelas ini tidak akan terhapus, namun label kelas mereka mungkin perlu diperbarui.`)) {
       try {
-        await deleteClass(id);
+        await deleteClass(id, courseId as CourseId);
       } catch (err: any) {
         alert(err.message);
       }
@@ -181,7 +185,7 @@ export function AdminPanel({ onClose }: AdminPanelProps) {
   const handleDelete = async (uid: string, name: string) => {
     if (window.confirm(`Hapus akun "${name}" secara permanen? Tindakan ini tidak dapat dibatalkan.`)) {
       try {
-        await deleteUserDoc(uid);
+        await deleteUserDoc(uid, courseId as CourseId);
       } catch (err: any) {
         alert('Gagal menghapus: ' + err.message);
       }

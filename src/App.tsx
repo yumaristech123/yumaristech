@@ -11,13 +11,15 @@ import { SquareCraft } from './components/SquareCraft';
 import { AuthPage } from './components/AuthPage';
 import { AdminPanel } from './components/AdminPanel';
 import { ScoreList } from './components/ScoreList';
-import { auth, signInWithGoogle, logout, db, saveQuizResult, handleFirestoreError, OperationType } from './lib/firebase';
+import { LandingPage } from './components/LandingPage';
+import { auth, signInWithGoogle, logout, db, saveQuizResult, handleFirestoreError, OperationType, getCollName, CourseId } from './lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection } from 'firebase/firestore';
 import { Settings } from 'lucide-react';
 import { cn } from './lib/utils';
 
 export default function App() {
+  const [selectedCourse, setSelectedCourse] = useState<CourseId | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [userRole, setUserRole] = useState<'siswa' | 'guru' | 'admin' | null>(null);
   const [userKelas, setUserKelas] = useState('');
@@ -31,6 +33,11 @@ export default function App() {
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   const [activeView, setActiveView] = useState<'lessons' | 'scores'>('lessons');
   const [adminClickCount, setAdminClickCount] = useState(0);
+
+  useEffect(() => {
+    // Try to restore previous course from session if needed, or just let users pick.
+    // For now, let's just use the state.
+  }, []);
 
   useEffect(() => {
     if (adminClickCount >= 7 && userRole === 'admin') {
@@ -47,14 +54,16 @@ export default function App() {
         setUserXp(0);
         setUserStars(0);
         setCompletedModules([]);
+        setUserRole(null);
       }
     });
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (user) {
-      const unsub = onSnapshot(doc(db, 'users', user.uid), (doc) => {
+    if (user && selectedCourse) {
+      const coll = getCollName('users', selectedCourse);
+      const unsub = onSnapshot(doc(db, coll, user.uid), (doc) => {
         if (doc.exists()) {
           const data = doc.data();
           setUserXp(data.xp || 0);
@@ -65,7 +74,7 @@ export default function App() {
           setUserRole(data.role || (isAdmin ? 'admin' : 'siswa'));
           setUserKelas(data.kelas || '');
         } else {
-          // If doc doesn't exist, check email for admin
+          // If doc doesn't exist in this course, check email for admin
           if (user.email === 'yumaristech@gmail.com') {
             setUserRole('admin');
           } else {
@@ -73,11 +82,11 @@ export default function App() {
           }
         }
       }, (error) => {
-        handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
+        handleFirestoreError(error, OperationType.GET, `${coll}/${user.uid}`);
       });
       return () => unsub();
     }
-  }, [user]);
+  }, [user, selectedCourse]);
 
   const handleLevelSelect = (level: Level) => {
     setCurrentLevel(level);
@@ -91,14 +100,14 @@ export default function App() {
   };
 
   const handleQuizComplete = async (score: number, level?: string, timeTaken?: number) => {
-    if (user && currentModule) {
+    if (user && currentModule && selectedCourse) {
       // For Topik Matematika levels, only record if score >= 90
       const isTopikMatematika = currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika');
       
       if (isTopikMatematika && score < 90) {
         console.log('Score too low for Topik Matematika, not recording.');
       } else {
-        await saveQuizResult(user.uid, currentModule.id, score, level, timeTaken);
+        await saveQuizResult(user.uid, currentModule.id, score, level, timeTaken, selectedCourse);
       }
     } else if (!user) {
       // Offline/Guest local state update
@@ -120,8 +129,27 @@ export default function App() {
     setActiveView('lessons');
   };
 
+  const logoutCourse = () => {
+    logout();
+    setSelectedCourse(null);
+  };
+
+  if (!selectedCourse) {
+    return <LandingPage onSelectCourse={setSelectedCourse} />;
+  }
+
   if (isAuthReady && !user) {
-    return <AuthPage onSuccess={() => {}} />;
+    return (
+      <div className="relative">
+        <button 
+          onClick={() => setSelectedCourse(null)}
+          className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 shadow-sm transition-all"
+        >
+          <ChevronLeft size={16} /> Kembali
+        </button>
+        <AuthPage onSuccess={() => {}} courseId={selectedCourse as CourseId} />
+      </div>
+    );
   }
 
   return (
@@ -136,10 +164,17 @@ export default function App() {
             }
             resetToHome();
           }}>
-            <div className="bg-brand-600 text-white p-2.5 rounded-2xl shadow-lg shadow-brand-200 group-hover:scale-110 transition-transform duration-300">
-              <Zap size={24} className="fill-yellow-300 text-yellow-300" />
+            <div className={cn(
+              "text-white p-2.5 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300",
+              selectedCourse === 'english' ? "bg-indigo-600 shadow-indigo-200" : "bg-brand-600 shadow-brand-200"
+            )}>
+              {selectedCourse === 'english' ? <BookOpen size={24} /> : <Zap size={24} className="fill-yellow-300 text-yellow-300" />}
             </div>
-            <h1 className="text-2xl font-bold heading-font tracking-tight">ZONA <span className="text-brand-600">PRESTASI</span></h1>
+            <h1 className="text-2xl font-bold heading-font tracking-tight">
+              ZONA <span className={selectedCourse === 'english' ? "text-indigo-600" : "text-brand-600"}>
+                {selectedCourse === 'english' ? 'ENGLISH' : 'PRESTASI'}
+              </span>
+            </h1>
           </div>
           <div className="flex items-center gap-6">
             <button 
@@ -147,15 +182,13 @@ export default function App() {
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-2xl border font-bold text-xs transition-all shadow-sm",
                 activeView === 'scores' 
-                  ? "bg-brand-600 text-white border-brand-500 hover:bg-brand-700" 
+                  ? (selectedCourse === 'english' ? "bg-indigo-600 text-white border-indigo-500 hover:bg-indigo-700" : "bg-brand-600 text-white border-brand-500 hover:bg-brand-700") 
                   : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
               )}
             >
               <Trophy size={18} className={activeView === 'scores' ? "text-yellow-300 fill-yellow-300" : ""} />
               <span className="hidden sm:inline">{activeView === 'scores' ? 'Lihat Pelajaran' : 'Papan Nilai'}</span>
             </button>
-
-            {/* Admin Panel button is now hidden behind 7 secret clicks on the logo */}
 
             <div className="hidden sm:flex items-center gap-2.5 bg-white border border-slate-300 px-4 py-2 rounded-2xl shadow-md">
               <Star size={18} className="text-amber-500 fill-amber-500" />
@@ -165,12 +198,15 @@ export default function App() {
               user ? (
                 <div className="flex items-center gap-4">
                   <div className="text-right hidden md:block">
-                    <p className="font-medium text-[10px] uppercase tracking-widest text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md mb-0.5 inline-block capitalize">
+                    <p className={cn(
+                      "font-medium text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md mb-0.5 inline-block capitalize",
+                      selectedCourse === 'english' ? "bg-indigo-50 text-indigo-600" : "bg-brand-50 text-brand-600"
+                    )}>
                       {userRole === 'admin' ? 'Verifikasi' : (userRole || 'Siswa')}
                     </p>
                     <p className="font-bold heading-font text-slate-700 leading-none">{user.displayName?.split(' ')[0]}</p>
                   </div>
-                  <button onClick={logout} className="p-2.5 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-colors">
+                  <button onClick={logoutCourse} className="p-2.5 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-colors">
                     <LogOut size={18} />
                   </button>
                 </div>
@@ -190,7 +226,7 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="h-[calc(100vh-160px)]"
             >
-               <ScoreList currentUserRole={userRole} />
+               <ScoreList currentUserRole={userRole} courseId={selectedCourse} />
             </motion.div>
           ) : !currentLevel ? (
             <motion.div
@@ -202,12 +238,18 @@ export default function App() {
             >
               <div className="max-w-3xl">
                 <h2 className="text-5xl font-bold heading-font mb-4 tracking-tight text-slate-900 leading-[1.1]">
-                  Pelajaran <span className="text-brand-600 italic">Matematika</span> Makin Seru!
+                  Pelajaran <span className={cn("italic", selectedCourse === 'english' ? "text-indigo-600" : "text-brand-600")}>
+                    {selectedCourse === 'english' ? 'Bahasa Inggris' : 'Matematika'}
+                  </span> Makin Seru!
                 </h2>
-                <p className="text-xl font-medium text-slate-500">Tingkatkan kemampuan matematikamu dengan kuis interaktif dan tantangan kilat.</p>
+                <p className="text-xl font-medium text-slate-500">
+                  {selectedCourse === 'english' 
+                    ? 'Improve your vocabulary and grammar skills with fun interactive modules.'
+                    : 'Tingkatkan kemampuan matematikamu dengan kuis interaktif dan tantangan kilat.'}
+                </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {LEVELS.map((level) => (
+                {(selectedCourse === 'english' ? [] : LEVELS).map((level) => (
                   <LevelCard 
                     key={level.id} 
                     level={level} 
@@ -215,6 +257,13 @@ export default function App() {
                     onSelect={handleLevelSelect} 
                   />
                 ))}
+                {selectedCourse === 'english' && (
+                  <div className="col-span-full py-20 text-center bg-white border-2 border-dashed border-indigo-200 rounded-[2.5rem]">
+                    <BookOpen size={48} className="mx-auto text-indigo-300 mb-4" />
+                    <p className="text-xl font-bold text-indigo-900">Kurikulum Bahasa Inggris Segera Hadir!</p>
+                    <p className="text-slate-500">Silakan login sebagai Guru atau Admin untuk mulai menyusun materi.</p>
+                  </div>
+                )}
               </div>
             </motion.div>
           ) : !isQuizActive ? (
@@ -226,11 +275,17 @@ export default function App() {
               className="grid grid-cols-1 lg:grid-cols-3 gap-10"
             >
               <div className="lg:col-span-1 space-y-6">
-                <button onClick={resetToHome} className="flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] text-brand-600 hover:translate-x-[-4px] transition-transform">
+                <button onClick={resetToHome} className={cn(
+                  "flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] hover:translate-x-[-4px] transition-transform",
+                  selectedCourse === 'english' ? "text-indigo-600" : "text-brand-600"
+                )}>
                   <ChevronLeft size={16} /> Kembali ke Menu
                 </button>
                 <div className="bg-white border border-slate-300 p-8 rounded-[2rem] shadow-md">
-                  <span className="bg-brand-50 text-brand-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border border-brand-100">Level {currentLevel.title}</span>
+                  <span className={cn(
+                    "px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border",
+                    selectedCourse === 'english' ? "bg-indigo-50 text-indigo-600 border-indigo-100" : "bg-brand-50 text-brand-600 border-brand-100"
+                  )}>Level {currentLevel.title}</span>
                   <h3 className="text-3xl font-bold heading-font mt-4 mb-2 tracking-tight text-slate-800">{currentLevel.title}</h3>
                   <p className="text-slate-500 font-medium mb-8 leading-relaxed text-sm">{currentLevel.description}</p>
                   <div className="space-y-4">
@@ -292,11 +347,17 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <div className="fixed -bottom-20 -left-20 w-80 h-80 bg-blue-100 rounded-full blur-[100px] -z-10 opacity-50" />
-      <div className="fixed -top-20 -right-20 w-80 h-80 bg-yellow-100 rounded-full blur-[100px] -z-10 opacity-50" />
+      <div className={cn(
+        "fixed -bottom-20 -left-20 w-80 h-80 rounded-full blur-[100px] -z-10 opacity-50",
+        selectedCourse === 'english' ? "bg-indigo-100" : "bg-blue-100"
+      )} />
+      <div className={cn(
+        "fixed -top-20 -right-20 w-80 h-80 rounded-full blur-[100px] -z-10 opacity-50",
+        selectedCourse === 'english' ? "bg-purple-100" : "bg-yellow-100"
+      )} />
 
       {isAdminPanelOpen && (
-        <AdminPanel onClose={() => setIsAdminPanelOpen(false)} />
+        <AdminPanel onClose={() => setIsAdminPanelOpen(false)} courseId={selectedCourse} />
       )}
     </div>
   );
