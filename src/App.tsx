@@ -60,8 +60,17 @@ export default function App() {
           setUserXp(data.xp || 0);
           setUserStars(data.stars || 0);
           setCompletedModules(data.completedModules || []);
-          setUserRole(data.role || 'siswa');
+          
+          const isAdmin = user.email === 'yumaristech@gmail.com';
+          setUserRole(data.role || (isAdmin ? 'admin' : 'siswa'));
           setUserKelas(data.kelas || '');
+        } else {
+          // If doc doesn't exist, check email for admin
+          if (user.email === 'yumaristech@gmail.com') {
+            setUserRole('admin');
+          } else {
+            setUserRole('siswa');
+          }
         }
       }, (error) => {
         handleFirestoreError(error, OperationType.GET, `users/${user.uid}`);
