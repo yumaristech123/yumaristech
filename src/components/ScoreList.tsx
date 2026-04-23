@@ -37,30 +37,25 @@ export function ScoreList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'siswa' | 'guru'>('all');
   const [filterClass, setFilterClass] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'score' | 'time' | 'date' | 'name'>('date');
+  const [sortBy, setSortBy] = useState<'score' | 'time' | 'date' | 'name' | 'kelas'>('date');
 
   useEffect(() => {
-    // Fetch users first to map names
-    const fetchUsers = async () => {
-      const userSnap = await getDocs(collection(db, 'users'));
+    // Listen for users live to keep mapping updated
+    const unsubUsers = onSnapshot(collection(db, 'users'), (snapshot) => {
       const userMap: Record<string, UserData> = {};
-      userSnap.forEach(doc => {
+      snapshot.forEach(doc => {
         userMap[doc.id] = doc.data() as UserData;
       });
       setUsers(userMap);
-    };
+    });
 
-    const fetchClasses = async () => {
-      const classSnap = await getDocs(collection(db, 'classes'));
+    const unsubClasses = onSnapshot(collection(db, 'classes'), (snapshot) => {
       const classes: ClassData[] = [];
-      classSnap.forEach(doc => {
+      snapshot.forEach(doc => {
         classes.push(doc.data() as ClassData);
       });
       setClassList(classes);
-    };
-
-    fetchUsers();
-    fetchClasses();
+    });
 
     // Listen for results
     const q = query(collection(db, 'quiz_results'), orderBy('timestamp', 'desc'));
@@ -73,7 +68,11 @@ export function ScoreList() {
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubUsers();
+      unsubClasses();
+      unsubscribe();
+    };
   }, []);
 
   const filteredResults = results
@@ -84,7 +83,10 @@ export function ScoreList() {
                         (res.level && res.level.toLowerCase().includes(searchTerm.toLowerCase()));
       const roleMatch = filterRole === 'all' || user?.role === filterRole;
       const classMatch = filterClass === 'all' || 
-                         (user?.kelas && user.kelas.split(', ').includes(filterClass));
+                         (user?.kelas && (
+                           user.kelas === filterClass || 
+                           user.kelas.split(',').map(s => s.trim()).includes(filterClass)
+                         ));
       return nameMatch && roleMatch && classMatch;
     })
     .sort((a, b) => {
@@ -94,6 +96,11 @@ export function ScoreList() {
         const nameA = users[a.userId]?.displayName || '';
         const nameB = users[b.userId]?.displayName || '';
         return nameA.localeCompare(nameB);
+      }
+      if (sortBy === 'kelas') {
+        const classA = users[a.userId]?.kelas || 'ZZZ';
+        const classB = users[b.userId]?.kelas || 'ZZZ';
+        return classA.localeCompare(classB);
       }
       return b.timestamp - a.timestamp;
     });
@@ -140,7 +147,7 @@ export function ScoreList() {
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2">Urutkan:</span>
               <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm overflow-x-auto no-scrollbar max-w-full">
-                {(['date', 'score', 'time', 'name'] as const).map(s => (
+                {(['date', 'score', 'time', 'name', 'kelas'] as const).map(s => (
                   <button
                     key={s}
                     onClick={() => setSortBy(s)}
@@ -149,7 +156,7 @@ export function ScoreList() {
                       sortBy === s ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" : "text-slate-400 hover:text-slate-600"
                     )}
                   >
-                    {s === 'date' ? 'Terbaru' : s === 'score' ? 'Skor' : s === 'name' ? 'Nama' : 'Waktu'}
+                    {s === 'date' ? 'Terbaru' : s === 'score' ? 'Skor' : s === 'name' ? 'Nama' : s === 'kelas' ? 'Kelas' : 'Waktu'}
                   </button>
                 ))}
               </div>
