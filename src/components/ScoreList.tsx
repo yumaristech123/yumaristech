@@ -82,11 +82,17 @@ export function ScoreList() {
                         res.moduleId.toLowerCase().includes(searchTerm.toLowerCase()) ||
                         (res.level && res.level.toLowerCase().includes(searchTerm.toLowerCase()));
       const roleMatch = filterRole === 'all' || user?.role === filterRole;
-      const classMatch = filterClass === 'all' || 
-                         (user?.kelas && (
-                           user.kelas === filterClass || 
-                           user.kelas.split(',').map(s => s.trim()).includes(filterClass)
-                         ));
+      const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+      const targetClassNorm = normalize(filterClass);
+      const userKelas = user?.kelas || '';
+      
+      const classMatch = filterClass === 'all' || (
+        userKelas && (
+          normalize(userKelas) === targetClassNorm ||
+          userKelas.split(/[,\s;]+/).some(k => normalize(k) === targetClassNorm) ||
+          normalize(userKelas).includes(targetClassNorm)
+        )
+      );
       return nameMatch && roleMatch && classMatch;
     })
     .sort((a, b) => {
