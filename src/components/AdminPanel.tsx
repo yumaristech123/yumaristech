@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { UserPlus, User, ShieldCheck, Mail, Lock, UserCircle, X, CheckCircle2, Users, Search, GraduationCap, Edit2, Trash2, Save, RotateCcw, Plus, Trash } from 'lucide-react';
+import { UserPlus, User, ShieldCheck, Mail, Lock, UserCircle, X, CheckCircle2, Users, Search, GraduationCap, Edit2, Trash2, Save, RotateCcw, Plus, Trash, Star } from 'lucide-react';
 import { db, registerWithEmail, updateUser, deleteUserDoc, addClass, deleteClass, CourseId, getCollName, UserData } from '../lib/firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { cn } from '../lib/utils';
@@ -24,6 +24,7 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
   const [userList, setUserList] = useState<UserData[]>([]);
   const [classList, setClassList] = useState<ClassData[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [userSortBy, setUserSortBy] = useState<'name' | 'stars' | 'role' | 'kelas'>('name');
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
 
@@ -182,11 +183,27 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
     }
   };
 
-  const filteredUsers = userList.filter(u => 
-    u.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (u.kelas || '').toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredUsers = userList
+    .filter(u => 
+      u.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      u.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (u.kelas || '').toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (userSortBy === 'stars') {
+        const starsA = a.stars || 0;
+        const starsB = b.stars || 0;
+        if (starsB !== starsA) return starsB - starsA;
+        return a.displayName.localeCompare(b.displayName);
+      }
+      if (userSortBy === 'role') return a.role.localeCompare(b.role);
+      if (userSortBy === 'kelas') {
+        const kelasA = a.kelas || 'ZZZ';
+        const kelasB = b.kelas || 'ZZZ';
+        return kelasA.localeCompare(kelasB);
+      }
+      return a.displayName.localeCompare(b.displayName);
+    });
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
@@ -414,15 +431,35 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
                 exit={{ opacity: 0, x: -10 }}
                 className="space-y-6"
               >
-                <div className="relative max-w-md mx-auto">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-                  <input 
-                    type="text"
-                    placeholder="Cari nama, email, atau kelas..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-full py-3 pl-12 pr-4 text-sm font-medium focus:bg-white focus:border-indigo-400 outline-none transition-all"
-                  />
+                <div className="flex flex-col md:flex-row gap-4 items-center justify-center max-w-2xl mx-auto">
+                  <div className="relative flex-1 w-full">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                    <input 
+                      type="text"
+                      placeholder="Cari nama, email, atau kelas..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-full py-3 pl-12 pr-4 text-sm font-medium focus:bg-white focus:border-indigo-400 outline-none transition-all"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Urutkan:</span>
+                    <div className="flex bg-slate-100 p-1 rounded-xl">
+                      {(['name', 'stars', 'kelas'] as const).map(s => (
+                        <button
+                          key={s}
+                          onClick={() => setUserSortBy(s)}
+                          className={cn(
+                            "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all",
+                            userSortBy === s ? "bg-white text-indigo-600 shadow-sm" : "text-slate-400 hover:text-slate-500"
+                          )}
+                        >
+                          {s === 'name' ? 'Nama' : s === 'stars' ? 'Bintang' : 'Kelas'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="border border-slate-100 rounded-[2rem] overflow-hidden shadow-sm bg-white">
@@ -441,12 +478,20 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
                           <tr key={u.uid} className="hover:bg-slate-50/50 transition-colors group">
                             <td className="px-6 py-4">
                               <p className="font-bold text-slate-800 text-sm whitespace-nowrap">{u.displayName}</p>
-                              <span className={cn(
-                                "text-[9px] font-black uppercase px-2 py-0.5 rounded-md",
-                                u.role === 'guru' ? "bg-indigo-50 text-indigo-600" : u.role === 'admin' ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
-                              )}>
-                                {u.role}
-                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className={cn(
+                                  "text-[9px] font-black uppercase px-2 py-0.5 rounded-md",
+                                  u.role === 'guru' ? "bg-indigo-50 text-indigo-600" : u.role === 'admin' ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+                                )}>
+                                  {u.role}
+                                </span>
+                                {(u.stars || 0) > 0 && (
+                                  <div className="flex items-center gap-1 bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-100">
+                                    <Star size={10} className="text-amber-500 fill-amber-500" />
+                                    <span className="text-[10px] font-bold text-amber-700">{u.stars}</span>
+                                  </div>
+                                )}
+                              </div>
                             </td>
                             <td className="px-6 py-4">
                               <span className="font-bold text-xs text-slate-500 whitespace-nowrap">{u.kelas || '-'}</span>

@@ -35,7 +35,7 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState<'all' | 'siswa' | 'guru'>('all');
   const [filterClass, setFilterClass] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'score' | 'time' | 'date' | 'name' | 'kelas'>('date');
+  const [sortBy, setSortBy] = useState<'score' | 'time' | 'date' | 'name' | 'kelas' | 'stars'>('date');
 
   useEffect(() => {
     const userColl = getCollName('users', courseId);
@@ -99,6 +99,12 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
     })
     .sort((a, b) => {
       if (sortBy === 'score') return b.score - a.score;
+      if (sortBy === 'stars') {
+        const starsA = users[a.userId]?.stars || 0;
+        const starsB = users[b.userId]?.stars || 0;
+        if (starsB !== starsA) return starsB - starsA;
+        return b.timestamp - a.timestamp;
+      }
       if (sortBy === 'time') return (a.timeTaken || 9999) - (b.timeTaken || 9999);
       if (sortBy === 'name') {
         const nameA = users[a.userId]?.displayName || '';
@@ -165,7 +171,7 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2">Urutkan:</span>
               <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm overflow-x-auto no-scrollbar max-w-full">
-                {(['date', 'score', 'time', 'name', 'kelas'] as const).map(s => (
+                {(['date', 'score', 'stars', 'time', 'name', 'kelas'] as const).map(s => (
                   <button
                     key={s}
                     onClick={() => setSortBy(s)}
@@ -174,7 +180,7 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
                       sortBy === s ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" : "text-slate-400 hover:text-slate-600"
                     )}
                   >
-                    {s === 'date' ? 'Terbaru' : s === 'score' ? 'Skor' : s === 'name' ? 'Nama' : s === 'kelas' ? 'Kelas' : 'Waktu'}
+                    {s === 'date' ? 'Terbaru' : s === 'score' ? 'Skor' : s === 'stars' ? 'Bintang' : s === 'name' ? 'Nama' : s === 'kelas' ? 'Kelas' : 'Waktu'}
                   </button>
                 ))}
               </div>
@@ -276,9 +282,19 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
                         <div className="flex items-center gap-2">
                           <h4 className="font-bold text-slate-800 leading-tight">{user?.displayName || 'Unknown User'}</h4>
                           {user?.stars !== undefined && (
-                            <div className="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100 shadow-sm transform scale-90">
-                              <Star size={10} className="text-amber-500 fill-amber-500" />
-                              <span className="text-[10px] font-black text-amber-700">{user.stars}</span>
+                            <div className={cn(
+                              "flex items-center gap-1 px-2 py-0.5 rounded-full border shadow-sm transform scale-90 transition-all",
+                              sortBy === 'stars' 
+                                ? "bg-amber-400 border-amber-500 scale-100 shadow-amber-200" 
+                                : "bg-amber-50 border-amber-100"
+                            )}>
+                              <Star size={10} className={cn(
+                                sortBy === 'stars' ? "text-white fill-white" : "text-amber-500 fill-amber-500"
+                              )} />
+                              <span className={cn(
+                                "text-[10px] font-black",
+                                sortBy === 'stars' ? "text-white" : "text-amber-700"
+                              )}>{user.stars}</span>
                             </div>
                           )}
                         </div>
