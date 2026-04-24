@@ -388,7 +388,13 @@ export function MathSprintV2({ onClose, onComplete, playerName = 'Pemain 1' }: M
                   }}
                   className="w-full bg-white text-black py-5 rounded-[1.5rem] font-black tracking-widest uppercase text-xs hover:scale-[1.02] active:scale-95 transition-all"
                  >
-                   {playerCount === 1 ? 'Simpan & Selesai' : 'Selesai'}
+                   Simpan
+                 </button>
+                 <button 
+                  onClick={startGame}
+                  className="w-full bg-sky-500/20 text-sky-400 border border-sky-500/30 py-5 rounded-[1.5rem] font-black tracking-widest uppercase text-xs hover:bg-sky-500/30 transition-all"
+                 >
+                   Ulangi
                  </button>
                  <button onClick={quitToMenu} className="w-full border-2 border-white/10 py-5 rounded-[1.5rem] font-black tracking-widest uppercase text-xs hover:bg-white/5 transition-all text-white/40">
                    Menu Utama

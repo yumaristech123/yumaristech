@@ -83,7 +83,17 @@ export function QuizSession({ questions, onComplete, onCancel, hideFeedback = fa
             }}
             className="flex-1 bg-brand-600 text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand-700 transition-all shadow-lg shadow-brand-100"
           >
-            Selesaikan
+            Simpan
+          </button>
+          <button
+            onClick={() => {
+              setCurrentIndex(0);
+              setUserAnswers({});
+              setShowResult(false);
+            }}
+            className="flex-1 bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold uppercase tracking-widest text-xs transition-all hover:bg-slate-200"
+          >
+            Ulangi
           </button>
         </div>
       </motion.div>

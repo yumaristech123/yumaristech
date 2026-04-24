@@ -448,20 +448,29 @@ export function SquareCraft({ onClose, onComplete, playerName = 'Pemain 1' }: Sq
                   ))}
                </div>
 
-               <button 
-                onClick={() => {
-                  const maxScore = Math.max(...players.map(p => p.score));
-                  const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                  const maxLvl = Math.max(...players.map(p => p.level));
-                  if (players.length === 1) {
-                    onComplete(maxScore, `Kuadrat - Level ${maxLvl}`, timeTaken);
-                  }
-                  onClose();
-                }}
-                className="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl text-[11px] uppercase shadow-xl shadow-indigo-100 tracking-[0.2em] hover:bg-indigo-700 transition-all"
-               >
-                 {players.length === 1 ? 'Simpan & Kembali ke Base' : 'Kembali ke Base'}
-               </button>
+               <div className="flex flex-col gap-3">
+                 <button 
+                  onClick={() => {
+                    const maxScore = Math.max(...players.map(p => p.score));
+                    const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+                    const maxLvl = Math.max(...players.map(p => p.level));
+                    if (players.length === 1) {
+                      onComplete(maxScore, `Kuadrat - Level ${maxLvl}`, timeTaken);
+                    }
+                    onClose();
+                  }}
+                  className="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl text-[11px] uppercase shadow-xl shadow-indigo-100 tracking-[0.2em] hover:bg-indigo-700 transition-all"
+                 >
+                   Simpan
+                 </button>
+                 <button 
+                  onClick={() => handleStartGame(players.map(p => p.name))}
+                  className="w-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 py-5 rounded-2xl font-black text-[11px] uppercase transition-all hover:bg-emerald-500/20"
+                 >
+                   Ulangi
+                 </button>
+                 <button onClick={() => setScreen('landing')} className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-2">Batal & Menu Utama</button>
+               </div>
             </div>
           </motion.div>
         )}

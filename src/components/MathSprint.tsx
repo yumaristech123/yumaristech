@@ -326,7 +326,7 @@ export function MathSprint({ onClose, onComplete, playerName = 'Pemain 1' }: Mat
                 ))}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col gap-3">
                 <button 
                   onClick={() => {
                     const finalScore = Math.max(...players.map(p => p.score));
@@ -342,16 +342,17 @@ export function MathSprint({ onClose, onComplete, playerName = 'Pemain 1' }: Mat
                     }
                     onClose();
                   }}
-                  className="bg-black text-white py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-gray-800 transition-all"
+                  className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-indigo-700 transition-all shadow-lg"
                 >
-                  Selesai
+                  Simpan
                 </button>
                 <button 
-                  onClick={() => setScreen('setup')}
-                  className="bg-white border-2 border-black py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-gray-100"
+                  onClick={startGame}
+                  className="w-full bg-emerald-50 border-2 border-emerald-200 text-emerald-600 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-100 transition-all"
                 >
-                  Lagi!
+                  Ulangi
                 </button>
+                <button onClick={() => setScreen('setup')} className="text-slate-400 text-[10px] font-black uppercase tracking-widest mt-2 hover:text-slate-600 transition-colors">Batal & Menu Utama</button>
               </div>
             </div>
           </motion.div>
