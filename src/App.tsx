@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { BookOpen, Trophy, Layout, ChevronLeft, LogIn, Star, Zap, LogOut, User as UserIcon } from 'lucide-react';
 import { Level, Module } from './types';
 import { LEVELS } from './constants';
+import { ENGLISH_LEVELS } from './englishConstants';
 import { LevelCard, ModuleCard } from './components/Cards';
 import { QuizSession } from './components/Quiz';
+import { EnglishModule } from './components/EnglishModule';
 import { MathSprint } from './components/MathSprint';
 import { MathSprintV2 } from './components/MathSprintV2';
 import { SquareCraft } from './components/SquareCraft';
@@ -252,7 +254,7 @@ export default function App() {
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {(selectedCourse === 'english' ? [] : LEVELS).map((level) => (
+                {(selectedCourse === 'english' ? ENGLISH_LEVELS : LEVELS).map((level) => (
                   <LevelCard 
                     key={level.id} 
                     level={level} 
@@ -260,13 +262,6 @@ export default function App() {
                     onSelect={handleLevelSelect} 
                   />
                 ))}
-                {selectedCourse === 'english' && (
-                  <div className="col-span-full py-20 text-center bg-white border-2 border-dashed border-indigo-200 rounded-[2.5rem]">
-                    <BookOpen size={48} className="mx-auto text-indigo-300 mb-4" />
-                    <p className="text-xl font-bold text-indigo-900">Kurikulum Bahasa Inggris Segera Hadir!</p>
-                    <p className="text-slate-500">Silakan login sebagai Guru atau Admin untuk mulai menyusun materi.</p>
-                  </div>
-                )}
               </div>
             </motion.div>
           ) : !isQuizActive ? (
@@ -319,7 +314,13 @@ export default function App() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="py-10"
             >
-              {currentModule && currentModule.id === 'mod-math-sprint' ? (
+              {selectedCourse === 'english' ? (
+                <EnglishModule 
+                  module={currentModule}
+                  onComplete={handleQuizComplete}
+                  onCancel={() => setIsQuizActive(false)}
+                />
+              ) : currentModule && currentModule.id === 'mod-math-sprint' ? (
                 <MathSprint 
                   playerName={user?.displayName || 'Pemain 1'}
                   onClose={() => setIsQuizActive(false)}

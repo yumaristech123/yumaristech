@@ -1,3 +1,4 @@
+import * as Icons from 'lucide-react';
 import { motion } from 'motion/react';
 import { BookOpen, Trophy, Star, ChevronRight, Lock } from 'lucide-react';
 import { Level, Module } from '../types';
@@ -78,6 +79,8 @@ interface ModuleCardProps {
 }
 
 export function ModuleCard({ module, isCompleted, onSelect }: ModuleCardProps) {
+  const IconComponent = (Icons as any)[module.icon] || Icons.BookOpen;
+
   return (
     <motion.div
       whileHover={{ x: 4 }}
@@ -93,7 +96,7 @@ export function ModuleCard({ module, isCompleted, onSelect }: ModuleCardProps) {
         "w-12 h-12 rounded-xl flex items-center justify-center transition-colors",
         isCompleted ? "bg-emerald-500 text-white" : "bg-brand-50 text-brand-600"
       )}>
-        <BookOpen size={20} />
+        <IconComponent size={20} />
       </div>
       <div className="flex-1">
         <h4 className="font-bold text-slate-800 leading-tight mb-0.5">{module.title}</h4>
