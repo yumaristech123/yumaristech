@@ -213,7 +213,7 @@ export const saveQuizResult = async (userId: string, moduleId: string, score: nu
     const userRef = doc(db, collUsers, userId);
     const userSnap = await getDoc(userRef);
     
-    const isPerfect = Math.round(score) === 100;
+    const isPerfect = Math.round(score) >= 100;
 
     if (userSnap.exists()) {
       const data = userSnap.data();
@@ -269,10 +269,12 @@ export const syncUserStars = async (userId: string, courseId: CourseId = 'math')
     const q = query(
       collection(db, collResults), 
       where('userId', '==', userId), 
-      where('score', '==', 100)
+      where('score', '>=', 100)
     );
     const snap = await getDocs(q);
-    const count = snap.size;
+    
+    // Additional client-side filter to be absolutely safe (Firestore >= can be slightly tricky with mixed types if any)
+    const count = snap.docs.filter(d => Math.round(d.data().score) >= 100).length;
     
     const userRef = doc(db, collUsers, userId);
     await updateDoc(userRef, { stars: count });
@@ -280,6 +282,28 @@ export const syncUserStars = async (userId: string, courseId: CourseId = 'math')
   } catch (error) {
     console.error('Error syncing stars:', error);
     return 0;
+  }
+};
+
+// Mass sync helper
+export const syncAllUsersStars = async (courseId: CourseId = 'math') => {
+  try {
+    const collUsers = getCollName('users', courseId);
+    const usersSnap = await getDocs(collection(db, collUsers));
+    
+    const results: { name: string, stars: number }[] = [];
+    
+    for (const userDoc of usersSnap.docs) {
+      const userData = userDoc.data();
+      if (userData.role === 'siswa') {
+        const count = await syncUserStars(userDoc.id, courseId);
+        results.push({ name: userData.displayName, stars: count });
+      }
+    }
+    return results;
+  } catch (error) {
+    console.error('Error mass syncing stars:', error);
+    throw error;
   }
 };
 

@@ -444,7 +444,26 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
                   </div>
                   
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Urutkan:</span>
+                    <button
+                      onClick={async () => {
+                        if (window.confirm('Recalculate stars for ALL students? This will scan all quiz results.')) {
+                          setLoading(true);
+                          try {
+                            const res = await (await import('../lib/firebase')).syncAllUsersStars(courseId as any);
+                            alert(`Berhasil sinkronisasi ${res.length} siswa.`);
+                          } catch (e: any) {
+                            alert('Gagal: ' + e.message);
+                          } finally {
+                            setLoading(false);
+                          }
+                        }
+                      }}
+                      disabled={loading}
+                      className="px-3 py-1.5 rounded-lg bg-orange-50 text-orange-600 border border-orange-100 text-[9px] font-black uppercase tracking-wider hover:bg-orange-100 transition-all flex items-center gap-1.5"
+                    >
+                      <RotateCcw size={12} /> Sync Bintang
+                    </button>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest hidden sm:inline ml-2">Urutkan:</span>
                     <div className="flex bg-slate-100 p-1 rounded-xl">
                       {(['name', 'stars', 'kelas'] as const).map(s => (
                         <button
