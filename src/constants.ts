@@ -189,9 +189,228 @@ export const LEVELS: Level[] = [
         ]
       },
       {
-        id: 'mod-psas-8',
-        title: 'Latihan PSAS Kelas 8',
-        description: 'Persiapan Penilaian Sumatif Akhir Semester (PSAS) Matematika Kelas 8.',
+        id: 'mod-psas-8-1',
+        title: 'Latihan PSAS Kelas 8 - Latihan 1',
+        description: 'Latihan 1: Soal Asesmen Sumatif Akhir Semester Genap Matematika Kelas 8.',
+        icon: 'FileText',
+        content: 'Modul ini berisi soal-soal latihan draft ASAS Genap Kelas 8, mencakup materi Relasi Fungsi, Persamaan Garis Lurus, dan Statistika.',
+        quiz: [
+          {
+            id: 'psas8-1-1',
+            question: 'Diketahui Himpunan A = {2, 3, 7} dan B = {6, 7, 9, 11}. Diagram panah menunjukkan relasi: 2 ke 6, 3 ke 6, 3 ke 9, dan 7 ke 7. Relasi yang tepat dari himpunan A ke himpunan B adalah ...',
+            options: ['Kurang dari', 'Lebih dari', 'Faktor dari', 'Kelipatan dari'],
+            correctAnswer: 'Faktor dari',
+            explanation: '2 faktor dari 6, 3 faktor dari 6 dan 9, 7 faktor dari 7. Jadi relasi yang tepat adalah faktor dari.'
+          },
+          {
+            id: 'psas8-1-2',
+            question: 'Diketahui Himpunan A = {2, 3, 7} dan B = {6, 7, 9, 11} dengan relasi: 2→6, 3→6, 3→9, 7→7. Pernyataan mana yang benar mengenai relasi tersebut?',
+            options: ['Relasi di atas merupakan fungsi', 'Relasi bukan fungsi karena ada anggota A yang memiliki pasangan lebih dari satu', 'Relasi bukan fungsi karena ada anggota B yang tidak memiliki pasangan', 'Relasi merupakan korespondensi satu-satu'],
+            correctAnswer: 'Relasi bukan fungsi karena ada anggota A yang memiliki pasangan lebih dari satu',
+            explanation: 'Elemen 3 pada himpunan A memiliki dua pasangan yaitu 6 dan 9. Syarat fungsi adalah setiap anggota domain tepat memiliki satu pasangan.'
+          },
+          {
+            id: 'psas8-1-3',
+            question: 'Diketahui Himpunan A = {2, 3, 7} dan B = {6, 7, 9, 11} dengan relasi: 2→6, 3→6, 3→9, 7→7. Yang merupakan range (daerah hasil) adalah ...',
+            options: ['{2, 3, 7}', '{6, 7, 9}', '{6, 7, 9, 11}', '{11}'],
+            correctAnswer: '{6, 7, 9}',
+            explanation: 'Daerah hasil adalah anggota kodomain yang memiliki pasangan dari domain, yaitu {6, 7, 9}.'
+          },
+          {
+            id: 'psas8-1-4',
+            question: 'Transportasi online "GoBer" menetapkan tarif buka pintu (biaya awal) Rp10.000 dan tarif per km Rp5.000 (y = tarif, x = jarak). Persamaan garis lurus yang menggambarkan tarif tersebut adalah ...',
+            options: ['y = 5.000x - 10.000', 'y = 10.000x + 5.000', '5.000x + y + 10.000 = 0', '5.000x - y + 10.000 = 0'],
+            correctAnswer: '5.000x - y + 10.000 = 0',
+            explanation: 'Persamaan tarif adalah y = 5.000x + 10.000. Jika diubah ke bentuk implisit: 5.000x - y + 10.000 = 0.'
+          },
+          {
+            id: 'psas8-1-5',
+            question: 'Sesuai tarif GoBer (Tarif = 5.000x + 10.000), jika Andi membayar Rp60.000, berapakah jarak yang ditempuh Andi?',
+            options: ['10 km', '20 km', '30 km', '40 km'],
+            correctAnswer: '10 km',
+            explanation: '60.000 = 5.000x + 10.000 => 50.000 = 5.000x => x = 10 km.'
+          },
+          {
+            id: 'psas8-1-6',
+            question: 'Jika grafik tarif GoBer (y = 5.000x + 10.000) diperpanjang, koordinat titik potong grafik tersebut dengan sumbu-x adalah ...',
+            options: ['(0, -2)', '(-2, 0)', '(0, 2)', '(2, 0)'],
+            correctAnswer: '(-2, 0)',
+            explanation: 'Titik potong sumbu-x terjadi saat y = 0. 0 = 5.000x + 10.000 => 5.000x = -10.000 => x = -2.'
+          },
+          {
+            id: 'psas8-1-7',
+            question: 'Data penjualan mobil (unit) Jan-Sep: [Jan:4, Feb:6, Mar:4, Apr:7, Mei:5, Jun:7, Jul:7, Agu:8, Sep:6]. Rata-rata penjualannya adalah ...',
+            options: ['5', '6', '7', '8'],
+            correctAnswer: '6',
+            explanation: 'Total = 4+6+4+7+5+7+7+8+6 = 54. Rata-rata = 54 / 9 = 6.'
+          },
+          {
+            id: 'psas8-1-8',
+            question: 'Berdasarkan data penjualan mobil: 4, 6, 4, 7, 5, 7, 7, 8, 6. Modus (nilai paling sering muncul) adalah ...',
+            options: ['5', '6', '7', '8'],
+            correctAnswer: '7',
+            explanation: 'Angka 7 muncul paling sering (3 kali) dibanding angka lainnya.'
+          },
+          {
+            id: 'psas8-1-9',
+            question: 'Berdasarkan data penjualan mobil: 4, 6, 4, 7, 5, 7, 7, 8, 6. Median (nilai tengah) data tersebut adalah ...',
+            options: ['5', '6', '7', '8'],
+            correctAnswer: '6',
+            explanation: 'Data urut: 4, 4, 5, 6, 6, 7, 7, 7, 8. Nilai tengahnya (urutan ke-5) adalah 6.'
+          },
+          {
+            id: 'psas8-1-10',
+            question: 'Data penjualan mobil: 4, 6, 4, 7, 5, 7, 7, 8, 6 (Rata-rata = 6). Bulan manakah yang penjualannya di atas rata-rata?',
+            options: ['Januari', 'Mei', 'Juli', 'September'],
+            correctAnswer: 'Juli',
+            explanation: 'Juli penjualannya 7, lebih besar dari rata-rata (6).'
+          },
+          {
+            id: 'psas8-1-11',
+            question: 'Dua pengamatan dilakukan: Pengamat 1 (f(x) = 4x + 10) dan Pengamat 2 (f(x) = x² - 20x + 100). Pernyataan yang benar mengenai jenis fungsi tersebut adalah ...',
+            options: ['P1 fungsi linear dan P2 fungsi non-linear', 'Keduanya linear', 'Keduanya non-linear', 'P1 non-linear dan P2 linear'],
+            correctAnswer: 'P1 fungsi linear dan P2 fungsi non-linear',
+            explanation: 'f(x) = 4x+10 berderajat satu (garis lurus/linear), sedangkan f(x) = x²-20x+100 berderajat dua (kurva/non-linear).'
+          },
+          {
+            id: 'psas8-1-12',
+            question: 'Diketahui fungsi pada Pengamat 1 adalah f(x) = 4x + 10. Jika digambarkan pada koordinat Kartesius, maka ...',
+            options: ['Memotong sumbu-y di (0, 10) dan melalui titik (1, 14)', 'Mempunyai gradien 10', 'Memotong sumbu-x di (10, 0)', 'Grafik tidak melalui titik (1, 14)'],
+            correctAnswer: 'Memotong sumbu-y di (0, 10) dan melalui titik (1, 14)',
+            explanation: 'Titik potong sumbu-y (saat x=0): f(0)=10. Titik saat x=1: f(1)=4(1)+10=14.'
+          },
+          {
+            id: 'psas8-1-13',
+            question: 'Diketahui fungsi pada Pengamat 2 adalah f(x) = x² - 20x + 100. Pernyataan yang benar adalah ...',
+            options: ['Memotong sumbu-y di (0, 100) dan nilai f(1) = 81', 'Titik potong dengan sumbu-x adalah (100, 0)', 'Nilai f(-1) = 121', 'Nilai f(-1) = 81'],
+            correctAnswer: 'Memotong sumbu-y di (0, 100) dan nilai f(1) = 81',
+            explanation: 'f(0) = 0²-0+100 = 100. f(1) = 1²-20(1)+100 = 81.'
+          },
+          {
+            id: 'psas8-1-14',
+            question: 'Data Tinggi Badan Siswa: 150, 152, 148, 160, 170, 155, 172, 153, 165, 169, 160, 150, 160. Ukuran penyebaran yang benar adalah ...',
+            options: ['Kuartil bawah (Q1) = 151 dan Jangkauan Kuartil = 16', 'Jangkauan (Range) = 10', 'Kuartil atas (Q3) = 165', 'Median data adalah 155'],
+            correctAnswer: 'Kuartil bawah (Q1) = 151 dan Jangkauan Kuartil = 16',
+            explanation: 'Data urut: 148, 150, 150, 152, 153, 155, 160, 160, 160, 165, 169, 170, 172. Q1 = 151, Q3 = 167. Jangkauan kuartil = 167-151 = 16.'
+          },
+          {
+            id: 'psas8-1-15',
+            question: 'Jika semua data tinggi badan siswa (150, 152, dst.) naik serentak sebesar 4 cm, manakah yang benar?',
+            options: ['Rata-rata dan Median bertambah 4', 'Jangkauannya bertambah 4', 'Modusnya tidak berubah', 'Kuartil bawah tetap'],
+            correctAnswer: 'Rata-rata dan Median bertambah 4',
+            explanation: 'Jika seluruh data ditambah konstanta (c=4), maka ukuran pemusatan (Mean, Median, Modus) juga bertambah 4.'
+          },
+          {
+            id: 'psas8-1-16',
+            question: 'Himpunan A = {2, 3, 4}, B = {6, 8, 10, 12}, dan C = {0, 1, 2, 3}. Benar atau Salah: Banyaknya pemetaan yang mungkin dari C ke A adalah 81.',
+            options: ['Benar', 'Salah'],
+            correctAnswer: 'Benar',
+            explanation: 'n(C) = 4, n(A) = 3. Banyak pemetaan C ke A adalah n(A)^n(C) = 3^4 = 81.'
+          },
+          {
+            id: 'psas8-1-17',
+            question: 'Himpunan A = {2, 3, 4} dan C = {0, 1, 2, 3}. Benar atau Salah: Himpunan A dan C dapat membentuk korespondensi satu-satu.',
+            options: ['Benar', 'Salah'],
+            correctAnswer: 'Salah',
+            explanation: 'Syarat korespondensi satu-satu adalah n(A) = n(C). Karena 3 ≠ 4, maka tidak bisa.'
+          },
+          {
+            id: 'psas8-1-18',
+            question: 'Himpunan A = {2, 3, 4} dan B = {6, 8, 10}. Benar atau Salah: Banyaknya korespondensi satu-satu dari A ke B adalah 6.',
+            options: ['Benar', 'Salah'],
+            correctAnswer: 'Benar',
+            explanation: 'n(A)=3, n(B)=3. Jumlah korespondensi satu-satu adalah 3! = 3 x 2 x 1 = 6.'
+          },
+          {
+            id: 'psas8-1-19',
+            question: 'Grafik sisa stok Tahu melalui titik (4, 0) dan (0, 3). Benar atau Salah: Persamaan garis lurusnya adalah 3x + 4y - 12 = 0.',
+            options: ['Benar', 'Salah'],
+            correctAnswer: 'Benar',
+            explanation: 'Gunakan (y-y1)/(y2-y1) = (x-x1)/(x2-x1). Menghasilkan 3x + 4y = 12 atau 3x + 4y - 12 = 0.'
+          },
+          {
+            id: 'psas8-1-20',
+            question: 'Grafik sisa stok Tahu melalui titik (4, 0) dan (0, 3). Benar atau Salah: Gradien garis tersebut adalah -3/4.',
+            options: ['Benar', 'Salah'],
+            correctAnswer: 'Benar',
+            explanation: 'Gradien m = (y2 - y1) / (x2 - x1) = (3 - 0) / (0 - 4) = -3/4.'
+          },
+          {
+            id: 'psas8-1-21',
+            question: 'Fungsi mesin adalah f(x) = 1/2x - 4. Jika input x = -6, berapakah output f(x)?',
+            options: ['-7', '3', '5', '6'],
+            correctAnswer: '-7',
+            explanation: 'f(-6) = 1/2(-6) - 4 = -3 - 4 = -7.'
+          },
+          {
+            id: 'psas8-1-22',
+            question: 'Fungsi mesin adalah f(x) = 1/2x - 4. Jika output f(x) = 2, berapakah input x yang dimasukkan?',
+            options: ['12', '10', '8', '6'],
+            correctAnswer: '12',
+            explanation: '2 = 1/2x - 4 => 6 = 1/2x => x = 12.'
+          },
+          {
+            id: 'psas8-1-23',
+            question: 'Data Nilai 8A: [40:3, 50:5, 60:6, 70:x, 80:7, 90:3, 100:1]. Jika rata-rata kelas 8A adalah 67, berapakah nilai x (frekuensi nilai 70)?',
+            options: ['3', '5', '7', '12'],
+            correctAnswer: '5',
+            explanation: 'Gunakan mean = sum(xi * fi) / sum(fi). (120+250+360+70x+560+270+100) / (25+x) = 67. Didapat x = 5.'
+          },
+          {
+            id: 'psas8-1-24',
+            question: 'Rata-rata 8A (30 siswa) adalah 67 dan rata-rata 8B (20 siswa) adalah 68. Jika kedua kelas digabung, rata-ratanya menjadi ...',
+            options: ['67,4', '67,5', '67,2', '67,0'],
+            correctAnswer: '67,4',
+            explanation: 'Mean Gabungan = ((30 * 67) + (20 * 68)) / 50 = (2010 + 1360) / 50 = 3370 / 50 = 67,4.'
+          },
+          {
+            id: 'psas8-1-25',
+            question: 'Berdasarkan frekuensi 8A [40:3, 50:5, 60:6, 70:5, 80:7, 90:3, 100:1]. Median atau nilai tengahnya adalah ...',
+            options: ['65', '70', '75', '80'],
+            correctAnswer: '70',
+            explanation: 'Total data 30. Median adalah rata-rata data ke-15 dan 16. Data ke-1-14 bernilai <= 60. Data ke-15-19 bernilai 70.'
+          },
+          {
+            id: 'psas8-1-26',
+            question: 'Suhu lab direkam: Menit ke-8 (30°C) and Menit ke-10 (38°C). Jika hubungannya linear f(x) = ax + b, maka bentuk fungsinya adalah ...',
+            options: ['f(x) = 4x - 2', 'f(x) = 4x + 2', 'f(x) = 2x + 14', 'f(x) = 5x - 10'],
+            correctAnswer: 'f(x) = 4x - 2',
+            explanation: 'a = (38-30)/(10-8) = 4. f(8) = 4(8)+b = 30 => 32+b=30 => b=-2. Maka f(x) = 4x - 2.'
+          },
+          {
+            id: 'psas8-1-27',
+            question: 'Berdasarkan fungsi suhu f(x) = 4x - 2, berapakah suhu ruangan pada menit ke-6?',
+            options: ['22°C', '26°C', '30°C', '34°C'],
+            correctAnswer: '22°C',
+            explanation: 'f(6) = 4(6) - 2 = 24 - 2 = 22.'
+          },
+          {
+            id: 'psas8-1-28',
+            question: 'Diketahui Titik A(2, 1) and B(4, -2). Persamaan garis lurus yang melalui titik A dan B tersebut adalah ...',
+            options: ['3x + 2y - 8 = 0', '3x - 2y + 8 = 0', '2x + 3y - 7 = 0', '2x - 3y + 1 = 0'],
+            correctAnswer: '3x + 2y - 8 = 0',
+            explanation: 'm = (-2-1)/(4-2) = -3/2. y-1 = -3/2(x-2) => 2y - 2 = -3x + 6 => 3x + 2y - 8 = 0.'
+          },
+          {
+            id: 'psas8-1-29',
+            question: 'Persamaan garis lurus yang melalui titik C(-2, 3) dan memiliki gradien m = 5 adalah ...',
+            options: ['y = 5x + 13', 'y = 5x - 7', 'y = -5x + 13', 'y = -5x - 7'],
+            correctAnswer: 'y = 5x + 13',
+            explanation: 'y - y1 = m(x - x1) => y - 3 = 5(x + 2) => y = 5x + 10 + 3 => y = 5x + 13.'
+          },
+          {
+            id: 'psas8-1-30',
+            question: 'Data penjualan: [4, 6, 4, 7, 5, 7, 7, 8, 6]. Jika rata-ratanya 6, berapakah simpangan rata-ratanya?',
+            options: ['1,11', '1,25', '1,33', '1,44'],
+            correctAnswer: '1,11',
+            explanation: 'SR = sum(|xi - mean|) / n. Selisih: |4-6|=2, |6-6|=0, |4-6|=2, |7-6|=1, |5-6|=1, |7-6|=1, |7-6|=1, |8-6|=2, |6-6|=0. Total selisih = 10. SR = 10 / 9 = 1,11.'
+          }
+        ]
+      },
+      {
+        id: 'mod-psas-8-2',
+        title: 'Latihan PSAS Kelas 8 - Latihan 2',
+        description: 'Latihan 2: Bank soal literasi dan numerasi persiapan PSAS Kelas 8.',
         icon: 'FileText',
         content: 'Modul ini berisi soal-soal latihan literasi dan numerasi untuk persiapan PSAS Kelas 8, mencakup materi Pythagoras, Bangun Ruang Sisi Datar (Prisma & Limas), Statistika, dan Peluang.',
         quiz: [
