@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, XCircle, ArrowRight, RefreshCw, Trophy } from 'lucide-react';
-import { QuizQuestion } from '../types';
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  Cell
+} from 'recharts';
+import { QuizQuestion, ChartDataPoint } from '../types';
 import { cn } from '../lib/utils';
 
 interface QuizSessionProps {
@@ -9,9 +13,24 @@ interface QuizSessionProps {
   onComplete: (score: number, level?: string, timeTaken?: number) => void;
   onCancel: () => void;
   hideFeedback?: boolean;
+  headerContent?: string;
+  chartData?: ChartDataPoint[];
+  chartConfig?: {
+    type: 'bar' | 'line' | 'pie';
+    keys: string[];
+    colors?: string[];
+  };
 }
 
-export function QuizSession({ questions, onComplete, onCancel, hideFeedback = false }: QuizSessionProps) {
+export function QuizSession({ 
+  questions, 
+  onComplete, 
+  onCancel, 
+  hideFeedback = false, 
+  headerContent,
+  chartData,
+  chartConfig
+}: QuizSessionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const [showResult, setShowResult] = useState(false);
@@ -151,6 +170,65 @@ export function QuizSession({ questions, onComplete, onCancel, hideFeedback = fa
           exit={{ x: -20, opacity: 0 }}
           className="bg-white border border-slate-300 p-10 rounded-[2.5rem] shadow-xl shadow-slate-300/40"
         >
+          {headerContent && (
+            <div className="mb-8 p-6 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-600 whitespace-pre-wrap leading-relaxed overflow-auto max-h-60">
+              <div className="flex items-center gap-2 mb-3 border-b border-slate-200 pb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
+                <span className="font-bold text-[10px] uppercase tracking-widest text-slate-400">Informasi Referensi</span>
+              </div>
+              {headerContent.trim()}
+            </div>
+          )}
+          {chartData && chartConfig && (
+            <div className="mb-8 h-[300px] w-full bg-white border border-slate-200 rounded-3xl p-6 shadow-sm overflow-hidden">
+               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
+                 <div className="w-2 h-2 rounded-full bg-brand-500" />
+                 Visualisasi Data
+               </p>
+               <ResponsiveContainer width="100%" height="100%">
+                 {chartConfig.type === 'bar' ? (
+                   <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 20 }}>
+                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                     <XAxis 
+                        dataKey="name" 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fontSize: 9, fontWeight: 800, fill: '#94a3b8' }}
+                     />
+                     <YAxis 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fontSize: 9, fontWeight: 800, fill: '#94a3b8' }}
+                     />
+                     <Tooltip 
+                        cursor={{ fill: '#f8fafc' }}
+                        contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', padding: '12px' }}
+                        itemStyle={{ fontSize: '11px', fontWeight: '800', textTransform: 'capitalize' }}
+                        labelStyle={{ fontSize: '10px', fontWeight: '900', color: '#64748b', marginBottom: '4px', textTransform: 'uppercase', tracking: '0.05em' }}
+                     />
+                     <Legend 
+                        iconType="circle"
+                        wrapperStyle={{ paddingTop: '20px', fontSize: '9px', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }} 
+                     />
+                     {chartConfig.keys.map((key, i) => (
+                       <Bar 
+                          key={key} 
+                          dataKey={key} 
+                          fill={chartConfig.colors?.[i] || '#6366f1'} 
+                          radius={[6, 6, 0, 0]} 
+                          barSize={chartConfig.keys.length > 1 ? 20 : 40}
+                          name={key.replace(/([A-Z])/g, ' $1').trim()}
+                       />
+                     ))}
+                   </BarChart>
+                 ) : (
+                   <div className="flex items-center justify-center h-full text-slate-400 text-xs font-bold uppercase">
+                     Tipe grafik {chartConfig.type} belum didukung
+                   </div>
+                 )}
+               </ResponsiveContainer>
+            </div>
+          )}
           <h3 className="text-2xl font-bold heading-font mb-10 leading-snug text-slate-800">
             {currentQuestion.question}
           </h3>

@@ -30,6 +30,7 @@ export default function App() {
   const [completedModules, setCompletedModules] = useState<string[]>([]);
   const [currentLevel, setCurrentLevel] = useState<Level | null>(null);
   const [currentModule, setCurrentModule] = useState<Module | null>(null);
+  const [parentModule, setParentModule] = useState<Module | null>(null);
   const [isQuizActive, setIsQuizActive] = useState(false);
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
@@ -96,10 +97,15 @@ export default function App() {
   const handleLevelSelect = (level: Level) => {
     setCurrentLevel(level);
     setCurrentModule(null);
+    setParentModule(null);
     setIsQuizActive(false);
   };
 
   const handleModuleSelect = (module: Module) => {
+    if (module.subModules && module.subModules.length > 0) {
+      setParentModule(module);
+      return;
+    }
     setCurrentModule(module);
     setIsQuizActive(true);
   };
@@ -130,6 +136,7 @@ export default function App() {
   const resetToHome = () => {
     setCurrentLevel(null);
     setCurrentModule(null);
+    setParentModule(null);
     setIsQuizActive(false);
     setActiveView('lessons');
   };
@@ -287,15 +294,37 @@ export default function App() {
                   <h3 className="text-3xl font-bold heading-font mt-4 mb-2 tracking-tight text-slate-800">{currentLevel.title}</h3>
                   <p className="text-slate-500 font-medium mb-8 leading-relaxed text-sm">{currentLevel.description}</p>
                   <div className="space-y-4">
-                    <p className="font-bold uppercase text-[10px] tracking-widest text-slate-400 border-b border-slate-100 pb-3">Daftar Modul</p>
-                    {currentLevel.modules.map((m) => (
-                      <ModuleCard 
-                        key={m.id} 
-                        module={m} 
-                        isCompleted={completedModules.includes(m.id)}
-                        onSelect={handleModuleSelect}
-                      />
-                    ))}
+                    {parentModule ? (
+                      <>
+                        <button 
+                          onClick={() => setParentModule(null)}
+                          className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-brand-600 transition-colors mb-2"
+                        >
+                          <ChevronLeft size={14} /> Kembali ke Modul
+                        </button>
+                        <p className="font-bold uppercase text-[10px] tracking-widest text-slate-400 border-b border-slate-100 pb-3">{parentModule.title}</p>
+                        {parentModule.subModules?.map((m) => (
+                          <ModuleCard 
+                            key={m.id} 
+                            module={m} 
+                            isCompleted={completedModules.includes(m.id)}
+                            onSelect={handleModuleSelect}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        <p className="font-bold uppercase text-[10px] tracking-widest text-slate-400 border-b border-slate-100 pb-3">Daftar Modul</p>
+                        {currentLevel.modules.map((m) => (
+                          <ModuleCard 
+                            key={m.id} 
+                            module={m} 
+                            isCompleted={completedModules.includes(m.id)}
+                            onSelect={handleModuleSelect}
+                          />
+                        ))}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -344,6 +373,9 @@ export default function App() {
                   onComplete={handleQuizComplete}
                   onCancel={() => setIsQuizActive(false)}
                   hideFeedback={currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika')}
+                  headerContent={currentModule.content}
+                  chartData={currentModule.chartData}
+                  chartConfig={currentModule.chartConfig}
                 />
               ) : null}
             </motion.div>

@@ -704,6 +704,185 @@ export const LEVELS: Level[] = [
             explanation: 'Luas rumput = Luas total - Luas bangunan = 300 - 120 = 180 m².'
           }
         ]
+      },
+      {
+        id: 'mod-data-diagram',
+        title: 'Data dan Diagram',
+        description: 'Kumpulan modul untuk mempelajari pengolahan data dan penyajian diagram.',
+        icon: 'BarChart3',
+        content: 'Pilih salah satu sub modul untuk mulai belajar tentang data dan diagram.',
+        quiz: [],
+        subModules: [
+          {
+            id: 'mod-data-diagram-jenis',
+            title: 'Jenis Data',
+            description: 'Belajar membedakan data kategorik dan numerik tingkat SMP.',
+            icon: 'PieChart',
+            chartData: [
+              { name: 'Mobile Legends', jumlah: 12 },
+              { name: 'Wormszone.io', jumlah: 6 },
+              { name: 'PUBG Mobile', jumlah: 5 },
+              { name: 'Among Us!', jumlah: 4 },
+              { name: 'Hago', jumlah: 3 },
+              { name: 'Candy Crush', jumlah: 1 }
+            ],
+            chartConfig: {
+              type: 'bar',
+              keys: ['jumlah'],
+              colors: ['#6366f1']
+            },
+            content: `
+### Tabel 6.2: Banyak Aplikasi Online di Gawai Siswa 7B
+- 0 aplikasi: 1 siswa
+- 1 aplikasi: 3 siswa
+- 2 aplikasi: 7 siswa
+- 3 aplikasi: 10 siswa
+- 4 aplikasi: 8 siswa
+- 5 aplikasi: 2 siswa
+- 6 aplikasi: 1 siswa
+
+### Tabel 6.3: Jenis Aplikasi Online Favorit Siswa 7B
+- Mobile Legends: 12 siswa
+- Wormszone.io: 6 siswa
+- PUBG Mobile: 5 siswa
+- Among Us!: 4 siswa
+- Hago: 3 siswa
+- Candy Crush Saga: 1 siswa
+            `,
+            quiz: [
+              {
+                id: 'dd-1',
+                question: 'Berdasarkan Tabel 6.2 dan 6.3, manakah yang termasuk data kategorik?',
+                options: ['Banyak aplikasi online', 'Jenis aplikasi online favorit', 'Jumlah siswa kelas 7B', 'Jumlah jam bermain'],
+                correctAnswer: 'Jenis aplikasi online favorit',
+                explanation: 'Data kategorik adalah data yang berupa kategori atau label non-numerik, seperti nama aplikasi.'
+              },
+              {
+                id: 'dd-2',
+                question: 'Berdasarkan Tabel 6.2 dan 6.3, manakah yang merupakan data numerik?',
+                options: ['Nama aplikasi permainan', 'Aplikasi paling favorit', 'Banyak aplikasi online di gawai', 'Nama siswa kelas 7B'],
+                correctAnswer: 'Banyak aplikasi online di gawai',
+                explanation: 'Data numerik adalah data yang berupa angka yang dapat dihitung atau diukur, seperti jumlah aplikasi.'
+              },
+              {
+                id: 'dd-3',
+                question: 'Berapakah jumlah total siswa di kelas 7B berdasarkan data Tabel 6.2?',
+                options: ['30 siswa', '31 siswa', '32 siswa', '33 siswa'],
+                correctAnswer: '32 siswa',
+                explanation: 'Total siswa = 1+3+7+10+8+2+1 = 32 siswa.'
+              },
+              {
+                id: 'dd-4',
+                question: 'Aplikasi apakah yang paling favorit di kelas 7B menurut Tabel 6.3?',
+                options: ['PUBG Mobile', 'Among Us!', 'Mobile Legends', 'Wormszone.io'],
+                correctAnswer: 'Mobile Legends',
+                explanation: 'Mobile Legends memiliki jumlah siswa terbanyak yaitu 12 siswa.'
+              },
+              {
+                id: 'dd-5',
+                question: 'Berapakah total jumlah aplikasi permainan online yang ada di semua gawai siswa kelas 7B?',
+                options: ['32 aplikasi', '85 aplikasi', '95 aplikasi', '100 aplikasi'],
+                correctAnswer: '95 aplikasi',
+                explanation: 'Total aplikasi = (1×0)+(3×1)+(7×2)+(10×3)+(8×4)+(2×5)+(1×6) = 0+3+14+30+32+10+6 = 95 aplikasi.'
+              },
+              {
+                id: 'dd-6',
+                question: 'Berapa jumlah siswa yang memilih aplikasi "Among Us!" sebagai permainan favoritnya?',
+                options: ['3 siswa', '4 siswa', '5 siswa', '6 siswa'],
+                correctAnswer: '4 siswa',
+                explanation: 'Berdasarkan Tabel 6.3, terdapat 4 siswa yang menyukai Among Us!.'
+              },
+              {
+                id: 'dd-7',
+                question: 'Berapakah jumlah aplikasi TERBANYAK yang dimiliki oleh seorang siswa di kelas 7B?',
+                options: ['10 aplikasi', '6 aplikasi', '12 aplikasi', '5 aplikasi'],
+                correctAnswer: '6 aplikasi',
+                explanation: 'Data menunjukkan jumlah aplikasi mulai dari 0 sampai 6. Jadi terbanyak adalah 6 aplikasi.'
+              },
+              {
+                id: 'dd-8',
+                question: 'Berapakah banyaknya aplikasi yang dimiliki oleh KEBANYAKAN siswa kelas 7B?',
+                options: ['2 aplikasi', '3 aplikasi', '4 aplikasi', '10 aplikasi'],
+                correctAnswer: '3 aplikasi',
+                explanation: 'Kebanyakan (modus) siswa memiliki 3 aplikasi, yaitu sebanyak 10 siswa.'
+              },
+              {
+                id: 'dd-9',
+                question: 'Jika Dillan adalah siswa kelas 7B, berapakah jumlah aplikasi yang dia miliki?',
+                options: ['3 aplikasi', '6 aplikasi', 'Informasi tidak dapat dijawab', '1 aplikasi'],
+                correctAnswer: 'Informasi tidak dapat dijawab',
+                explanation: 'Tabel hanya menyajikan data kelompok, bukan data individu setiap siswa.'
+              },
+              {
+                id: 'dd-10',
+                question: 'Aplikasi manakah yang menjadi favorit siswa PEREMPUAN di kelas 7B?',
+                options: ['Candy Crush Saga', 'Hago', 'Mobile Legends', 'Informasi tidak dapat dijawab'],
+                correctAnswer: 'Informasi tidak dapat dijawab',
+                explanation: 'Tabel tidak memberikan kategori data berdasarkan jenis kelamin siswa.'
+              }
+            ]
+          },
+          {
+            id: 'mod-data-diagram-interpretasi',
+            title: 'Interpretasi Data',
+            description: 'Membaca dan menafsirkan informasi dari diagram batang rangkap.',
+            icon: 'TrendingUp',
+            chartData: [
+              { name: 'Toko A', pria: 90, wanita: 70 },
+              { name: 'Toko B', pria: 100, wanita: 80 },
+              { name: 'Toko C', pria: 80, wanita: 50 }
+            ],
+            chartConfig: {
+              type: 'bar',
+              keys: ['pria', 'wanita'],
+              colors: ['#f43f5e', '#3b82f6']
+            },
+            content: `
+### Data Penjualan Sepatu (Pasang)
+Toko A:
+- Pria: 90
+- Wanita: 70
+
+Toko B:
+- Pria: 100
+- Wanita: 80
+
+Toko C:
+- Pria: 80
+- Wanita: 50
+            `,
+            quiz: [
+              {
+                id: 'id-1',
+                question: 'Berdasarkan diagram, toko manakah yang paling banyak menjual sepatu pria?',
+                options: ['Toko A', 'Toko B', 'Toko C', 'Semua toko sama'],
+                correctAnswer: 'Toko B',
+                explanation: 'Toko B menjual 100 pasang sepatu pria, paling banyak di antara toko lainnya.'
+              },
+              {
+                id: 'id-2',
+                question: 'Toko manakah yang paling banyak menjual sepatu wanita?',
+                options: ['Toko A', 'Toko B', 'Toko C', 'Toko A dan B'],
+                correctAnswer: 'Toko B',
+                explanation: 'Toko B menjual 80 pasang sepatu wanita, paling tinggi balok birunya.'
+              },
+              {
+                id: 'id-3',
+                question: 'Lebih banyak berapa pasangkah penjualan sepatu pria di Toko A dibandingkan Toko C?',
+                options: ['5 pasang', '10 pasang', '15 pasang', '20 pasang'],
+                correctAnswer: '10 pasang',
+                explanation: 'Toko A (90) - Toko C (80) = 10 pasang.'
+              },
+              {
+                id: 'id-4',
+                question: 'Lebih banyak berapa pasangkah penjualan sepatu wanita di Toko B dibandingkan Toko C?',
+                options: ['20 pasang', '30 pasang', '40 pasang', '50 pasang'],
+                correctAnswer: '30 pasang',
+                explanation: 'Toko B (80) - Toko C (50) = 30 pasang.'
+              }
+            ]
+          }
+        ]
       }
     ]
   },

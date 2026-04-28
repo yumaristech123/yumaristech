@@ -13,6 +13,11 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+export interface ChartDataPoint {
+  name: string;
+  [key: string]: any;
+}
+
 export interface Module {
   id: string;
   title: string;
@@ -20,6 +25,13 @@ export interface Module {
   content: string;
   quiz: QuizQuestion[];
   icon: string;
+  subModules?: Module[];
+  chartData?: ChartDataPoint[];
+  chartConfig?: {
+    type: 'bar' | 'line' | 'pie';
+    keys: string[];
+    colors?: string[];
+  };
 }
 
 export interface Level {
