@@ -73,39 +73,39 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-lg z-10"
       >
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <div 
             onClick={handleSecretTrigger}
             className={cn(
-              "inline-flex p-3 rounded-2xl shadow-xl mb-4 cursor-default active:scale-95 transition-transform",
+              "inline-flex p-2.5 rounded-2xl shadow-lg mb-3 cursor-default active:scale-95 transition-transform",
               isEnglish ? "bg-indigo-600 shadow-indigo-100" : "bg-brand-600 shadow-brand-100"
             )}
           >
-            {isEnglish ? <BookOpen size={32} className="text-white" /> : <GraduationCap className="text-white" size={32} />}
+            {isEnglish ? <BookOpen size={24} className="text-white" /> : <GraduationCap className="text-white" size={24} />}
           </div>
-          <h1 className="text-3xl font-bold heading-font tracking-tight text-slate-900">
+          <h1 className="text-2xl font-bold heading-font tracking-tight text-slate-900">
             ZONA <span className={isEnglish ? "text-indigo-600" : "text-brand-600"}>{isEnglish ? 'ENGLISH' : 'PRESTASI'}</span>
           </h1>
-          <p className="text-slate-500 font-medium mt-1">Platform Pembelajaran {isEnglish ? 'Bahasa Inggris' : 'Matematika'} Masa Depan</p>
+          <p className="text-slate-500 font-medium mt-1 text-xs">Platform Pembelajaran {isEnglish ? 'Bahasa Inggris' : 'Matematika'} Masa Depan</p>
         </div>
 
         <div className={cn(
-          "bg-white border border-slate-100 rounded-[2.5rem] shadow-2xl overflow-hidden",
+          "bg-white border border-slate-100 rounded-[2rem] shadow-xl overflow-hidden",
           isEnglish ? "shadow-indigo-100/50" : "shadow-brand-100/50"
         )}>
-          <div className="p-10">
-            <h2 className="text-xl font-bold text-slate-800 mb-6 text-center">Masuk ke LMS</h2>
+          <div className="p-8">
+            <h2 className="text-lg font-bold text-slate-800 mb-5 text-center">Masuk ke LMS</h2>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-4 bg-rose-50 border border-rose-100 text-rose-600 rounded-xl text-xs font-medium text-center">
+                <div className="p-3 bg-rose-50 border border-rose-100 text-rose-600 rounded-xl text-[10px] font-medium text-center">
                   {error}
                 </div>
               )}
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                   <input 
                     type="text"
                     placeholder="Username atau Email"
@@ -113,13 +113,13 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={cn(
-                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
+                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
                       isEnglish ? "focus:border-indigo-400" : "focus:border-brand-400"
                     )}
                   />
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={16} />
                   <input 
                     type="password"
                     placeholder="Password"
@@ -127,7 +127,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={cn(
-                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
+                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
                       isEnglish ? "focus:border-indigo-400" : "focus:border-brand-400"
                     )}
                   />
@@ -138,12 +138,12 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                 type="submit"
                 disabled={loading}
                 className={cn(
-                  "w-full text-white py-4 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-lg transition-all flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:shadow-none",
+                  "w-full text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-lg transition-all flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:shadow-none",
                   isEnglish ? "bg-indigo-600 shadow-indigo-100 hover:bg-indigo-700" : "bg-brand-600 shadow-brand-100 hover:bg-brand-700"
                 )}
               >
                 {loading ? 'Memproses...' : 'Masuk Sekarang'}
-                {!loading && <ArrowRight size={16} />}
+                {!loading && <ArrowRight size={14} />}
               </button>
 
               {showGoogle && (
