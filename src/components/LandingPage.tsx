@@ -4,7 +4,7 @@ import { BookOpen, GraduationCap, ArrowRight, LogIn, Zap } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface LandingPageProps {
-  onSelectCourse: (course: 'math' | 'english') => void;
+  onSelectCourse: (course: 'math' | 'english' | 'kedinasan') => void;
 }
 
 export function LandingPage({ onSelectCourse }: LandingPageProps) {
@@ -75,7 +75,7 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
           <h3 className="text-xl md:text-3xl font-black text-slate-800 heading-font px-4">Mulai Belajar Sekarang</h3>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
           {/* Mathematics Course */}
           <motion.div 
             whileHover={{ y: -8 }}
@@ -153,6 +153,47 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             <button 
               onClick={() => onSelectCourse('english')}
               className="mt-8 md:mt-10 w-full max-w-[280px] flex cursor-pointer items-center justify-center gap-2 bg-indigo-600 text-white rounded-xl py-4 md:py-4 font-black uppercase tracking-widest text-[10px] shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all active:scale-95"
+            >
+              Masuk ke Course <ArrowRight size={16} />
+            </button>
+          </motion.div>
+
+          {/* Sekolah Kedinasan Course */}
+          <motion.div 
+            whileHover={{ y: -8 }}
+            className="group relative bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 border border-slate-200/60 shadow-xl shadow-amber-900/5 hover:shadow-amber-900/10 transition-all flex flex-col items-center text-center overflow-hidden"
+          >
+            {/* Card Background Subtle Pattern */}
+            <div className="absolute top-0 left-0 w-24 h-24 bg-amber-50 rounded-full blur-[50px] opacity-50 group-hover:opacity-100 transition-opacity" />
+
+            <div className="flex-1 w-full flex flex-col items-center justify-center text-center">
+              <h5 className="text-3xl lg:text-3xl font-black text-amber-900 mb-3 md:mb-4 heading-font uppercase">Kedinasan</h5>
+              <p className="text-slate-500 font-semibold mb-6 leading-relaxed max-w-xs mx-auto text-xs md:text-sm px-2">
+                Persiapan Seleksi Kompetensi Dasar (SKD) untuk Sekolah Kedinasan (IPDN, STAN, dll).
+              </p>
+              
+              <div className="relative w-28 md:w-32 h-36 md:h-40 mx-auto">
+                <div className="absolute inset-0 bg-amber-600 rounded-2xl shadow-xl shadow-amber-200 transform group-hover:-rotate-3 transition-transform flex flex-col items-center justify-center text-white p-3">
+                  <div className="bg-white/20 p-2 md:p-3 rounded-xl mb-2 md:mb-3 backdrop-blur-md">
+                    <GraduationCap size={32} className="text-white md:hidden" />
+                    <GraduationCap size={40} className="text-white hidden md:block" />
+                  </div>
+                  <span className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em]">Curriculum</span>
+                </div>
+
+                {/* Design Elements */}
+                <div className="absolute -top-5 -left-6 md:-top-6 md:-left-8 bg-white p-2 md:p-3 rounded-xl md:rounded-[1.5rem] shadow-lg border border-amber-50 transform rotate-12 group-hover:scale-110 transition-transform">
+                   <div className="text-lg md:text-xl font-black text-amber-600">SKD</div>
+                </div>
+                <div className="absolute -bottom-6 -right-3 md:-bottom-8 md:-right-4 bg-amber-50/80 backdrop-blur-md px-3 md:px-4 py-1.5 md:py-2 rounded-xl md:rounded-[1.5rem] shadow-md border border-amber-100 transform -rotate-6 group-hover:scale-110 transition-transform">
+                  <div className="text-xs md:text-sm font-bold text-amber-700">TWK • TIU • TKP</div>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => onSelectCourse('kedinasan')}
+              className="mt-8 md:mt-10 w-full max-w-[280px] flex cursor-pointer items-center justify-center gap-2 bg-amber-600 text-white rounded-xl py-4 md:py-4 font-black uppercase tracking-widest text-[10px] shadow-lg shadow-amber-200 hover:bg-amber-700 transition-all active:scale-95"
             >
               Masuk ke Course <ArrowRight size={16} />
             </button>

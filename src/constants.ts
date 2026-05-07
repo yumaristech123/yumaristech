@@ -1270,3 +1270,461 @@ Toko C:
     ]
   }
 ];
+
+export const KEDINASAN_LEVELS: Level[] = [
+  {
+    id: 'lvl-kedinasan',
+    title: 'Sekolah Kedinasan',
+    description: 'Persiapan Seleksi Kompetensi Dasar (SKD) untuk Sekolah Kedinasan (IPDN, STAN, Poltekip, dll).',
+    minXp: 0,
+    modules: [
+      {
+        id: 'mod-skd-twk',
+        title: 'TWK (Tes Wawasan Kebangsaan)',
+        description: 'Menguji Nasionalisme, Integritas, Bela Negara, Pilar Negara, dan Sejarah Nasional.',
+        icon: 'Flag',
+        content: 'Tes Wawasan Kebangsaan (TWK) bertujuan untuk menilai penguasaan pengetahuan dan kemampuan mengimplementasikan nasionalisme, integritas, bela negara, pilar negara, dan bahasa Indonesia.',
+        quiz: [
+          {
+            id: 'twk-1',
+            question: 'Seorang mahasiswa Pendidikan Teknik Elektro baru saja menyelesaikan studinya. Ia ditawarkan untuk melanjutkan studinya di Inggris dengan beasiswa. Meski demikian ia memilih Kembali ke kampungnya. Di kampung ia membuat pembangkit listrik sederhana dengan memanfaatkan aliran air sungai yang deras. Berkat pembangkit listrik tersebut, warga kampung sudah dapat menikmati ketersediaan listrik. Tindakan mahasiswa tersebut menunjukkan sikap…',
+            options: ['Bela negara', 'Cinta tanah air', 'Patriotisme', 'Nasionalisme', 'Integritas'],
+            correctAnswer: 'Patriotisme',
+            explanation: 'Tindakan yang dilakukan oleh mahasiswa tersebut merupakan bentuk patriotisme karena mau mengorbankan kepentingan pribadi untuk kemajuan dalam negeri.'
+          },
+          {
+            id: 'twk-2',
+            question: 'Hampir semua partai politik melakukan proses permohonan gugatan kepada KPU terkait perselisihan kursi di DPR RI. Komisi Pemilihan Umum (KPU) RI berusaha mengumpulkan bukti-bukti untuk menghadapi gugatan sengketa PHPU Legislatif 2019. Jika terjadi kasus tersebut maka yang memiliki kewenangan untuk memberikan putusan adalah ...',
+            options: ['Komisi Yudisial', 'Mahkamah Agung', 'Mahkamah Konstitusi', 'Kehakiman', 'Komisi Pemilihan Umum'],
+            correctAnswer: 'Mahkamah Konstitusi',
+            explanation: 'Sesuai dengan Pasal 24C UUD 1945, tugas Mahkamah Konstitusi (MK) adalah memutus perselisihan tentang hasil pemilihan umum.'
+          },
+          {
+            id: 'twk-3',
+            question: 'Konflik antara Indonesia dengan Tiongkok kembali terjadi di Perairan Natuna yang berbatasan dengan Laut Cina Selatan. Ancaman terhadap satu pulau atau daerah pada hakikatnya ancaman seluruh bangsa dan negara. Hal ini ditegaskan dalam wawasan Nusantara dalam bidang ...',
+            options: ['Ideologi', 'Politik', 'Ekonomi', 'Sosial budaya', 'Hankam'],
+            correctAnswer: 'Hankam',
+            explanation: 'Ancaman terhadap satu pulau atau daerah pada hakikatnya ancaman seluruh bangsa dan negara ditegaskan dalam wawasan Nusantara bidang pertahanan dan keamanan (Hankam).'
+          },
+          {
+            id: 'twk-4',
+            question: 'Organisasi Taman Siswa mengajarkan tentang dasar-dasar kemerdekaan bagi masyarakat pribumi Indonesia. Ajaran kemerdekaan yang dimaksud Taman Siswa adalah kemerdekaan yang berasal dari diri sendiri. Contoh tindakan atas sikap berdikari dalam upaya menjaga keutuhan NKRI yang tepat adalah …',
+            options: ['Rela berkorban untuk kepentingan negara', 'Kesadaran menjaga keutuhan wilayah negara', 'Mengembangkan rasa bangga berbangsa dan bernegara indonesia', 'Mengurangi ketergantungan dalam segala hal pada negara asing', 'Membuat barisan perlawanan terhadap budaya asing'],
+            correctAnswer: 'Mengurangi ketergantungan dalam segala hal pada negara asing',
+            explanation: 'Sikap berdikari (berdiri di atas kaki sendiri) tercermin dari upaya mengurangi ketergantungan pada pihak asing untuk menjaga kedaulatan ekonomi dan politik bangsa.'
+          },
+          {
+            id: 'twk-5',
+            question: 'Konflik merupakan bagian dari kehidupan manusia. Di bawah ini yang bukan termasuk faktor penyebab konflik yang terjadi dalam masyarakat adalah …',
+            options: ['Globalisasi yang meruntuhkan totalitas kesatuan nilai kepercayaan', 'Lemahnya kualitas sumber daya manusia masyarakat', 'Kemiskinan berkepanjangan dan rendahnya ekonomi', 'Kuatnya pijakan konsep multikulturalisme di Indonesia', 'Munculnya sikap kerapuhan terhadap ketahanan sosial budaya'],
+            correctAnswer: 'Kuatnya pijakan konsep multikulturalisme di Indonesia',
+            explanation: 'Kuatnya pijakan konsep multikulturalisme justru merupakan faktor yang dapat mencegah dan meminimalisir konflik di masyarakat.'
+          },
+          {
+            id: 'twk-6',
+            question: 'Seorang oknum pemerintah daerah menjual sebagian pupuk bantuan pemerintah dengan harga rendah kepada petani kaya dan sisanya diberikan ke petani lain. Sikap oknum tersebut sangat bertentangan dengan …',
+            options: ['Pemenuhan hak warga negara dari negara', 'Nilai-nilai kemanusian yang berkeadilan', 'Upaya mewujudkan kekuatan ekonomi nasional', 'Pemenuhan nilai keadilan sosial bagi rakyat', 'Janji dan sumpah abdi negara'],
+            correctAnswer: 'Pemenuhan nilai keadilan sosial bagi rakyat',
+            explanation: 'Tindakan oknum tersebut menyalahi prinsip keadilan sosial karena menyalahgunakan bantuan yang seharusnya untuk rakyat miskin/membutuhkan.'
+          },
+          {
+            id: 'twk-7',
+            question: 'Hasto dan Hesti berasal dari negara A (ius-sanguinis) dan bekerja di negara B (ius-soli). Anak mereka lahir di negara B. Maka anak tersebut ...',
+            options: ['Mutlak memiliki dwi kewarganegaraan', 'Tidak memiliki kewarganegaraan', 'Mungkin memiliki kewarganegaraan B', 'Mungkin memiliki dwi kewarganegaraan', 'Mutlak memiliki kewarganegaraan B'],
+            correctAnswer: 'Mutlak memiliki dwi kewarganegaraan',
+            explanation: 'Karena mengikuti asas ius sanguinis dari orang tuanya (negara A) dan ius soli dari tempat lahirnya (negara B), maka anak tersebut memiliki kewarganegaraan ganda (bipatride).'
+          },
+          {
+            id: 'twk-8',
+            question: 'Pasal 28H ayat (1) UUD 1945 menyatakan bahwa setiap orang berhak hidup sejahtera lahir dan batin, bertempat tinggal, dan mendapatkan lingkungan hidup yang baik dan sehat serta berhak memperoleh …',
+            options: ['Jaminan sosial', 'Pelayanan kesehatan', 'Pendidikan gratis', 'Pekerjaan yang layak', 'Perlindungan hukum'],
+            correctAnswer: 'Pelayanan kesehatan',
+            explanation: 'Bunyi Pasal 28H ayat (1) secara eksplisit menyebutkan hak untuk memperoleh pelayanan kesehatan.'
+          },
+          {
+            id: 'twk-9',
+            question: 'Ditemukan beberapa warga telah melakukan sambungan listrik ilegal dari kabel listrik PLN. Perilaku warga tersebut sangat bertentangan dengan Pancasila sila ke ...',
+            options: ['1', '2', '3', '4', '5'],
+            correctAnswer: '5',
+            explanation: 'Perilaku mengambil hak orang lain atau merugikan kepentingan umum demi keuntungan pribadi melanggar nilai keadilan sosial (Sila ke-5).'
+          },
+          {
+            id: 'twk-10',
+            question: 'Di bawah ini merupakan contoh puncak kebudayaan dari Pancasila khususnya sila ke-5 adalah …',
+            options: ['Membantu tetangga yang sedang kesulitan ekonomi', 'Ikut aktif dalam pembuatan Gapura menjelang HUT RI', 'Menyelesaikan konflik dengan teman secara kekeluargaan', 'Melakukan jajak pendapat dalam memutuskan sanksi adat', 'Menghadiri undangan kegiatan adat di kampung'],
+            correctAnswer: 'Ikut aktif dalam pembuatan Gapura menjelang HUT RI',
+            explanation: 'Sila ke-5 mendorong sikap gotong royong dan kekeluargaan dalam membangun sarana umum atau kegiatan kemasyarakatan.'
+          },
+          {
+            id: 'twk-11',
+            question: 'Salah satu butir Pancasila sila kelima adalah tidak menggunakan hak milik untuk hal-hal yang bertentangan atau merugikan kepentingan umum. Hal ini berarti ...',
+            options: ['Hak milik bersifat mutlak', 'Hak milik tidak boleh dibatasi', 'Hak milik memiliki fungsi sosial', 'Hak milik hanya untuk golongan kaya', 'Hak milik dilarang oleh negara'],
+            correctAnswer: 'Hak milik memiliki fungsi sosial',
+            explanation: 'Penggunaan hak milik harus memperhatikan kepentingan masyarakat luas dan tidak boleh disalahgunakan untuk merugikan orang lain.'
+          },
+          {
+            id: 'twk-12',
+            question: 'Dewan Perwakilan Daerah (DPD) lahir setelah amandemen UUD 1945. Manakah yang BUKAN merupakan wewenang DPD?',
+            options: ['Mengajukan RUU terkait otonomi daerah', 'Ikut membahas RUU otonomi daerah', 'Melakukan pengawasan pelaksanaan UU otonomi daerah', 'Memberikan pertimbangan atas RUU APBN', 'Memberikan pertimbangan dalam pengangkatan duta'],
+            correctAnswer: 'Memberikan pertimbangan dalam pengangkatan duta',
+            explanation: 'Pertimbangan pengangkatan duta adalah wewenang DPR (Pasal 13 ayat 2 UUD 1945), bukan DPD.'
+          },
+          {
+            id: 'twk-13',
+            question: 'Pengamalan Pancasila secara objektif adalah pengamalan yang dilakukan oleh ...',
+            options: ['Individu', 'Masyarakat', 'Warga negara', 'Negara atau pemerintah', 'Keluarga'],
+            correctAnswer: 'Negara atau pemerintah',
+            explanation: 'Pengamalan objektif adalah pelaksanaan nilai Pancasila dalam bentuk peraturan perundang-undangan dan kebijakan negara.'
+          },
+          {
+            id: 'twk-14',
+            question: 'Contoh pengamalan Pancasila secara objektif adalah …',
+            options: ['Menjenguk rekan kerja yang sakit', 'Membayar pajak tepat waktu', 'Mendistribusikan bantuan sosial secara adil', 'Memberi sumbangan ke panti asuhan', 'Mengadakan kerja bakti'],
+            correctAnswer: 'Mendistribusikan bantuan sosial secara adil',
+            explanation: 'Pemerintah yang mendistribusikan bantuan secara adil merupakan bentuk implementasi keadilan sosial dalam kebijakan publik (objektif).'
+          },
+          {
+            id: 'twk-15',
+            question: 'Pada hari Sabtu Pak Andi harus lembur, namun warga kampung sedang gotong royong. Sikap Pak Andi yang mencerminkan nasionalisme adalah ...',
+            options: ['Meminta anak mewakili', 'Tetap lembur karena perintah atasan', 'Minta izin kepala dusun', 'Ikut gotong royong lalu lanjut kerja setelah selesai', 'Melimpahkan kerja ke rekan'],
+            correctAnswer: 'Ikut gotong royong lalu lanjut kerja setelah selesai',
+            explanation: 'Nasionalisme mengutamakan kepentingan bersama di atas kepentingan pribadi/golongan.'
+          },
+          {
+            id: 'twk-16',
+            question: 'Sidang pertama BPUPKI pada tanggal 29 Mei - 1 Juni 1945 membahas tentang...',
+            options: ['Rancangan UUD', 'Dasar Negara', 'Bentuk Negara', 'Teks Proklamasi', 'Pemilihan Presiden'],
+            correctAnswer: 'Dasar Negara',
+            explanation: 'Sidang pertama BPUPKI fokus pada perumusan dasar negara Indonesia merdeka.'
+          },
+          {
+            id: 'twk-17',
+            question: 'Tokoh yang mengusulkan istilah "Pancasila" pada tanggal 1 Juni 1945 adalah...',
+            options: ['Moh. Yamin', 'Soepomo', 'Ir. Soekarno', 'Moh. Hatta', 'Ahmad Soebardjo'],
+            correctAnswer: 'Ir. Soekarno',
+            explanation: 'Ir. Soekarno menyampaikan pidato Lahirnya Pancasila pada 1 Juni 1945.'
+          },
+          {
+            id: 'twk-18',
+            question: 'Lembaga yang berwenang mengubah dan menetapkan UUD sesuai Pasal 3 ayat (1) UUD 1945 adalah...',
+            options: ['Presiden', 'DPR', 'MPR', 'MK', 'MA'],
+            correctAnswer: 'MPR',
+            explanation: 'Majelis Permusyawaratan Rakyat (MPR) memiliki wewenang untuk mengubah dan menetapkan Undang-Undang Dasar.'
+          },
+          {
+            id: 'twk-19',
+            question: 'Bela negara merupakan hak dan kewajiban bagi setiap warga negara. Hal ini diatur dalam UUD 1945 Pasal...',
+            options: ['27 ayat (1)', '27 ayat (3)', '30 ayat (1)', '30 ayat (2)', '31 ayat (1)'],
+            correctAnswer: '27 ayat (3)',
+            explanation: 'Pasal 27 ayat (3) berbunyi: "Setiap warga negara berhak dan wajib ikut serta dalam upaya pembelaan negara".'
+          },
+          {
+            id: 'twk-20',
+            question: 'Salah satu pilar negara hukum Indonesia adalah "Negara berdasarkan atas hukum, bukan berdasarkan kekuasaan belaka". Hal ini berarti...',
+            options: ['Kekuasaan adalah hukum', 'Hukum hanya untuk rakyat', 'Pemerintah tunduk pada hukum', 'Hukum dibuat oleh penguasa', 'Hukum tidak berlaku untuk presiden'],
+            correctAnswer: 'Pemerintah tunduk pada hukum',
+            explanation: 'Prinsip negara hukum (supremasi hukum) mengharuskan semua tindakan pemerintah didasarkan pada hukum yang berlaku.'
+          }
+        ]
+      },
+      {
+        id: 'mod-skd-tiu',
+        title: 'TIU (Tes Intelegensia Umum)',
+        description: 'Menguji kemampuan verbal, numerik, dan berpikir analitis/logis.',
+        icon: 'Brain',
+        content: 'Tes Intelegensia Umum (TIU) bertujuan untuk menilai kompetensi penguasaan kemampuan verbal (analogi, silogisme, analitis), kemampuan numerik (berhitung, deret angka, perbandingan kuantitatif, soal cerita), dan kemampuan figural.',
+        quiz: [
+          {
+            id: 'tiu-1',
+            question: 'EPIGON = ...',
+            options: ['Peniru mimik', 'Peniru sifat', 'Peniru gerakan', 'Peniru seniman', 'Peniru wajah'],
+            correctAnswer: 'Peniru seniman',
+            explanation: 'Dalam KBBI, epigon adalah orang yang tidak memiliki gagasan baru dan hanya mengikuti jejak pemikir atau seniman yang mendahuluinya.'
+          },
+          {
+            id: 'tiu-2',
+            question: 'ARBITRER >< ...',
+            options: ['Militer', 'Orasi', 'Acak', 'Pemikir', 'Esensial'],
+            correctAnswer: 'Esensial',
+            explanation: 'Dalam KBBI, arbitrer artinya adalah sewenang-wenang; mana suka. Lawan maknanya (antonim) yang cocok adalah esensial.'
+          },
+          {
+            id: 'tiu-3',
+            question: 'RISET : DATA = ... : ...',
+            options: ['Survei : opini', 'Konfirmasi : kebenaran', 'Penelitian : fakta', 'Kuesioner : angket', 'Wawancara : pendapat'],
+            correctAnswer: 'Penelitian : fakta',
+            explanation: 'Riset didasarkan sesuai dengan data, sama halnya penelitian didasarkan sesuai dengan fakta.'
+          },
+          {
+            id: 'tiu-4',
+            question: 'a dan b merupakan bilangan bulat positif. Jika a dibagi 6 sisa 3, dan b dibagi 6 sisa 1, maka berapakah sisanya jika (a * b) dibagi 3?',
+            options: ['0', '1', '2', '3', '4'],
+            correctAnswer: '0',
+            explanation: 'a = 6n + 3, b = 6m + 1. (a * b) = (6n + 3)(6m + 1) = 36nm + 6n + 18m + 3. Semua suku habis dibagi 3, jadi sisanya 0.'
+          },
+          {
+            id: 'tiu-5',
+            question: 'Berapakah nilai dari 12³ + 14³ + 16³?',
+            options: ['8171', '8685', '8568', '8570', '8243'],
+            correctAnswer: '8568',
+            explanation: '12³ = 1728; 14³ = 2744; 16³ = 4096. Maka 1728 + 2744 + 4096 = 8568.'
+          },
+          {
+            id: 'tiu-6',
+            question: 'Citra menggunakan skala 1:250.000 pada peta. Berapakah panjang garis lurus di peta jika jarak sebenarnya adalah 55 Km?',
+            options: ['2,2 Cm', '22 Cm', '22 Mm', '220 Mm', '2,2 Dm'],
+            correctAnswer: '2,2 Dm',
+            explanation: 'Jarak di peta = 5.500.000 cm / 250.000 = 22 cm. Karena 22 cm = 2,2 dm, maka jawabannya adalah 2,2 Dm.'
+          },
+          {
+            id: 'tiu-7',
+            question: 'Sebuah kubus besar bervolume 512 cm³. Berapa banyak kubus kecil dengan panjang sisi 4 cm yang bisa dimasukkan ke dalamnya?',
+            options: ['4', '6', '8', '10', '12'],
+            correctAnswer: '8',
+            explanation: 'Volume kubus kecil = 4³ = 64. Banyaknya kubus = 512 / 64 = 8.'
+          },
+          {
+            id: 'tiu-8',
+            question: '765, 531, 297, ..., -171, -405',
+            options: ['86', '72', '67', '63', '36'],
+            correctAnswer: '63',
+            explanation: 'Pola: dikurangi 234 secara konsisten. 297 - 234 = 63. 63 - 234 = -171.'
+          },
+          {
+            id: 'tiu-9',
+            question: 'Jika 120 orang menghadiri konser musik dan rasio anak dibanding dewasa adalah 2:3, berapakah jumlah orang dewasa?',
+            options: ['48', '60', '72', '80', '100'],
+            correctAnswer: '72',
+            explanation: 'Total rasio = 2 + 3 = 5. Dewasa = (3/5) * 120 = 72.'
+          },
+          {
+            id: 'tiu-10',
+            question: 'Sebuah segitiga siku-siku memiliki alas 12 cm dan tinggi 16 cm dimasukkan ke dalam lingkaran sehingga titik-titiknya menyentuh busur lingkaran. Berapakah jari-jari lingkaran tersebut?',
+            options: ['8 cm', '10 cm', '12 cm', '15 cm', '16 cm'],
+            correctAnswer: '10 cm',
+            explanation: 'Sisi miring segitiga (hipotenusa) adalah diameter lingkaran jika segitiga itu siku-siku dan titik-titiknya di busur. Hipotenusa = sqrt(12^2 + 16^2) = 20 cm. Jari-jari = 10 cm.'
+          },
+          {
+            id: 'tiu-11',
+            question: '134, 5.790, 11.446, ..., 22.758',
+            options: ['15.102', '16.104', '17.102', '18.104', '19.102'],
+            correctAnswer: '17.102',
+            explanation: 'Pola: bertambah 5.656 secara konsisten. 11.446 + 5.656 = 17.102.'
+          },
+          {
+            id: 'tiu-12',
+            question: 'Semua strawberry adalah buah-buahan masam. Sebagian strawberry yang masam disukai oleh kakek. Kesimpulan yang paling tepat adalah …',
+            options: ['Semua strawberry disukai kakek', 'Sebagian buah-buahan masam disukai kakek', 'Semua buah-buahan masam adalah strawberry', 'Sebagian buah-buahan masam tidak disukai kakek', 'Sebagian strawberry tidak masam'],
+            correctAnswer: 'Sebagian buah-buahan masam disukai kakek',
+            explanation: 'Karena strawberry adalah buah masam dan sebagian strawberry disukai kakek, maka sebagian buah masam disukai kakek.'
+          },
+          {
+            id: 'tiu-13',
+            question: 'Setiap pengurus partai adalah menteri. Sebagian menteri adalah laki-laki. Kesimpulan yang paling tepat adalah …',
+            options: ['Semua pengurus partai adalah laki-laki', 'Sebagian pengurus partai adalah laki-laki', 'Sebagian laki-laki adalah menteri', 'Laki-laki yang menteri adalah pengurus partai', 'Semua laki-laki adalah menteri'],
+            correctAnswer: 'Sebagian laki-laki adalah menteri',
+            explanation: 'Jika sebagian menteri adalah laki-laki, maka sebagian laki-laki adalah menteri. Belum tentu pengurus partai itu laki-laki.'
+          },
+          {
+            id: 'tiu-14',
+            question: 'Dari 50 orang, 25 orang adalah pria, 30 orang berambut lurus, dan 7 orang di antaranya adalah wanita yang tidak berambut lurus. Berapa banyak wanita yang berambut lurus?',
+            options: ['11', '12', '18', '20', '25'],
+            correctAnswer: '18',
+            explanation: 'Wanita total = 50 - 25 = 25. Wanita yang rambut lurus = 25 - 7 = 18.'
+          },
+          {
+            id: 'tiu-15',
+            question: 'Seorang pedagang membeli 50 kg mangga. Peluang mangga yang busuk adalah 1/12. Jika mangga yang tidak busuk akan dijual, berapakah peluang seorang pembeli mendapatkan mangga yang tidak busuk?',
+            options: ['1/12', '5/12', '7/12', '11/12', '1/2'],
+            correctAnswer: '11/12',
+            explanation: 'Peluang komplemen: P(tidak busuk) = 1 - P(busuk) = 1 - 1/12 = 11/12.'
+          },
+          {
+            id: 'tiu-16',
+            question: 'Nilai dari (0,5 x 0,5) + (1,5 x 1,5) adalah ...',
+            options: ['2,5', '2,25', '2,75', '3,0', '3,25'],
+            correctAnswer: '2,5',
+            explanation: '0,25 + 2,25 = 2,5.'
+          },
+          {
+            id: 'tiu-17',
+            question: 'Rasio antara luas lingkaran A dan lingkaran B adalah 4:9. Berapakah rasio jari-jari mereka?',
+            options: ['2:1', '2:3', '1:2', '4:9', '16:81'],
+            correctAnswer: '2:3',
+            explanation: 'Rasio luas (r1^2 : r2^2) = 4 : 9. Maka r1 : r2 = sqrt(4) : sqrt(9) = 2 : 3.'
+          },
+          {
+            id: 'tiu-18',
+            question: 'Seorang pelari menempuh jarak 10 km dalam waktu 40 menit. Berapakah kecepatan rata-ratanya dalam km/jam?',
+            options: ['12', '15', '18', '20', '25'],
+            correctAnswer: '15',
+            explanation: '40 menit = 2/3 jam. Kecepatan = 10 / (2/3) = 15 km/jam.'
+          },
+          {
+            id: 'tiu-19',
+            question: 'Jika x = 12% dari 150 dan y = 15% dari 120, manakah pernyataan yang benar?',
+            options: ['x > y', 'x < y', 'x = y', 'x + y = 300', 'Hubungan tidak dapat ditentukan'],
+            correctAnswer: 'x = y',
+            explanation: 'x = 0,12 * 150 = 18. y = 0,15 * 120 = 18. Jadi x = y.'
+          },
+          {
+            id: 'tiu-20',
+            question: 'Jika 3 penjahit dapat menyelesaikan 15 baju dalam 5 hari, berapa banyak baju yang dapat diselesaikan oleh 5 penjahit dalam 2 hari?',
+            options: ['6', '8', '10', '12', '15'],
+            correctAnswer: '10',
+            explanation: 'Kecepatan 1 penjahit = 15 / (3*5) = 1 baju/hari. 5 penjahit dalam 2 hari = 5 * 2 * 1 = 10 baju.'
+          }
+        ]
+      },
+      {
+        id: 'mod-skd-tkp',
+        title: 'TKP (Tes Karakteristik Pribadi)',
+        description: 'Menguji pelayanan publik, jejaring kerja, sosial budaya, TIK, dan profesionalisme.',
+        icon: 'UserCheck',
+        content: 'Tes Karakteristik Pribadi (TKP) bertujuan untuk menilai perilaku terkait pelayanan publik, jejaring kerja, sosial budaya, teknologi informasi dan komunikasi, profesionalisme, serta anti radikalisme.',
+        quiz: [
+          {
+            id: 'tkp-1',
+            question: 'Tim bola voli unit kami diperkirakan akan kalah melawat tim bola voli unit lain dalam instansi kami. Sikap saya dalam pertandingan…',
+            options: ['Lebih baik diam karena sadar akan kekuatan tim kami', 'Berusaha bersembunyi agar tidak diketahui bahwa saya adalah pendukung tim lemah', 'Tetap memberikan dukungan dengan penuh semangat', 'Jika tim kami kalah tidaklah mengapa, karena sudah diprediksikan demikian', 'Memberikan dukungan daripada saya dicap tidak setia kawan'],
+            correctAnswer: 'Tetap memberikan dukungan dengan penuh semangat',
+            explanation: 'Opsi C menunjukkan semangat berprestasi dan loyalitas yang tinggi terhadap organisasi.'
+          },
+          {
+            id: 'tkp-2',
+            question: 'Ketika anda melamar pekerjaan namun anda tidak diterima (mengalami kegagalan), maka anda akan…',
+            options: ['Sedih', 'Kecewa', 'Biasanya saja', 'Berusaha agar diterima tahun depan', 'Mempelajari kekurangan Anda dan memperbaikinya'],
+            correctAnswer: 'Mempelajari kekurangan Anda dan memperbaikinya',
+            explanation: 'Menunjukkan kemampuan evaluasi diri dan semangat untuk berkembang.'
+          },
+          {
+            id: 'tkp-3',
+            question: 'Ketika tetangga terdekat Anda ada yang meninggal dunia, maka anda akan…',
+            options: ['Memberikan santunan kepadanya', 'Memberikan bantuan seperlunya', 'Membantu proses pemakaman sesuai instruksi', 'Izin dari kantor untuk melayat dan membantu proses pemakaman', 'Datang ke rumah duka dan menunggu hingga pemakaman selesai'],
+            correctAnswer: 'Izin dari kantor untuk melayat dan membantu proses pemakaman',
+            explanation: 'Menunjukkan kepedulian sosial yang tinggi dalam kehidupan bertetangga.'
+          },
+          {
+            id: 'tkp-4',
+            question: 'Ketika Anda berkunjung ke sebuah pusat perbelanjaan, Anda senang jika...',
+            options: ['Keadaannya sepi', 'Diskonnya murah', 'Suasanya bersih dan nyaman', 'Para satpam dan petugas yang lainnya ramah', 'Tempat ibadah dan toiletnya bersih dan memadai'],
+            correctAnswer: 'Suasanya bersih dan nyaman',
+            explanation: 'Orientasi pada standar kualitas pelayanan dan kenyamanan publik.'
+          },
+          {
+            id: 'tkp-5',
+            question: 'Anda mempunyai pimpinan baru di kantor. Anda akan...',
+            options: ['Bersikap sopan kepadanya', 'Memperkenalkan diri Anda', 'Bersikap ramah dan hormat kepadanya', 'Memberitahunya rekan-rekan Anda yang kurang profesional', 'Biarkan waktu saja yang membuatnya akrab'],
+            correctAnswer: 'Bersikap ramah dan hormat kepadanya',
+            explanation: 'Menunjukkan kemampuan beradaptasi dan etika profesional yang baik.'
+          },
+          {
+            id: 'tkp-6',
+            question: 'Saya sering memergoki orang-orang yang tidak membuang sampah pada tempatnya. Maka saya akan...',
+            options: ['Marah', 'Menasehatinya', 'Diam saja', 'Mengatakan bahwa ia telah menyakiti buminya', 'Memungut sampah itu sembari menegurnya'],
+            correctAnswer: 'Memungut sampah itu sembari menegurnya',
+            explanation: 'Menunjukkan integritas personal dan aksi nyata dalam menjaga lingkungan seiring dengan edukasi.'
+          },
+          {
+            id: 'tkp-7',
+            question: 'Ketika ada seseorang yang memotong antrean Anda, maka Anda akan...',
+            options: ['Diam saja', 'Memarahinya', 'Memukulnya', 'Melapor kepada petugas yang berwenang', 'Menyatakan bahwa orang yang berjiwa besar itu adalah mereka yang tertib'],
+            correctAnswer: 'Menyatakan bahwa orang yang berjiwa besar itu adalah mereka yang tertib',
+            explanation: 'Menunjukkan kesabaran, pengendalian diri, dan edukasi persuasif terhadap ketertiban umum.'
+          },
+          {
+            id: 'tkp-8',
+            question: 'Sepulang dari kantor, Anda akan...',
+            options: ['Pulang ke rumah', 'Membelikan makanan untuk keluarga Anda', 'Membawa cerita baru dari kantor Anda buat keluarga', 'Tidak mempersiapkan apa pun', 'Segera beristirahat saja'],
+            correctAnswer: 'Membawa cerita baru dari kantor Anda buat keluarga',
+            explanation: 'Menunjukkan keterbukaan dan upaya membangun hubungan yang harmonis dalam keluarga.'
+          },
+          {
+            id: 'tkp-9',
+            question: 'Anda harus memilih antara dua pilihan yang sama-sama berat dan benar, maka Anda akan...',
+            options: ['Memilih secara acak', 'Memilih yang risikonya paling kecil', 'Meminta orang lain memilihkan untuk Anda', 'Bertanya kepada pimpinan Anda', 'Melakukan kontemplasi dan memikirkannya baik-baik'],
+            correctAnswer: 'Melakukan kontemplasi dan memikirkannya baik-baik',
+            explanation: 'Menunjukkan kematangan dalam pengambilan keputusan yang kompleks.'
+          },
+          {
+            id: 'tkp-10',
+            question: 'Tugas-tugas Anda sedang sangat banyak dan deadline-nya hampir habis. Maka Anda akan...',
+            options: ['Bekerja lembur', 'Meminta bantuan rekan kerja', 'Mengeluh', 'Mengerjakannya sesegera mungkin', 'Mengerjakan mulai dari yang tersulit'],
+            correctAnswer: 'Mengerjakannya sesegera mungkin',
+            explanation: 'Menunjukkan orientasi hasil dan manajemen waktu yang proaktif.'
+          },
+          {
+            id: 'tkp-11',
+            question: 'Anda ditugaskan oleh pimpinan Anda untuk melanjutkan pendidikan ke jenjang yang lebih tinggi. Maka Anda akan...',
+            options: ['Menerimanya dengan senang hati', 'Menerimanya karena itu perintah', 'Menolaknya karena Anda merasa sudah tua', 'Meminta pimpinan Anda memilih orang yang lebih muda', 'Pikir-pikir dulu'],
+            correctAnswer: 'Menerimanya dengan senang hati',
+            explanation: 'Menunjukkan semangat belajar yang tinggi dan kesediaan untuk berkembang.'
+          },
+          {
+            id: 'tkp-12',
+            question: 'Kriteria pendidikan tinggi yang akan Anda pilih adalah...',
+            options: ['Kampusnya dekat dengan rumah', 'Biayanya murah', 'Jurusan dan kampusnya mempunyai akreditasi yang baik (A)', 'Kuliahnya bisa disambi kerja', 'Banyak teman Anda yang kuliah di sana'],
+            correctAnswer: 'Jurusan dan kampusnya mempunyai akreditasi yang baik (A)',
+            explanation: 'Menunjukkan orientasi pada kualitas dan standar keunggulan pendidikan.'
+          },
+          {
+            id: 'tkp-13',
+            question: 'Ketika rekan-rekan Anda sedang bermusyawarah dan ide penyelesaian dari Anda belum bisa diterima oleh anggota yang lain, maka Anda akan...',
+            options: ['Marah', 'Keluar dari forum musyawarah', 'Menghormati keputusan anggota musyawarah tersebut', 'Tetap teguh dengan pendapat Anda', 'Mempersilahkan pimpinan untuk menyimpulkan musyawarah tersebut'],
+            correctAnswer: 'Menghormati keputusan anggota musyawarah tersebut',
+            explanation: 'Menunjukkan sikap demokratis, berjiwa besar, dan menghormati konsensus.'
+          },
+          {
+            id: 'tkp-14',
+            question: 'Suatu ketika keputusan tim tidak sesuai dengan apa yang Anda harapkan, maka Anda akan...',
+            options: ['Menolaknya', 'Menerima dan menjalaninya dengan rasa penuh tanggung jawab', 'Marah kepada anggota tim Anda yang lainnya', 'Mengatakan bahwa tim Anda tidak profesional', 'Diam saja'],
+            correctAnswer: 'Menerima dan menjalaninya dengan rasa penuh tanggung jawab',
+            explanation: 'Menunjukkan profesionalisme dan integritas sebagai bagian dari tim.'
+          },
+          {
+            id: 'tkp-15',
+            question: 'Anda berperan sebagai konsultan pendidikan. Ada seorang klien Anda yang ingin memindahkan anaknya dari sekolah A ke sekolah B dikarenakan sekolah B lebih dekat dengan rumahnya. Maka saran Anda adalah...',
+            options: ['Pindah saja', 'Jangan pindah', 'Tetap di sekolah A', 'Semua terserah pada keputusan orang tua siswa', 'Memberikan saran agar diperrtimbangkan baik-baik kelebihan dan kekurangan dari setiap sekolah tersebut'],
+            correctAnswer: 'Memberikan saran agar diperrtimbangkan baik-baik kelebihan dan kekurangan dari setiap sekolah tersebut',
+            explanation: 'Menunjukkan sikap profesional dalam memberikan masukan yang komprehensif.'
+          },
+          {
+            id: 'tkp-16',
+            question: 'Anda mempunyai anak buah yang hampir setiap hari terlambat masuk kerja. Sikap Anda adalah...',
+            options: ['Memecatnya', 'Memarahinya', 'Mendiamkannya', 'Menasehatinya', 'Menanyakan alasannya dan mencarikan solusinya'],
+            correctAnswer: 'Menanyakan alasannya dan mencarikan solusinya',
+            explanation: 'Menunjukkan kepemimpinan yang empatik sekaligus tegas dalam membina bawahan.'
+          },
+          {
+            id: 'tkp-17',
+            question: 'Seorang petugas kebersihan di kantor Anda sering datang terlambat. Sikap Anda adalah...',
+            options: ['Memecatnya', 'Memarahinya', 'Mendiamkannya', 'Menasehatinya', 'Menanyakan alasannya dan jika perlu membantunya'],
+            correctAnswer: 'Menanyakan alasannya dan jika perlu membantunya',
+            explanation: 'Menunjukkan sisi kemanusiaan dan kepedulian terhadap sesama pekerja.'
+          },
+          {
+            id: 'tkp-18',
+            question: 'Andi sedang libur/cuti bersama keluarganya. Namun di saat yang bersamaan, atasan menelpon agar segera ke kantor. Sikap Anda sebagai bawahan adalah...',
+            options: ['Mematikan HP', 'Menolak karena sedang liburan', 'Menitipkan pekerjaan tersebut kepada rekan kerja', 'Melaksanakan perintah dengan penuh tanggung jawab', 'Meminta ganti rugi'],
+            correctAnswer: 'Melaksanakan perintah dengan penuh tanggung jawab',
+            explanation: 'Menunjukkan loyalitas dan dedikasi yang tinggi terhadap tugas kantor.'
+          },
+          {
+            id: 'tkp-19',
+            question: 'Andi diminta oleh seorang guru menggambar sebuah pemandangan pegunungan. Namun Andi hanya bisa menggambar pohon saja, maka yang akan Andi lakukan adalah...',
+            options: ['Menyerah', 'Menangis', 'Meminta bantuan teman', 'Berusaha sebisanya dan semampunya', 'Berhenti menggambar'],
+            correctAnswer: 'Berusaha sebisanya dan semampunya',
+            explanation: 'Menunjukkan sikap pantang menyerah dan kemauan untuk mencoba.'
+          },
+          {
+            id: 'tkp-20',
+            question: 'Seorang PNS haruslah kreatif, maka menurut Anda yang harus dilakukan oleh seorang PNS adalah...',
+            options: ['Bekerja seadanya saja', 'Diam saja', 'Mendengarkan perintah pimpinan saja', 'Terus berinovasi buat kemajuan instansinya', 'Menunggu arahan dari atasan'],
+            correctAnswer: 'Terus berinovasi buat kemajuan instansinya',
+            explanation: 'Inovasi dan kreativitas adalah kunci pengembangan pelayanan publik yang modern.'
+          }
+        ]
+      }
+    ]
+  }
+];

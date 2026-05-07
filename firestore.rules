@@ -126,5 +126,33 @@ service cloud.firestore {
       allow create, update: if isAdmin('users_en') && isValidClass(request.resource.data);
       allow delete: if isAdmin('users_en');
     }
+
+    // --- Kedinasan Course ---
+
+    match /users_kd/{userId} {
+      allow read: if isSignedIn();
+      allow create: if (isOwner(userId) || isAdmin('users_kd')) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) || isAdmin('users_kd')) && 
+                    isValidUser(request.resource.data) &&
+                    (
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'completedModules'])) ||
+                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email', 'stars'])) ||
+                      isAdmin('users_kd')
+                    );
+      allow delete: if isAdmin('users_kd');
+    }
+
+    match /quiz_results_kd/{resultId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid && isValidQuizResult(request.resource.data);
+      allow update: if isAdmin('users_kd');
+      allow delete: if isAdmin('users_kd') || isGuru('users_kd');
+    }
+
+    match /classes_kd/{classId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin('users_kd') && isValidClass(request.resource.data);
+      allow delete: if isAdmin('users_kd');
+    }
   }
 }

@@ -57,11 +57,14 @@ export enum OperationType {
   WRITE = 'write',
 }
 
-export type CourseId = 'math' | 'english';
+export type CourseId = 'math' | 'english' | 'kedinasan';
 
 export function getCollName(base: string, courseId?: CourseId | null) {
   if (courseId === 'english') {
     return `${base}_en`;
+  }
+  if (courseId === 'kedinasan') {
+    return `${base}_kd`;
   }
   return base; // Default is math (uses 'users', 'quiz_results', 'classes')
 }
