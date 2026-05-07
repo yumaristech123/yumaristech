@@ -1038,6 +1038,73 @@ Toko C:
             ]
           }
         ]
+      },
+      {
+        id: 'mod-kesebangunan',
+        title: 'Kesebangunan',
+        description: 'Mempelajari konsep kesebangunan pada bangun datar melalui 3 tingkatan.',
+        icon: 'Shapes',
+        content: 'Kesebangunan adalah hubungan antara dua bangun datar yang memiliki bentuk yang sama, namun ukurannya bisa berbeda. Dua bangun dikatakan sebangun jika sudut-sudut yang bersesuaian sama besar dan sisi-sisi yang bersesuaian memiliki perbandingan yang senilai.',
+        quiz: [],
+        subModules: [
+          {
+            id: 'mod-kesebangunan-lvl1',
+            title: 'Level 1: Dasar & Teori',
+            description: 'Konsep dasar, sudut, dan definisi kesebangunan.',
+            icon: 'Book',
+            content: 'Level 1 fokus pada penggalan teori dasar, definisi, dan sifat-sifat umum kesebangunan pada bangun datar.',
+            quiz: [
+              { id: 'ks-1-1', question: 'Dua bangun dikatakan sebangun jika sudut-sudut yang bersesuaian memiliki besar yang...', options: ['Berbeda', 'Sama', 'Berjumlah 180°', 'Saling berpenyiku'], correctAnswer: 'Sama', explanation: 'Salah satu syarat utama kesebangunan adalah sudut-sudut yang bersesuaian memiliki besar yang sama.' },
+              { id: 'ks-1-2', question: 'Manakah yang sudah pasti sebangun satu sama lain?', options: ['Dua segitiga sama kaki', 'Dua persegi panjang', 'Dua buah lingkaran', 'Dua jajaran genjang'], correctAnswer: 'Dua buah lingkaran', explanation: 'Semua lingkaran memiliki bentuk yang identik (konstan), sehingga pasti sebangun satu sama lain.' },
+              { id: 'ks-1-3', question: 'Jika dua bangun sebangun, maka perbandingan sisi-sisi yang bersesuaian adalah...', options: ['Selalu 1:1', 'Berbeda-beda', 'Sama atau konstan', 'Tidak bisa ditentukan'], correctAnswer: 'Sama atau konstan', explanation: 'Syarat kedua kesebangunan adalah perbandingan sisi-sisi yang bersesuaian harus senilai/konstan.' },
+              { id: 'ks-1-4', question: 'Sifat kesebangunan berbeda dengan kekongruenan karena pada kesebangunan ukuran sisi...', options: ['Harus sama', 'Boleh berbeda tapi sebanding', 'Harus lebih kecil', 'Harus lebih besar'], correctAnswer: 'Boleh berbeda tapi sebanding', explanation: 'Kekongruenan mengharuskan ukuran sisi sama persis, sedangkan kesebangunan hanya mengharuskan perbandingan yang sama.' },
+              { id: 'ks-1-5', question: 'Jumlah sudut dalam sebuah segitiga adalah...', options: ['90°', '180°', '270°', '360°'], correctAnswer: '180°', explanation: 'Total jumlah ketiga sudut dalam segitiga apa pun selalu 180 derajat.' },
+              { id: 'ks-1-6', question: 'Sudut yang besarnya 90° disebut sebagai sudut...', options: ['Lancip', 'Tumpul', 'Refleks', 'Siku-siku'], correctAnswer: 'Siku-siku', explanation: 'Sudut siku-siku memiliki besaran tepat 90 derajat.' },
+              { id: 'ks-1-7', question: 'Pada dua garis sejajar yang dipotong garis lain, sudut sehadap memiliki besar...', options: ['Sama', 'Berbeda', 'Berjumlah 90°', 'Berjumlah 360°'], correctAnswer: 'Sama', explanation: 'Pasangan sudut sehadap pada dua garis sejajar yang dipotong transversal selalu sama besar.' },
+              { id: 'ks-1-8', question: 'Jika bangun A sebangun dengan bangun B, dan bangun B sebangun dengan bangun C, maka bangun A...', options: ['Tidak sebangun dengan C', 'Mungkin sebangun dengan C', 'Pasti sebangun dengan C', 'Kongruen dengan C'], correctAnswer: 'Pasti sebangun dengan C', explanation: 'Kesebangunan memiliki sifat transitif: jika A~B dan B~C, maka A~C.' },
+              { id: 'ks-1-9', question: 'Syarat minimal dua segitiga sebangun adalah memiliki dua pasang sudut yang...', options: ['Berbeda', 'Sama besar', 'Berjumlah 180°', 'Lancip'], correctAnswer: 'Sama besar', explanation: 'Cukup dengan dua pasang sudut yang sama besar (sd-sd), maka segitiga tersebut sudah pasti sebangun.' },
+              { id: 'ks-1-10', question: 'Kesebangunan pada bangun datar sering dilambangkan dengan simbol...', options: ['=', '≅', '~', '||'], correctAnswer: '~', explanation: 'Simbol ~ digunakan secara internasional untuk melambangkan kesebangunan.' }
+            ]
+          },
+          {
+            id: 'mod-kesebangunan-lvl2',
+            title: 'Level 2: Geometri & Rasio',
+            description: 'Perhitungan sisi, rasio, dan bangun datar.',
+            icon: 'Calculator',
+            content: 'Level 2 mencakup perhitungan teknis mengenai panjang sisi dan luas pada bangun yang sebangun menggunakan rasio.',
+            quiz: [
+              { id: 'ks-2-1', question: 'Segitiga ABC memiliki sisi 3, 4, 5. Segitiga PQR sebangun dengannya dan memiliki sisi terpendek 9. Sisi terpanjang PQR adalah...', options: ['12', '15', '18', '20'], correctAnswer: '15', explanation: 'Rasio = 9 / 3 = 3. Sisi terpanjang = 5 * 3 = 15.' },
+              { id: 'ks-2-2', question: 'Persegi panjang A (4x6) sebangun dengan persegi panjang B (x dan 12). Berapakah nilai x?', options: ['6', '8', '10', '12'], correctAnswer: '8', explanation: 'Perbandingan sisi: 4/x = 6/12. Maka 6x = 48 -> x = 8.' },
+              { id: 'ks-2-3', question: 'Dua segitiga sebangun memiliki perbandingan sisi 2:5. Jika luas segitiga kecil adalah 4 cm², berapakah luas segitiga besar?', options: ['10 cm²', '16 cm²', '25 cm²', '40 cm²'], correctAnswer: '25 cm²', explanation: 'Rasio luas = (2:5)² = 4:25. Jika luas kecil 4, maka luas besar 25.' },
+              { id: 'ks-2-4', question: 'Sebuah foto diletakkan pada karton 20x30. Sisa karton di kiri, kanan, atas adalah 2cm. Jika foto dan karton sebangun, sisa bawah adalah...', options: ["2 cm", "3 cm", "4 cm", "5 cm"], correctAnswer: '4 cm', explanation: 'Lebar foto = 20-2-2 = 16. Tinggi foto = 30-2-x = 28-x. Rasio lebar 16/20 = 4/5. Maka (28-x)/30 = 4/5 -> 140 - 5x = 120 -> 5x = 20 -> x = 4.' },
+              { id: 'ks-2-5', question: 'Jika perbandingan sisi dua kubus adalah 1:3, maka perbandingan volumenya adalah...', options: ['1:3', '1:9', '1:27', '1:6'], correctAnswer: '1:27', explanation: 'Rasio volume adalah pangkat tiga dari rasio sisi: 1³ : 3³ = 1 : 27.' },
+              { id: 'ks-2-6', question: 'Pada segitiga, garis yang sejajar dengan alas akan membagi sisi lainnya secara...', options: ["Acak", "Sama panjang", "Proporsional (sebanding)", "Tegak lurus"], correctAnswer: 'Proporsional (sebanding)', explanation: 'Garis sejajar alas menciptakan segitiga yang sebangun dan membagi sisi-sisinya secara proporsional.' },
+              { id: 'ks-2-7', question: 'Segitiga lancip sebangun dengan segitiga tumpul. Pernyataan ini...', options: ["Pasti Benar", "Pasti Salah", "Tergantung ukuran", "Mungkin saja"], correctAnswer: 'Pasti Salah', explanation: 'Sudut-sudutnya tidak akan pernah sama (lancip semua < 90°, tumpul ada yang > 90°).' },
+              { id: 'ks-2-8', question: 'Dua buah persegi panjang sebangun. Panjang A=10, Lebar A=5. Jika Panjang B=20, maka keliling B adalah...', options: ["40", "50", "60", "80"], correctAnswer: '60', explanation: 'Rasio = 20/10 = 2. Lebar B = 5 * 2 = 10. Keliling B = 2 * (20 + 10) = 60.' },
+              { id: 'ks-2-9', question: 'Faktor skala k = 0,5 artinya bangun hasil perbesaran akan...', options: ["Lebih besar", "Sama saja", "Lebih kecil", "Berubah bentuk"], correctAnswer: 'Lebih kecil', explanation: 'Jika k < 1, maka bangun hasil akan lebih kecil dari aslinya.' },
+              { id: 'ks-2-10', question: 'Jika sudut A = 40° dan sudut B = 60° pada segitiga ABC, maka sudut yang bersesuaian di segitiga lain yang sebangun adalah...', options: ["40° dan 60°", "40° dan 80°", "60° dan 80°", "Semua salah"], correctAnswer: '40° dan 60°', explanation: 'Kesebangunan mensyaratkan sudut-sudut yang bersesuaian besarnya sama.' }
+            ]
+          },
+          {
+            id: 'mod-kesebangunan-lvl3',
+            title: 'Level 3: Aplikasi & Soal Cerita',
+            description: 'Skala peta, bayangan, dan pemecahan masalah rumit.',
+            icon: 'Map',
+            content: 'Level 3 menerapkan konsep kesebangunan pada dunia nyata, seperti skala peta, perbandingan bayangan benda, dan model skala.',
+            quiz: [
+              { id: 'ks-3-1', question: 'Skala peta 1:250.000. Jarak 4cm di peta mewakili jarak asli sebesar...', options: ["1 km", "10 km", "100 km", "1.000 km"], correctAnswer: '10 km', explanation: '4 * 250.000 = 1.000.000 cm = 10 km.' },
+              { id: 'ks-3-2', question: 'Tinggi gedung 20m punya bayangan 5m. Pada saat sama, tiang punya bayangan 2m. Tinggi tiang adalah...', options: ["4 m", "6 m", "8 m", "10 m"], correctAnswer: '8 m', explanation: 'Tinggi/Bayangan = 20/5 = 4. Maka Tinggi Tiang = 2 * 4 = 8 m.' },
+              { id: 'ks-3-3', question: 'Model pesawat memiliki skala 1:50. Jika panjang sayap asli 15m, panjang sayap model adalah...', options: ["3 cm", "30 cm", "75 cm", "300 cm"], correctAnswer: '30 cm', explanation: '15 m = 1500 cm. Panjang model = 1500 / 50 = 30 cm.' },
+              { id: 'ks-3-4', question: 'Jarak sebenarnya 120km, skala 1:2.000.000. Jarak pada peta adalah...', options: ["6 cm", "12 cm", "60 cm", "2 cm"], correctAnswer: '6 cm', explanation: '120 km = 12.000.000 cm. Jarak peta = 12.000.000 / 2.000.000 = 6 cm.' },
+              { id: 'ks-3-5', question: 'Sebuah menara dipantulkan di air. Jika perbandingan tinggi menara dan bayangannya adalah 4:3, dan bayangannya 15m, tinggi menara adalah...', options: ["18 m", "20 m", "22 m", "25 m"], correctAnswer: '20 m', explanation: 'Tinggi/15 = 4/3 -> Tinggi = 15 * 4 / 3 = 20 m.' },
+              { id: 'ks-3-6', question: 'Seorang fotografer memperbesar foto 10x15 menjadi 2 kali lipat. Berapa luas foto baru?', options: ["300 cm²", "600 cm²", "150 cm²", "120 cm²"], correctAnswer: '600 cm²', explanation: 'Jika skala diperbesar 2x, luas naik 2²=4x. Luas awal = 10*15=150. Luas baru = 150 * 4 = 600 cm².' },
+              { id: 'ks-3-7', question: 'Pada peta navigasi, 1 cm mewakili 5 nautikal mil. Berapa skala numeriknya? (1 nm ≈ 1,85 km)', options: ["1:925.000", "1:500.000", "1:185.000", "1:5.000"], correctAnswer: '1:925.000', explanation: '5 nm = 5 * 1,85 km = 9,25 km = 925.000 cm. Jadi skala 1:925.000.' },
+              { id: 'ks-3-8', question: 'Denah rumah skala 1:100. Ruang tamu 4cm x 5cm di denah. Luas asli ruang tamu adalah...', options: ["20 m²", "2 m²", "200 m²", "0,2 m²"], correctAnswer: '20 m²', explanation: 'Ukuran asli = 400cm x 500cm = 4m x 5m = 20 m².' },
+              { id: 'ks-3-9', question: 'Tinggi Budi 160cm dengan bayangan 200cm. Pohon di dekatnya punya bayangan 10m. Tinggi pohon adalah...', options: ["6 m", "8 m", "10 m", "12 m"], correctAnswer: '8 m', explanation: 'Rasio Budi = 160/200 = 0,8. Tinggi pohon = 10 m * 0,8 = 8 m.' },
+              { id: 'ks-3-10', question: 'Jika luas pada peta adalah 4 cm² dan skala peta 1:1.000, maka luas sebenarnya adalah...', options: ["4.000 cm²", "40.000 cm²", "4.000.000 cm²", "40.000.000 cm²"], correctAnswer: '4.000.000 cm²', explanation: 'Rasio luas = 1000² = 1.000.000. Luas asli = 4 * 1.000.000 = 4.000.000 cm².' }
+            ]
+          }
+        ]
       }
     ]
   },
