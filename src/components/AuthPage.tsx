@@ -20,6 +20,19 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
   const [password, setPassword] = useState('');
 
   const isEnglish = courseId === 'english';
+  const isKedinasan = courseId === 'kedinasan';
+  const isUtbk = courseId === 'utbk';
+
+  const getTagline = () => {
+    switch (courseId) {
+      case 'english': return 'Platform Pembelajaran Modern bikin Jago Bahasa Inggris';
+      case 'kedinasan': return 'Platform Pembelajaran Modern untuk masuk Sekolah Kedinasan';
+      case 'utbk': return 'Platform Pembelajaran Modern untuk persiapan UTBK SNBT';
+      default: return 'Platform Pembelajaran Modern bikin Jago Matematika';
+    }
+  };
+
+  const themeColor = isEnglish ? 'indigo' : (isKedinasan ? 'amber' : (isUtbk ? 'rose' : 'brand'));
 
   const handleSecretTrigger = () => {
     setClickCount(prev => {
@@ -61,11 +74,11 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
       {/* Background Decor */}
       <div className={cn(
         "fixed -top-20 -left-20 w-96 h-96 rounded-full blur-[120px] opacity-60 animate-pulse",
-        isEnglish ? "bg-indigo-100" : "bg-brand-100"
+        `bg-${themeColor}-100`
       )} />
       <div className={cn(
         "fixed -bottom-20 -right-20 w-96 h-96 rounded-full blur-[120px] opacity-60",
-        isEnglish ? "bg-purple-100" : "bg-indigo-100"
+        `bg-${isEnglish ? 'purple' : (isKedinasan ? 'orange' : (isUtbk ? 'red' : 'indigo'))}-100`
       )} />
 
       <motion.div 
@@ -78,20 +91,22 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
             onClick={handleSecretTrigger}
             className={cn(
               "inline-flex p-2.5 rounded-2xl shadow-lg mb-3 cursor-default active:scale-95 transition-transform",
-              isEnglish ? "bg-indigo-600 shadow-indigo-100" : "bg-brand-600 shadow-brand-100"
+              `bg-${themeColor}-600 shadow-${themeColor}-100`
             )}
           >
             {isEnglish ? <BookOpen size={24} className="text-white" /> : <GraduationCap className="text-white" size={24} />}
           </div>
-          <h1 className="text-2xl font-bold heading-font tracking-tight text-slate-900">
-            ZONA <span className={isEnglish ? "text-indigo-600" : "text-brand-600"}>{isEnglish ? 'ENGLISH' : 'PRESTASI'}</span>
+          <h1 className="text-2xl font-bold heading-font tracking-tight text-slate-900 flex flex-col items-center">
+            <div>
+              <span className="text-red-600">ZONA PRESTASI</span> <span className="text-emerald-600">YUMARIS</span>
+            </div>
           </h1>
-          <p className="text-slate-500 font-medium mt-1 text-xs">Platform Pembelajaran {isEnglish ? 'Bahasa Inggris' : 'Matematika'} Masa Depan</p>
+          <p className="text-slate-500 font-bold mt-2 text-[10px] uppercase tracking-widest">{getTagline()}</p>
         </div>
 
         <div className={cn(
           "bg-white border border-slate-100 rounded-[2rem] shadow-xl overflow-hidden",
-          isEnglish ? "shadow-indigo-100/50" : "shadow-brand-100/50"
+          `shadow-${themeColor}-100/50`
         )}>
           <div className="p-8">
             <h2 className="text-lg font-bold text-slate-800 mb-5 text-center">Masuk ke LMS</h2>
@@ -114,7 +129,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                     onChange={(e) => setEmail(e.target.value)}
                     className={cn(
                       "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
-                      isEnglish ? "focus:border-indigo-400" : "focus:border-brand-400"
+                      `focus:border-${themeColor}-400`
                     )}
                   />
                 </div>
@@ -128,7 +143,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                     onChange={(e) => setPassword(e.target.value)}
                     className={cn(
                       "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
-                      isEnglish ? "focus:border-indigo-400" : "focus:border-brand-400"
+                      `focus:border-${themeColor}-400`
                     )}
                   />
                 </div>
@@ -139,7 +154,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                 disabled={loading}
                 className={cn(
                   "w-full text-white py-3.5 rounded-xl font-bold uppercase tracking-widest text-[10px] shadow-lg transition-all flex items-center justify-center gap-2 disabled:bg-slate-300 disabled:shadow-none",
-                  isEnglish ? "bg-indigo-600 shadow-indigo-100 hover:bg-indigo-700" : "bg-brand-600 shadow-brand-100 hover:bg-brand-700"
+                  `bg-${themeColor}-600 shadow-${themeColor}-100 hover:bg-${themeColor}-700`
                 )}
               >
                 {loading ? 'Memproses...' : 'Masuk Sekarang'}
