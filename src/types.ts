@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type Difficulty = 'Dasar' | 'Menengah' | 'Mahir' | 'Aritmetika Dasar' | 'Topik Matematika' | 'OSN Matematika' | 'Sekolah Kedinasan';
+export type Difficulty = 'Dasar' | 'Menengah' | 'Mahir' | 'Aritmetika Dasar' | 'Topik Matematika' | 'OSN Matematika' | 'Sekolah Kedinasan' | 'UTBK-SNBT';
 
 export interface QuizQuestion {
   id: string;

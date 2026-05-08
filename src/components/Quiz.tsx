@@ -20,6 +20,7 @@ interface QuizSessionProps {
     keys: string[];
     colors?: string[];
   };
+  course?: 'math' | 'english' | 'kedinasan' | 'utbk';
 }
 
 export function QuizSession({ 
@@ -29,12 +30,15 @@ export function QuizSession({
   hideFeedback = false, 
   headerContent,
   chartData,
-  chartConfig
+  chartConfig,
+  course = 'math'
 }: QuizSessionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [startTime] = useState(Date.now());
+
+  const accentColor = course === 'english' ? 'indigo' : (course === 'kedinasan' ? 'amber' : (course === 'utbk' ? 'red' : 'brand'));
 
   const currentQuestion = questions[currentIndex];
   const isAnswered = userAnswers[currentIndex] !== undefined;
@@ -100,7 +104,10 @@ export function QuizSession({
               const timeTaken = Math.floor((Date.now() - startTime) / 1000);
               onComplete(finalScore, 'Umum', timeTaken);
             }}
-            className="flex-1 bg-brand-600 text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-brand-700 transition-all shadow-lg shadow-brand-100"
+            className={cn(
+              "flex-1 text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-xs transition-all shadow-lg",
+              `bg-${accentColor}-600 hover:bg-${accentColor}-700 shadow-${accentColor}-100`
+            )}
           >
             Simpan
           </button>
@@ -134,7 +141,7 @@ export function QuizSession({
                 onClick={() => setCurrentIndex(idx)}
                 className={cn(
                   "w-10 h-10 rounded-xl font-bold text-xs transition-all border-2",
-                  current ? "bg-brand-600 border-brand-600 text-white shadow-lg shadow-brand-100 scale-110 z-10" : 
+                  current ? `bg-${accentColor}-600 border-${accentColor}-600 text-white shadow-lg shadow-${accentColor}-100 scale-110 z-10` : 
                   answered ? "bg-emerald-50 border-emerald-100 text-emerald-600" : "bg-white border-slate-100 text-slate-400 hover:border-slate-200"
                 )}
               >
@@ -151,11 +158,11 @@ export function QuizSession({
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-1">Kemajuan Kuis</p>
             <h3 className="text-xl font-bold heading-font text-slate-800">Pertanyaan {currentIndex + 1} <span className="text-slate-300 font-medium">/ {questions.length}</span></h3>
           </div>
-          <span className="text-brand-600 font-black text-sm">{Math.round((Object.keys(userAnswers).length / questions.length) * 100)}% Diisi</span>
+          <span className={cn("font-black text-sm", `text-${accentColor}-600`)}>{Math.round((Object.keys(userAnswers).length / questions.length) * 100)}% Diisi</span>
         </div>
         <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50">
           <motion.div
-            className="h-full bg-brand-500"
+            className={cn("h-full", `bg-${accentColor}-500`)}
             initial={{ width: 0 }}
             animate={{ width: `${(Object.keys(userAnswers).length / questions.length) * 100}%` }}
           />
@@ -173,7 +180,7 @@ export function QuizSession({
           {headerContent && (
             <div className="mb-8 p-6 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-medium text-slate-600 whitespace-pre-wrap leading-relaxed overflow-auto max-h-60">
               <div className="flex items-center gap-2 mb-3 border-b border-slate-200 pb-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
+                <div className={cn("w-1.5 h-1.5 rounded-full animate-pulse", `bg-${accentColor}-500`)} />
                 <span className="font-bold text-[10px] uppercase tracking-widest text-slate-400">Informasi Referensi</span>
               </div>
               {headerContent.trim()}
@@ -182,7 +189,7 @@ export function QuizSession({
           {chartData && chartConfig && (
             <div className="mb-8 h-[300px] w-full bg-white border border-slate-200 rounded-3xl p-6 shadow-sm overflow-hidden">
                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                 <div className="w-2 h-2 rounded-full bg-brand-500" />
+                 <div className={cn("w-2 h-2 rounded-full", `bg-${accentColor}-500`)} />
                  Visualisasi Data
                </p>
                <ResponsiveContainer width="100%" height="100%">
@@ -214,7 +221,7 @@ export function QuizSession({
                        <Bar 
                           key={key} 
                           dataKey={key} 
-                          fill={chartConfig.colors?.[i] || '#6366f1'} 
+                          fill={chartConfig.colors?.[i] || (course === 'english' ? '#6366f1' : (course === 'kedinasan' ? '#f59e0b' : (course === 'utbk' ? '#ef4444' : '#6366f1')))} 
                           radius={[6, 6, 0, 0]} 
                           barSize={chartConfig.keys.length > 1 ? 20 : 40}
                           name={key.replace(/([A-Z])/g, ' $1').trim()}
@@ -245,10 +252,10 @@ export function QuizSession({
                   onClick={() => handleAnswer(option)}
                   className={cn(
                     "p-5 text-left border-2 rounded-2xl font-bold text-lg transition-all duration-200",
-                    !isAnswered && "bg-white border-slate-300 hover:border-brand-400 hover:bg-brand-50/10",
+                    !isAnswered && `bg-white border-slate-300 hover:border-${accentColor}-400 hover:bg-${accentColor}-50/10`,
                     isAnswered && !hideFeedback && isCorrect && "bg-emerald-50 border-emerald-500 text-emerald-800",
                     isAnswered && !hideFeedback && isSelected && !isCorrect && "bg-rose-50 border-rose-500 text-rose-800",
-                    isAnswered && hideFeedback && isSelected && "bg-brand-50 border-brand-500 text-brand-800",
+                    isAnswered && hideFeedback && isSelected && `bg-${accentColor}-50 border-${accentColor}-500 text-${accentColor}-800`,
                     isAnswered && (hideFeedback || (!isCorrect && !isSelected)) && !isSelected && "opacity-40 border-slate-100"
                   )}
                 >
@@ -267,13 +274,13 @@ export function QuizSession({
               <motion.div
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="mb-10 p-6 bg-brand-50/50 border border-brand-100 rounded-2xl"
+                className={cn("mb-10 p-6 border rounded-2xl", `bg-${accentColor}-50/50 border-${accentColor}-100`)}
               >
                 <div className="flex items-center gap-2 mb-2">
-                   <div className="w-6 h-6 bg-brand-600 rounded-lg flex items-center justify-center text-[10px] text-white">i</div>
-                   <p className="font-bold text-brand-900 text-[10px] uppercase tracking-widest">Penjelasan</p>
+                   <div className={cn("w-6 h-6 rounded-lg flex items-center justify-center text-[10px] text-white", `bg-${accentColor}-600`)}>i</div>
+                   <p className={cn("font-bold text-[10px] uppercase tracking-widest", `text-${accentColor}-900`)}>Penjelasan</p>
                 </div>
-                <p className="text-brand-800 font-medium leading-relaxed">{currentQuestion.explanation}</p>
+                <p className={cn("font-medium leading-relaxed", `text-${accentColor}-800`)}>{currentQuestion.explanation}</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -291,7 +298,7 @@ export function QuizSession({
               onClick={handleNext}
               className={cn(
                 "py-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all shadow-lg",
-                isAnswered ? "flex-[2] bg-brand-600 text-white shadow-brand-100 hover:bg-brand-700" : "flex-[2] bg-slate-100 text-slate-400 cursor-not-allowed"
+                isAnswered ? `flex-[2] bg-${accentColor}-600 text-white shadow-${accentColor}-100 hover:bg-${accentColor}-700` : "flex-[2] bg-slate-100 text-slate-400 cursor-not-allowed"
               )}
               disabled={!isAnswered}
             >

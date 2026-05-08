@@ -39,7 +39,7 @@ export function LevelCard({ level, userXp, onSelect }: LevelCardProps) {
         )}
       </div>
       
-      <p className="text-slate-500 mb-8 font-medium leading-relaxed">
+      <p className="text-slate-500 mb-8 font-bold leading-relaxed">
         {level.description}
       </p>
 
@@ -100,7 +100,7 @@ export function ModuleCard({ module, isCompleted, onSelect }: ModuleCardProps) {
       </div>
       <div className="flex-1">
         <h4 className="font-bold text-slate-800 leading-tight mb-0.5">{module.title}</h4>
-        <p className="text-xs text-slate-500 font-medium line-clamp-1">{module.description}</p>
+        <p className="text-xs text-slate-500 font-bold line-clamp-1">{module.description}</p>
       </div>
       <div className="shrink-0">
         {isCompleted ? (

@@ -222,7 +222,7 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
         <div className="bg-indigo-600 p-6 md:p-8 text-white flex justify-between items-center shrink-0">
            <div>
               <h2 className="text-xl md:text-2xl font-bold heading-font tracking-tight">Pusat Kendali Admin</h2>
-              <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-1">Sistem Manajemen ZONA PRESTASI</p>
+              <p className="text-indigo-100 text-[10px] font-bold uppercase tracking-widest mt-1">Sistem Manajemen ZONA PRESTASI YUMARIS</p>
            </div>
            <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-xl transition-colors">
               <X size={24} />
