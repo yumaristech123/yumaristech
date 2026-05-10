@@ -22,17 +22,19 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
   const isEnglish = courseId === 'english';
   const isKedinasan = courseId === 'kedinasan';
   const isUtbk = courseId === 'utbk';
+  const isTka = courseId === 'tka';
 
   const getTagline = () => {
     switch (courseId) {
       case 'english': return 'Platform Pembelajaran Modern bikin Jago Bahasa Inggris';
       case 'kedinasan': return 'Platform Pembelajaran Modern untuk masuk Sekolah Kedinasan';
       case 'utbk': return 'Platform Pembelajaran Modern untuk persiapan UTBK SNBT';
+      case 'tka': return 'Platform Pembelajaran Modern untuk persiapan TKA';
       default: return 'Platform Pembelajaran Modern bikin Jago Matematika';
     }
   };
 
-  const themeColor = isEnglish ? 'indigo' : (isKedinasan ? 'amber' : (isUtbk ? 'rose' : 'brand'));
+  const themeColor = isEnglish ? 'indigo' : (isKedinasan ? 'amber' : (isUtbk ? 'rose' : (isTka ? 'emerald' : 'brand')));
 
   const handleSecretTrigger = () => {
     setClickCount(prev => {
@@ -78,7 +80,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
       )} />
       <div className={cn(
         "fixed -bottom-20 -right-20 w-96 h-96 rounded-full blur-[120px] opacity-60",
-        `bg-${isEnglish ? 'purple' : (isKedinasan ? 'orange' : (isUtbk ? 'red' : 'indigo'))}-100`
+        `bg-${isEnglish ? 'purple' : (isKedinasan ? 'orange' : (isUtbk ? 'red' : (isTka ? 'emerald' : 'indigo')) )}-100`
       )} />
 
       <motion.div 
@@ -113,7 +115,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
             
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3 bg-rose-50 border border-rose-100 text-rose-600 rounded-xl text-[10px] font-medium text-center">
+                <div className="p-3 bg-rose-50 border border-rose-100 text-rose-600 rounded-xl text-[10px] font-bold text-center">
                   {error}
                 </div>
               )}
@@ -128,7 +130,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={cn(
-                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
+                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-bold text-sm outline-none transition-all focus:bg-white",
                       `focus:border-${themeColor}-400`
                     )}
                   />
@@ -142,7 +144,7 @@ export function AuthPage({ onSuccess, courseId }: AuthPageProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={cn(
-                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-medium text-sm outline-none transition-all focus:bg-white",
+                      "w-full bg-slate-50 border border-slate-100 rounded-xl py-3 pl-11 pr-4 font-bold text-sm outline-none transition-all focus:bg-white",
                       `focus:border-${themeColor}-400`
                     )}
                   />

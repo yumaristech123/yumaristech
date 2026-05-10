@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { BookOpen, GraduationCap, Zap, Trophy } from 'lucide-react';
+import { BookOpen, GraduationCap, Zap, Trophy, Star } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface LandingPageProps {
-  onSelectCourse: (course: 'math' | 'english' | 'kedinasan' | 'utbk') => void;
+  onSelectCourse: (course: 'math' | 'english' | 'kedinasan' | 'utbk' | 'tka') => void;
 }
 
 export function LandingPage({ onSelectCourse }: LandingPageProps) {
@@ -51,17 +51,12 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             <p className="text-sm md:text-xl text-slate-500 font-bold mb-6 md:mb-8 leading-relaxed mx-auto max-w-2xl px-4 md:px-0">
               Pembelajaran interaktif yang dirancang khusus untuk membantumu menguasai materi dengan cara yang seru dan menyenangkan.
             </p>
-            <div className="flex justify-center items-center gap-3">
-              <div className="w-8 md:w-12 h-1 bg-brand-600 rounded-full" />
-              <div className="w-3 md:w-4 h-1 bg-yellow-400 rounded-full" />
-              <div className="w-8 md:w-12 h-1 bg-brand-600 rounded-full" />
-            </div>
           </motion.div>
         </div>
 
         <div className="mt-8" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto px-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto px-2">
           {/* Mathematics Course */}
           <motion.div 
             whileHover={{ y: -6, scale: 1.02 }}
@@ -208,6 +203,41 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
             </div>
 
 
+          </motion.div>
+
+          {/* TKA Course */}
+          <motion.div 
+            whileHover={{ y: -6, scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onSelectCourse('tka')}
+            className="group cursor-pointer relative bg-white rounded-[2rem] p-6 border border-slate-200/60 shadow-xl shadow-emerald-900/5 hover:shadow-emerald-900/10 transition-all flex flex-col items-center text-center overflow-hidden h-full"
+          >
+            {/* Card Background Subtle Pattern */}
+            <div className="absolute top-0 left-0 w-24 h-24 bg-emerald-50 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity" />
+
+            <div className="flex-1 w-full flex flex-col items-center justify-center text-center py-4">
+              <h5 className="text-3xl font-black text-emerald-900 mb-2 heading-font uppercase">TKA</h5>
+              <p className="text-slate-500 font-bold mb-6 leading-tight max-w-xs mx-auto text-[11px]">
+                Tes Kompetensi Akademik untuk semua jenjang.
+              </p>
+              
+              <div className="relative w-24 h-28 mx-auto">
+                <div className="absolute inset-0 bg-emerald-600 rounded-2xl shadow-lg shadow-emerald-200 transform group-hover:-rotate-3 transition-transform flex flex-col items-center justify-center text-white p-3">
+                  <div className="bg-white/20 p-2 rounded-lg mb-2 backdrop-blur-md">
+                    <Star size={28} className="text-yellow-300 fill-yellow-300" />
+                  </div>
+                  <span className="text-[6px] font-black uppercase tracking-[0.2em]">Curriculum</span>
+                </div>
+
+                {/* Design Elements */}
+                <div className="absolute -top-3 -left-4 bg-white p-1.5 rounded-lg shadow-md border border-emerald-50 transform rotate-12 group-hover:scale-110 transition-transform">
+                   <div className="text-xs font-black text-emerald-600">TKA</div>
+                </div>
+                <div className="absolute -bottom-3 -right-3 bg-emerald-50/80 backdrop-blur-md px-2 py-1 rounded-lg border border-emerald-100 shadow-sm transform -rotate-6 group-hover:scale-110 transition-transform">
+                  <div className="text-[8px] font-bold text-emerald-700">SD • SMP • SMA</div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </main>

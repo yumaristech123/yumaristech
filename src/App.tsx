@@ -5,6 +5,7 @@ import { Level, Module } from './types';
 import { LEVELS, KEDINASAN_LEVELS } from './constants';
 import { ENGLISH_LEVELS } from './englishConstants';
 import { UTBK_LEVELS } from './utbkConstants';
+import { TKA_LEVELS } from './tkaConstants';
 import { LevelCard, ModuleCard } from './components/Cards';
 import { QuizSession } from './components/Quiz';
 import { EnglishModule } from './components/EnglishModule';
@@ -177,20 +178,20 @@ export default function App() {
             }
             resetToHome();
           }}>
-            <div className={cn(
+             <div className={cn(
               "text-white p-2.5 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300",
-              selectedCourse === 'english' ? "bg-indigo-600 shadow-indigo-200" : (selectedCourse === 'kedinasan' ? "bg-amber-600 shadow-amber-200" : (selectedCourse === 'utbk' ? "bg-red-600 shadow-red-200" : "bg-brand-600 shadow-brand-200"))
+              selectedCourse === 'english' ? "bg-indigo-600 shadow-indigo-200" : (selectedCourse === 'kedinasan' ? "bg-amber-600 shadow-amber-200" : (selectedCourse === 'utbk' ? "bg-red-600 shadow-red-200" : (selectedCourse === 'tka' ? "bg-emerald-600 shadow-emerald-200" : "bg-brand-600 shadow-brand-200")))
             )}>
-              {selectedCourse === 'english' ? <BookOpen size={24} /> : (selectedCourse === 'kedinasan' ? <Trophy size={24} /> : (selectedCourse === 'utbk' ? <Trophy size={24} /> : <Zap size={24} className="fill-yellow-300 text-yellow-300" />))}
+              {selectedCourse === 'english' ? <BookOpen size={24} /> : (['kedinasan', 'utbk', 'tka'].includes(selectedCourse ?? '') ? <Trophy size={24} /> : <Zap size={24} className="fill-yellow-300 text-yellow-300" />)}
             </div>
             <h1 className="text-2xl font-bold heading-font tracking-tight flex items-center gap-1.5">
               <span className="text-red-600">ZONA</span> 
-              {['english', 'kedinasan', 'utbk'].includes(selectedCourse) ? (
+              {['english', 'kedinasan', 'utbk', 'tka'].includes(selectedCourse ?? '') ? (
                 <span className={cn(
                   selectedCourse === 'english' ? "text-indigo-600" : 
-                  (selectedCourse === 'kedinasan' ? "text-amber-600" : "text-red-600")
+                  (selectedCourse === 'kedinasan' ? "text-amber-600" : (selectedCourse === 'tka' ? "text-emerald-600" : "text-red-600"))
                 )}>
-                  {selectedCourse === 'english' ? 'ENGLISH' : (selectedCourse === 'kedinasan' ? 'KEDINASAN' : 'SNBT')}
+                  {selectedCourse === 'english' ? 'ENGLISH' : (selectedCourse === 'kedinasan' ? 'KEDINASAN' : (selectedCourse === 'tka' ? 'TKA' : 'SNBT'))}
                 </span>
               ) : (
                 <>
@@ -206,7 +207,7 @@ export default function App() {
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-2xl border font-bold text-xs transition-all shadow-sm",
                 activeView === 'scores' 
-                  ? (selectedCourse === 'english' ? "bg-indigo-600 text-white border-indigo-500 hover:bg-indigo-700" : (selectedCourse === 'kedinasan' ? "bg-amber-600 text-white border-amber-500 hover:bg-amber-700" : (selectedCourse === 'utbk' ? "bg-red-600 text-white border-red-500 hover:bg-red-700" : "bg-brand-600 text-white border-brand-500 hover:bg-brand-700"))) 
+                  ? (selectedCourse === 'english' ? "bg-indigo-600 text-white border-indigo-500 hover:bg-indigo-700" : (selectedCourse === 'kedinasan' ? "bg-amber-600 text-white border-amber-500 hover:bg-amber-700" : (selectedCourse === 'utbk' ? "bg-red-600 text-white border-red-500 hover:bg-red-700" : (selectedCourse === 'tka' ? "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-700" : "bg-brand-600 text-white border-brand-500 hover:bg-brand-700")))) 
                   : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
               )}
             >
@@ -223,8 +224,8 @@ export default function App() {
                 <div className="flex items-center gap-4">
                   <div className="text-right hidden md:block">
                     <p className={cn(
-                      "font-medium text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md mb-0.5 inline-block capitalize",
-                      selectedCourse === 'english' ? "bg-indigo-50 text-indigo-600" : (selectedCourse === 'kedinasan' ? "bg-amber-50 text-amber-600" : (selectedCourse === 'utbk' ? "bg-red-50 text-red-600" : "bg-brand-50 text-brand-600"))
+                      "font-bold text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md mb-0.5 inline-block capitalize",
+                      selectedCourse === 'english' ? "bg-indigo-50 text-indigo-600" : (selectedCourse === 'kedinasan' ? "bg-amber-50 text-amber-600" : (selectedCourse === 'utbk' ? "bg-red-50 text-red-600" : (selectedCourse === 'tka' ? "bg-emerald-50 text-emerald-600" : "bg-brand-50 text-brand-600")))
                     )}>
                       {userRole === 'admin' ? 'Verifikasi' : (userRole || 'Siswa')}
                     </p>
@@ -262,8 +263,8 @@ export default function App() {
             >
               <div className="max-w-3xl">
                 <h2 className="text-5xl font-bold heading-font mb-4 tracking-tight text-slate-900 leading-[1.1]">
-                  Pelajaran <span className={cn("italic", selectedCourse === 'english' ? "text-indigo-600" : (selectedCourse === 'kedinasan' ? "text-amber-600" : (selectedCourse === 'utbk' ? "text-red-600" : "text-brand-600")))}>
-                    {selectedCourse === 'english' ? 'Bahasa Inggris' : (selectedCourse === 'kedinasan' ? 'Kedinasan' : (selectedCourse === 'utbk' ? 'UTBK SNBT' : 'Matematika'))}
+                  Pelajaran <span className={cn("italic", selectedCourse === 'english' ? "text-indigo-600" : (selectedCourse === 'kedinasan' ? "text-amber-600" : (selectedCourse === 'utbk' ? "text-red-600" : (selectedCourse === 'tka' ? "text-emerald-600" : "text-brand-600"))))}>
+                    {selectedCourse === 'english' ? 'Bahasa Inggris' : (selectedCourse === 'kedinasan' ? 'Kedinasan' : (selectedCourse === 'utbk' ? 'UTBK SNBT' : (selectedCourse === 'tka' ? 'TKA' : 'Matematika')))}
                   </span> Makin Seru!
                 </h2>
                 <p className="text-xl font-bold text-slate-500">
@@ -271,11 +272,11 @@ export default function App() {
                     ? 'Improve your vocabulary and grammar skills with fun interactive modules.'
                     : (selectedCourse === 'kedinasan' 
                         ? 'Persiapkan dirmu menghadapi seleksi masuk sekolah kedinasan impianmu.'
-                        : (selectedCourse === 'utbk' ? 'Berlatih soal-soal UTBK SNBT dengan simulasi TPS dan Literasi yang akurat.' : 'Tingkatkan kemampuan matematikamu dengan kuis interaktif dan tantangan kilat.'))}
+                        : (selectedCourse === 'utbk' ? 'Berlatih soal-soal UTBK SNBT dengan simulasi TPS dan Literasi yang akurat.' : (selectedCourse === 'tka' ? 'Latihan Tes Kompetensi Akademik untuk persiapan menembus sekolah impian.' : 'Tingkatkan kemampuan matematikamu dengan kuis interaktif dan tantangan kilat.')))}
                 </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {(selectedCourse === 'english' ? ENGLISH_LEVELS : (selectedCourse === 'kedinasan' ? KEDINASAN_LEVELS : (selectedCourse === 'utbk' ? UTBK_LEVELS : LEVELS))).map((level) => (
+                {(selectedCourse === 'english' ? ENGLISH_LEVELS : (selectedCourse === 'kedinasan' ? KEDINASAN_LEVELS : (selectedCourse === 'utbk' ? UTBK_LEVELS : (selectedCourse === 'tka' ? TKA_LEVELS : LEVELS)))).map((level) => (
                   <LevelCard 
                     key={level.id} 
                     level={level} 
@@ -296,14 +297,14 @@ export default function App() {
               <div className="lg:col-span-1 space-y-6">
                 <button onClick={resetToHome} className={cn(
                   "flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] hover:translate-x-[-4px] transition-transform",
-                  selectedCourse === 'english' ? "text-indigo-600" : (selectedCourse === 'kedinasan' ? "text-amber-600" : (selectedCourse === 'utbk' ? "text-red-600" : "text-brand-600"))
+                  selectedCourse === 'english' ? "text-indigo-600" : (selectedCourse === 'kedinasan' ? "text-amber-600" : (selectedCourse === 'utbk' ? "text-red-600" : (selectedCourse === 'tka' ? "text-emerald-600" : "text-brand-600")))
                 )}>
                   <ChevronLeft size={16} /> Kembali ke Menu
                 </button>
                 <div className="bg-white border border-slate-300 p-8 rounded-[2rem] shadow-md">
                   <span className={cn(
                     "px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border",
-                    selectedCourse === 'english' ? "bg-indigo-50 text-indigo-600 border-indigo-100" : (selectedCourse === 'kedinasan' ? "bg-amber-50 text-amber-600 border-amber-100" : (selectedCourse === 'utbk' ? "bg-red-50 text-red-600 border-red-100" : "bg-brand-50 text-brand-600 border-brand-100"))
+                    selectedCourse === 'english' ? "bg-indigo-50 text-indigo-600 border-indigo-100" : (selectedCourse === 'kedinasan' ? "bg-amber-50 text-amber-600 border-amber-100" : (selectedCourse === 'utbk' ? "bg-red-50 text-red-600 border-red-100" : (selectedCourse === 'tka' ? "bg-emerald-50 text-emerald-600 border-emerald-100" : "bg-brand-50 text-brand-600 border-brand-100")))
                   )}>Level {currentLevel.title}</span>
                   <h3 className="text-3xl font-bold heading-font mt-4 mb-2 tracking-tight text-slate-800">{currentLevel.title}</h3>
                   <p className="text-slate-500 font-bold mb-8 leading-relaxed text-sm">{currentLevel.description}</p>
@@ -400,11 +401,11 @@ export default function App() {
 
       <div className={cn(
         "fixed -bottom-20 -left-20 w-80 h-80 rounded-full blur-[100px] -z-10 opacity-50",
-        selectedCourse === 'english' ? "bg-indigo-100" : (selectedCourse === 'kedinasan' ? "bg-amber-100" : (selectedCourse === 'utbk' ? "bg-red-100" : "bg-blue-100"))
+        selectedCourse === 'english' ? "bg-indigo-100" : (selectedCourse === 'kedinasan' ? "bg-amber-100" : (selectedCourse === 'utbk' ? "bg-red-100" : (selectedCourse === 'tka' ? "bg-emerald-100" : "bg-blue-100")))
       )} />
       <div className={cn(
         "fixed -top-20 -right-20 w-80 h-80 rounded-full blur-[100px] -z-10 opacity-50",
-        selectedCourse === 'english' ? "bg-purple-100" : (selectedCourse === 'kedinasan' ? "bg-orange-100" : (selectedCourse === 'utbk' ? "bg-red-100" : "bg-yellow-100"))
+        selectedCourse === 'english' ? "bg-purple-100" : (selectedCourse === 'kedinasan' ? "bg-orange-100" : (selectedCourse === 'utbk' ? "bg-red-100" : (selectedCourse === 'tka' ? "bg-emerald-100" : "bg-yellow-100")))
       )} />
 
       {isAdminPanelOpen && (

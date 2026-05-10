@@ -57,7 +57,7 @@ export enum OperationType {
   WRITE = 'write',
 }
 
-export type CourseId = 'math' | 'english' | 'kedinasan' | 'utbk';
+export type CourseId = 'math' | 'english' | 'kedinasan' | 'utbk' | 'tka';
 
 export function getCollName(base: string, courseId?: CourseId | null) {
   if (courseId === 'english') {
@@ -68,6 +68,9 @@ export function getCollName(base: string, courseId?: CourseId | null) {
   }
   if (courseId === 'utbk') {
     return `${base}_utbk`;
+  }
+  if (courseId === 'tka') {
+    return `${base}_tka`;
   }
   return base; // Default is math (uses 'users', 'quiz_results', 'classes')
 }
