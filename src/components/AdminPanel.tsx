@@ -55,7 +55,8 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
     const unsubClasses = onSnapshot(qClasses, (snapshot) => {
       const classes: ClassData[] = [];
       snapshot.forEach((doc) => {
-        classes.push(doc.data() as ClassData);
+        const data = doc.data();
+        classes.push({ ...data, id: doc.id } as ClassData);
       });
       setClassList(classes);
     });
@@ -174,7 +175,7 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
   };
 
   const handleDelete = async (uid: string, name: string) => {
-    if (window.confirm(`Hapus akun "${name}" secara permanen? Tindakan ini tidak dapat dibatalkan.`)) {
+    if (window.confirm(`Hapus akun "${name}" beserta seluruh data kuisnya secara permanen? Tindakan ini tidak dapat dibatalkan.`)) {
       try {
         await deleteUserDoc(uid, courseId as CourseId);
       } catch (err: any) {
@@ -444,6 +445,29 @@ export function AdminPanel({ onClose, courseId = 'math' }: AdminPanelProps) {
                   </div>
                   
                   <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={async () => {
+                        if (window.confirm('Hapus SEMUA data nilai dari pengguna yang sudah dihapus (Unknown User)? Ini akan membersihkan database dari data sampah.')) {
+                          setLoading(true);
+                          try {
+                            const { cleanupUnknownScores } = await import('../lib/firebase');
+                            const deleted = await cleanupUnknownScores(courseId as any);
+                            alert(`Berhasil membersihkan ${deleted} data nilai sampah.`);
+                          } catch (e: any) {
+                            alert('Gagal membersihkan data: ' + e.message);
+                          } finally {
+                            setLoading(false);
+                          }
+                        }
+                      }}
+                      disabled={loading}
+                      className={cn(
+                        "px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm shadow-rose-100",
+                        loading ? "bg-slate-300 text-slate-500 cursor-not-allowed" : "bg-rose-600 text-white border border-rose-500 hover:bg-rose-700"
+                      )}
+                    >
+                      <Trash2 size={12} /> {loading ? 'Membersihkan...' : 'Bersihkan Data Sampah'}
+                    </button>
                     <button
                       onClick={async () => {
                         if (window.confirm('Recalculate stars for ALL students? This will scan all quiz results.')) {

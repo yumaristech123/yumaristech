@@ -164,10 +164,29 @@ export const updateUser = async (uid: string, data: Partial<any>, courseId: Cour
   }
 };
 
+export const deleteResultsByUserId = async (userId: string, courseId: CourseId = 'math') => {
+  try {
+    const collResults = getCollName('quiz_results', courseId);
+    const q = query(collection(db, collResults), where('userId', '==', userId));
+    const snap = await getDocs(q);
+    
+    const deletePromises = snap.docs.map(d => deleteDoc(doc(db, collResults, d.id)));
+    await Promise.all(deletePromises);
+    return deletePromises.length;
+  } catch (error) {
+    console.error('Error deleting results by user:', error);
+    throw error;
+  }
+};
+
 export const deleteUserDoc = async (uid: string, courseId: CourseId = 'math') => {
   try {
     const coll = getCollName('users', courseId);
     const userRef = doc(db, coll, uid);
+    
+    // Also delete their quiz results to prevent orphans
+    await deleteResultsByUserId(uid, courseId);
+    
     await deleteDoc(userRef);
   } catch (error) {
     throw handleFirestoreError(error, OperationType.DELETE, `users/${uid}`);
@@ -312,6 +331,54 @@ export const syncAllUsersStars = async (courseId: CourseId = 'math') => {
     return results;
   } catch (error) {
     console.error('Error mass syncing stars:', error);
+    throw error;
+  }
+};
+
+export const cleanupUnknownScores = async (courseId: CourseId = 'math') => {
+  try {
+    const collResults = getCollName('quiz_results', courseId);
+    const collUsers = getCollName('users', courseId);
+    
+    console.log(`Starting cleanup for ${collResults}...`);
+    const [resultsSnap, usersSnap] = await Promise.all([
+      getDocs(collection(db, collResults)),
+      getDocs(collection(db, collUsers))
+    ]);
+    
+    const userIds = new Set(usersSnap.docs.map(d => d.id));
+    const userMap = new Map(usersSnap.docs.map(d => [d.id, d.data()]));
+
+    let deletedCount = 0;
+    // Process in chunks or sequentially to avoid hitting limits if there are many docs
+    for (const resDoc of resultsSnap.docs) {
+      const data = resDoc.data();
+      const uId = data.userId;
+      
+      // 1. Missing or invalid user ID
+      const isMissingId = !uId || typeof uId !== 'string' || uId.trim() === '';
+      
+      // 2. User document no longer exists
+      const isOrphaned = uId && !userIds.has(uId);
+      
+      // 3. User document exists but name is unknown or anonymous
+      const user = uId ? userMap.get(uId) : null;
+      const isUnknownName = user && (!user.displayName || user.displayName.trim() === '' || user.displayName === 'Unknown User' || user.displayName === 'Anonymous');
+
+      if (isMissingId || isOrphaned || isUnknownName) {
+        try {
+          await deleteDoc(doc(db, collResults, resDoc.id));
+          deletedCount++;
+        } catch (delErr) {
+          console.error(`Failed to delete orphaned result ${resDoc.id}:`, delErr);
+        }
+      }
+    }
+    
+    console.log(`Cleanup finished. Deleted ${deletedCount} records.`);
+    return deletedCount;
+  } catch (error) {
+    console.error('Error cleaning up unknown scores:', error);
     throw error;
   }
 };

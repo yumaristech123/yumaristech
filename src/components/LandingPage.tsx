@@ -243,10 +243,18 @@ export function LandingPage({ onSelectCourse }: LandingPageProps) {
       </main>
 
       {/* Footer */}
-      <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-slate-100 text-center">
-        <p className="text-slate-400 text-xs font-black uppercase tracking-widest italic flex items-center justify-center gap-1">
-          © 2026 <span className="text-red-600">ZONA PRESTASI</span> <span className="text-emerald-600">YUMARIS</span> - Level Up Your Skills
-        </p>
+      <footer className="max-w-7xl mx-auto px-6 py-8 md:py-12 border-t border-slate-100 text-center">
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-slate-400 text-[10px] md:text-xs font-black uppercase tracking-widest italic flex flex-wrap items-center justify-center gap-x-1 gap-y-0.5">
+            <span>© 2026</span>
+            <span className="text-red-600">ZONA PRESTASI</span>
+            <span className="text-emerald-600">YUMARIS</span>
+          </p>
+          <div className="w-8 h-px bg-slate-200 md:hidden" />
+          <p className="text-slate-300 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">
+            Level Up Your Skills
+          </p>
+        </div>
       </footer>
     </div>
   );

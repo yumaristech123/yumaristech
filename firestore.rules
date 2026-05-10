@@ -154,5 +154,61 @@ service cloud.firestore {
       allow create, update: if isAdmin('users_kd') && isValidClass(request.resource.data);
       allow delete: if isAdmin('users_kd');
     }
+
+    // --- UTBK SNBT Course ---
+
+    match /users_utbk/{userId} {
+      allow read: if isSignedIn();
+      allow create: if (isOwner(userId) || isAdmin('users_utbk')) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) || isAdmin('users_utbk')) && 
+                    isValidUser(request.resource.data) &&
+                    (
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'completedModules'])) ||
+                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email', 'stars'])) ||
+                      isAdmin('users_utbk')
+                    );
+      allow delete: if isAdmin('users_utbk');
+    }
+
+    match /quiz_results_utbk/{resultId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid && isValidQuizResult(request.resource.data);
+      allow update: if isAdmin('users_utbk');
+      allow delete: if isAdmin('users_utbk') || isGuru('users_utbk');
+    }
+
+    match /classes_utbk/{classId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin('users_utbk') && isValidClass(request.resource.data);
+      allow delete: if isAdmin('users_utbk');
+    }
+
+    // --- TKA Course ---
+
+    match /users_tka/{userId} {
+      allow read: if isSignedIn();
+      allow create: if (isOwner(userId) || isAdmin('users_tka')) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) || isAdmin('users_tka')) && 
+                    isValidUser(request.resource.data) &&
+                    (
+                      (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'completedModules'])) ||
+                      (request.resource.data.diff(resource.data).affectedKeys().hasAny(['displayName', 'kelas', 'role', 'password', 'email', 'stars'])) ||
+                      isAdmin('users_tka')
+                    );
+      allow delete: if isAdmin('users_tka');
+    }
+
+    match /quiz_results_tka/{resultId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid && isValidQuizResult(request.resource.data);
+      allow update: if isAdmin('users_tka');
+      allow delete: if isAdmin('users_tka') || isGuru('users_tka');
+    }
+
+    match /classes_tka/{classId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin('users_tka') && isValidClass(request.resource.data);
+      allow delete: if isAdmin('users_tka');
+    }
   }
 }

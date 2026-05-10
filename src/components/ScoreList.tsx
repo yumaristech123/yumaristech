@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { db, deleteQuizResult, CourseId, getCollName, UserData } from '../lib/firebase';
-import { collection, query, orderBy, onSnapshot, getDocs } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, getDocs, where } from 'firebase/firestore';
 import { Trophy, Clock, User, BookOpen, Search, X, Filter, Trash2, Star } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -24,10 +24,11 @@ interface ClassData {
 
 interface ScoreListProps {
   currentUserRole?: 'siswa' | 'guru' | 'admin' | null;
+  currentUserId?: string | null;
   courseId?: CourseId | null;
 }
 
-export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps) {
+export function ScoreList({ currentUserRole, currentUserId, courseId = 'math' }: ScoreListProps) {
   const [results, setResults] = useState<QuizResult[]>([]);
   const [users, setUsers] = useState<Record<string, UserData>>({});
   const [classList, setClassList] = useState<ClassData[]>([]);
@@ -60,7 +61,13 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
     });
 
     // Listen for results
-    const q = query(collection(db, resultsColl), orderBy('timestamp', 'desc'));
+    let q = query(collection(db, resultsColl), orderBy('timestamp', 'desc'));
+    
+    // If student, only show their own scores
+    if (currentUserRole === 'siswa' && currentUserId) {
+      q = query(collection(db, resultsColl), where('userId', '==', currentUserId), orderBy('timestamp', 'desc'));
+    }
+
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const resultsData: QuizResult[] = [];
       snapshot.forEach((doc) => {
@@ -164,8 +171,12 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold heading-font tracking-tight text-slate-800">Papan Nilai Siswa</h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Laporan Aktivitas & Rangking</p>
+              <h2 className="text-2xl font-bold heading-font tracking-tight text-slate-800">
+                {currentUserRole === 'siswa' ? 'Riwayat Nilai Kamu' : 'Papan Nilai Siswa'}
+              </h2>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+                {currentUserRole === 'siswa' ? 'Pantau progres belajar dan perolehan bintangmu' : 'Laporan Aktivitas & Rangking'}
+              </p>
             </div>
             
             <div className="flex items-center gap-2">
@@ -187,47 +198,61 @@ export function ScoreList({ currentUserRole, courseId = 'math' }: ScoreListProps
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {currentUserRole !== 'siswa' && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <input 
+                  type="text"
+                  placeholder="Cari Siswa/Modul..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-xs font-bold outline-none focus:border-indigo-400 transition-all shadow-sm"
+                />
+              </div>
+
+              <div className="relative">
+                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                <select
+                  value={filterClass}
+                  onChange={(e) => setFilterClass(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-xs font-bold outline-none focus:border-indigo-400 transition-all shadow-sm appearance-none"
+                >
+                  <option value="all">Semua Kelas</option>
+                  {classList.map(c => (
+                    <option key={c.id} value={c.name}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
+                {(['all', 'siswa', 'guru'] as const).map(r => (
+                  <button
+                    key={r}
+                    onClick={() => setFilterRole(r)}
+                    className={cn(
+                      "flex-1 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all",
+                      filterRole === r ? "bg-brand-600 text-white shadow-md shadow-brand-100" : "text-slate-400 hover:text-slate-600"
+                    )}
+                  >
+                    {r === 'all' ? 'Semua Peran' : r}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {currentUserRole === 'siswa' && (
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
               <input 
                 type="text"
-                placeholder="Cari Siswa/Modul..."
+                placeholder="Cari Modul..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-xs font-bold outline-none focus:border-indigo-400 transition-all shadow-sm"
               />
             </div>
-
-            <div className="relative">
-              <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-              <select
-                value={filterClass}
-                onChange={(e) => setFilterClass(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-10 pr-4 text-xs font-bold outline-none focus:border-indigo-400 transition-all shadow-sm appearance-none"
-              >
-                <option value="all">Semua Kelas</option>
-                {classList.map(c => (
-                  <option key={c.id} value={c.name}>{c.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
-              {(['all', 'siswa', 'guru'] as const).map(r => (
-                <button
-                  key={r}
-                  onClick={() => setFilterRole(r)}
-                  className={cn(
-                    "flex-1 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all",
-                    filterRole === r ? "bg-brand-600 text-white shadow-md shadow-brand-100" : "text-slate-400 hover:text-slate-600"
-                  )}
-                >
-                  {r === 'all' ? 'Semua Peran' : r}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
