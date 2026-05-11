@@ -32,7 +32,7 @@ export default function App() {
   const [completedModules, setCompletedModules] = useState<string[]>([]);
   const [currentLevel, setCurrentLevel] = useState<Level | null>(null);
   const [currentModule, setCurrentModule] = useState<Module | null>(null);
-  const [parentModule, setParentModule] = useState<Module | null>(null);
+  const [moduleHistory, setModuleHistory] = useState<Module[]>([]);
   const [isQuizActive, setIsQuizActive] = useState(false);
   const [isAuthReady, setIsAuthReady] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
@@ -99,32 +99,38 @@ export default function App() {
   const handleLevelSelect = (level: Level) => {
     setCurrentLevel(level);
     setCurrentModule(null);
-    setParentModule(null);
+    setModuleHistory([]);
     setIsQuizActive(false);
   };
 
   const handleModuleSelect = (module: Module) => {
     if (module.subModules && module.subModules.length > 0) {
-      setParentModule(module);
+      setModuleHistory(prev => [...prev, module]);
       return;
     }
     setCurrentModule(module);
     setIsQuizActive(true);
   };
 
+  const activeParentModule = moduleHistory.length > 0 ? moduleHistory[moduleHistory.length - 1] : null;
+
   const handleQuizComplete = async (score: number, level?: string, timeTaken?: number) => {
     if (user && currentModule && selectedCourse) {
-      // For Topik Matematika levels, only record if score >= 90
-      const isTopikMatematika = currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika');
+      // For Topik Matematika and Kedinasan levels, only record if score >= 90
+      const isHighThreshold = currentLevel?.id === 'lvl-topik' || 
+                              currentLevel?.title.toLowerCase().includes('matematika') || 
+                              selectedCourse === 'kedinasan';
       
-      if (isTopikMatematika && score < 90) {
-        console.log('Score too low for Topik Matematika, not recording.');
+      if (isHighThreshold && score < 90) {
+        console.log('Score too low, not recording.');
       } else {
         await saveQuizResult(user.uid, currentModule.id, score, level, timeTaken, selectedCourse);
       }
     } else if (!user) {
       // Offline/Guest local state update
-      const passingScore = (currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika')) ? 90 : 70;
+      const passingScore = (currentLevel?.id === 'lvl-topik' || 
+                            currentLevel?.title.toLowerCase().includes('matematika') || 
+                            selectedCourse === 'kedinasan') ? 90 : 70;
       if (score >= passingScore && currentModule) {
         if (!completedModules.includes(currentModule.id)) {
           setCompletedModules(p => [...p, currentModule.id]);
@@ -138,7 +144,7 @@ export default function App() {
   const resetToHome = () => {
     setCurrentLevel(null);
     setCurrentModule(null);
-    setParentModule(null);
+    setModuleHistory([]);
     setIsQuizActive(false);
     setActiveView('lessons');
   };
@@ -309,16 +315,16 @@ export default function App() {
                   <h3 className="text-3xl font-bold heading-font mt-4 mb-2 tracking-tight text-slate-800">{currentLevel.title}</h3>
                   <p className="text-slate-500 font-bold mb-8 leading-relaxed text-sm">{currentLevel.description}</p>
                   <div className="space-y-4">
-                    {parentModule ? (
+                    {activeParentModule ? (
                       <>
                         <button 
-                          onClick={() => setParentModule(null)}
+                          onClick={() => setModuleHistory(prev => prev.slice(0, -1))}
                           className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-brand-600 transition-colors mb-2"
                         >
-                          <ChevronLeft size={14} /> Kembali ke Modul
+                          <ChevronLeft size={14} /> Kembali
                         </button>
-                        <p className="font-bold uppercase text-[10px] tracking-widest text-slate-400 border-b border-slate-100 pb-3">{parentModule.title}</p>
-                        {parentModule.subModules?.map((m) => (
+                        <p className="font-bold uppercase text-[10px] tracking-widest text-slate-400 border-b border-slate-100 pb-3">{activeParentModule.title}</p>
+                        {activeParentModule.subModules?.map((m) => (
                           <ModuleCard 
                             key={m.id} 
                             module={m} 
@@ -329,6 +335,12 @@ export default function App() {
                       </>
                     ) : (
                       <>
+                        <button 
+                          onClick={() => setCurrentLevel(null)}
+                          className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-brand-600 transition-colors mb-2"
+                        >
+                          <ChevronLeft size={14} /> Kembali ke Level
+                        </button>
                         <p className="font-bold uppercase text-[10px] tracking-widest text-slate-400 border-b border-slate-100 pb-3">Daftar Modul</p>
                         {currentLevel.modules.map((m) => (
                           <ModuleCard 
@@ -387,11 +399,12 @@ export default function App() {
                   questions={currentModule.quiz} 
                   onComplete={handleQuizComplete}
                   onCancel={() => setIsQuizActive(false)}
-                  hideFeedback={currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika')}
+                  hideFeedback={currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika') || selectedCourse === 'kedinasan'}
                   headerContent={currentModule.content}
                   chartData={currentModule.chartData}
                   chartConfig={currentModule.chartConfig}
                   course={selectedCourse}
+                  passingScore={(currentLevel?.id === 'lvl-topik' || currentLevel?.title.toLowerCase().includes('matematika') || selectedCourse === 'kedinasan') ? 90 : 70}
                 />
               ) : null}
             </motion.div>

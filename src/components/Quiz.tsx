@@ -21,6 +21,7 @@ interface QuizSessionProps {
     colors?: string[];
   };
   course?: 'math' | 'english' | 'kedinasan' | 'utbk';
+  passingScore?: number;
 }
 
 export function QuizSession({ 
@@ -31,7 +32,8 @@ export function QuizSession({
   headerContent,
   chartData,
   chartConfig,
-  course = 'math'
+  course = 'math',
+  passingScore = 70
 }: QuizSessionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
@@ -45,7 +47,6 @@ export function QuizSession({
   const selectedOption = userAnswers[currentIndex] || null;
 
   const handleAnswer = (option: string) => {
-    if (isAnswered) return;
     setUserAnswers(prev => ({ ...prev, [currentIndex]: option }));
   };
 
@@ -70,7 +71,7 @@ export function QuizSession({
       return opt === questions[parseInt(idx)].correctAnswer ? acc + 1 : acc;
     }, 0);
     const finalScore = Math.round((scoreCount / questions.length) * 100);
-    const isTuntas = finalScore >= 90;
+    const isTuntas = finalScore >= passingScore;
 
     return (
       <motion.div
@@ -248,15 +249,14 @@ export function QuizSession({
               return (
                 <button
                   key={option}
-                  disabled={isAnswered}
                   onClick={() => handleAnswer(option)}
                   className={cn(
                     "p-5 text-left border-2 rounded-2xl font-bold text-lg transition-all duration-200",
-                    !isAnswered && `bg-white border-slate-300 hover:border-${accentColor}-400 hover:bg-${accentColor}-50/10`,
+                    !isSelected && `bg-white border-slate-300 hover:border-${accentColor}-400 hover:bg-${accentColor}-50/10`,
                     isAnswered && !hideFeedback && isCorrect && "bg-emerald-50 border-emerald-500 text-emerald-800",
                     isAnswered && !hideFeedback && isSelected && !isCorrect && "bg-rose-50 border-rose-500 text-rose-800",
                     isAnswered && hideFeedback && isSelected && `bg-${accentColor}-50 border-${accentColor}-500 text-${accentColor}-800`,
-                    isAnswered && (hideFeedback || (!isCorrect && !isSelected)) && !isSelected && "opacity-40 border-slate-100"
+                    isAnswered && !isSelected && "opacity-40 border-slate-100 hover:opacity-100"
                   )}
                 >
                   <div className="flex justify-between items-center">

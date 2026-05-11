@@ -1500,146 +1500,270 @@ export const KEDINASAN_LEVELS: Level[] = [
         description: 'Menguji kemampuan verbal, numerik, dan berpikir analitis/logis.',
         icon: 'Brain',
         content: 'Tes Intelegensia Umum (TIU) bertujuan untuk menilai kompetensi penguasaan kemampuan verbal (analogi, silogisme, analitis), kemampuan numerik (berhitung, deret angka, perbandingan kuantitatif, soal cerita), dan kemampuan figural.',
-        quiz: [
+        quiz: [],
+        subModules: [
           {
-            id: 'tiu-1',
-            question: 'EPIGON = ...',
-            options: ['Peniru mimik', 'Peniru sifat', 'Peniru gerakan', 'Peniru seniman', 'Peniru wajah'],
-            correctAnswer: 'Peniru seniman',
-            explanation: 'Dalam KBBI, epigon adalah orang yang tidak memiliki gagasan baru dan hanya mengikuti jejak pemikir atau seniman yang mendahuluinya.'
+            id: 'mod-tiu-numerik',
+            title: 'NUMERIK',
+            description: 'Materi perhitungan, persentase, dan soal cerita numerik.',
+            icon: 'Hash',
+            content: 'Kemampuan numerik mengukur kecakapan dalam berhitung dan logika angka.',
+            quiz: [],
+            subModules: [
+              {
+                id: 'mod-tiu-numerik-p1',
+                title: 'PART 1',
+                description: 'Latihan numerik bagian pertama.',
+                icon: 'Layers',
+                content: 'Kumpulan latihan numerik bagian pertama.',
+                quiz: [],
+                subModules: [
+                  {
+                    id: 'mod-tiu-numerik-p1-l1',
+                    title: 'Level 1',
+                    description: 'Penjumlahan dan persentase dasar.',
+                    icon: 'Hash',
+                    content: 'Level 1: Dasar perhitungan persentase sederhana.',
+                    quiz: [
+                      { id: 'tiu-n-p1-l1-1', question: '2 % dari 100 =', options: ['2', '4', '8', '10'], correctAnswer: '2' },
+                      { id: 'tiu-n-p1-l1-2', question: '5 % dari 200 =', options: ['5', '10', '15', '20'], correctAnswer: '10' },
+                      { id: 'tiu-n-p1-l1-3', question: '10 % dari 500 =', options: ['10', '25', '50', '100'], correctAnswer: '50' },
+                      { id: 'tiu-n-p1-l1-4', question: '3 % dari 400 =', options: ['3', '6', '9', '12'], correctAnswer: '12' },
+                      { id: 'tiu-n-p1-l1-5', question: '20 % dari 300 =', options: ['20', '40', '60', '80'], correctAnswer: '60' }
+                    ]
+                  },
+                  {
+                    id: 'mod-tiu-numerik-p1-l2',
+                    title: 'Level 2',
+                    description: 'Perhitungan persentase angka rendah.',
+                    icon: 'Hash',
+                    content: 'Level 2: Tantangan persentase pada bilangan puluhan.',
+                    quiz: [
+                      { id: 'tiu-n-p1-l2-1', question: '5 % dari 40 =', options: ['1', '2', '4', '5'], correctAnswer: '2' },
+                      { id: 'tiu-n-p1-l2-2', question: '10 % dari 80 =', options: ['4', '8', '12', '16'], correctAnswer: '8' },
+                      { id: 'tiu-n-p1-l2-3', question: '2 % dari 50 =', options: ['0,5', '1', '1,5', '2'], correctAnswer: '1' },
+                      { id: 'tiu-n-p1-l2-4', question: '15 % dari 20 =', options: ['2', '3', '4', '5'], correctAnswer: '3' },
+                      { id: 'tiu-n-p1-l2-5', question: '4 % dari 25 =', options: ['1', '2', '4', '10'], correctAnswer: '1' }
+                    ]
+                  },
+                  {
+                    id: 'mod-tiu-numerik-p1-l3',
+                    title: 'Level 3',
+                    description: 'Soal cerita persentase.',
+                    icon: 'BookOpen',
+                    content: 'Level 3: Penerapan persentase dalam kehidupan sehari-hari.',
+                    quiz: [
+                      { id: 'tiu-n-p1-l3-1', question: 'Kakak mempunyai uang Rp 20.000. Jika ia memberikan 5 % uangnya kepada adik, berapa yang diterima adik?', options: ['Rp 500', 'Rp 1.000', 'Rp 1.500', 'Rp 2.000'], correctAnswer: 'Rp 1.000' },
+                      { id: 'tiu-n-p1-l3-2', question: 'Sebuah desa berpendidikan 1.000 orang. Jika 3 % warga sedang sakit flu, berapa orang yang sakit?', options: ['3 orang', '10 orang', '30 orang', '300 orang'], correctAnswer: '30 orang' },
+                      { id: 'tiu-n-p1-l3-3', question: 'Sebuah semangka beratnya 4 kg (4.000 gram). Jika 10 % dari beratnya adalah kulit, berapa berat kulitnya?', options: ['40 gram', '100 gram', '400 gram', '1.000 gram'], correctAnswer: '400 gram' },
+                      { id: 'tiu-n-p1-l3-4', question: 'Toko baju memberikan diskon 20% untuk baju seharga Rp. 150.000. Berapa nilai potongannya?', options: ['Rp 15.000', 'Rp 20.000', 'Rp 30.000', 'Rp 45.000'], correctAnswer: 'Rp 30.000' },
+                      { id: 'tiu-n-p1-l3-5', question: 'Dari 200 butir telur, ternyata 4% telur tersebut retak. Berapa butir telur yang retak?', options: ['4 butir', '8 butir', '12 butir', '16 butir'], correctAnswer: '8 butir' }
+                    ]
+                  }
+                ]
+              },
+              {
+                id: 'mod-tiu-numerik-p2',
+                title: 'PART 2',
+                description: 'Latihan numerik bagian kedua.',
+                icon: 'Layers',
+                content: 'Kumpulan latihan numerik bagian kedua.',
+                quiz: [],
+                subModules: [
+                  {
+                    id: 'mod-tiu-numerik-p2-l1',
+                    title: 'Level 1',
+                    description: 'Persentase lanjutan level 1.',
+                    icon: 'Hash',
+                    content: 'Level 1: Perhitungan persentase angka ratusan.',
+                    quiz: [
+                      { id: 'tiu-n-p2-l1-1', question: '12 % dari 200 =', options: ['12', '20', '24', '36'], correctAnswer: '24' },
+                      { id: 'tiu-n-p2-l1-2', question: '15 % dari 300 =', options: ['15', '30', '45', '60'], correctAnswer: '45' },
+                      { id: 'tiu-n-p2-l1-3', question: '8 % dari 150 =', options: ['8', '12', '16', '20'], correctAnswer: '12' },
+                      { id: 'tiu-n-p2-l1-4', question: '25 % dari 60 =', options: ['12', '15', '20', '25'], correctAnswer: '15' },
+                      { id: 'tiu-n-p2-l1-5', question: '35 % dari 200 =', options: ['35', '50', '70', '100'], correctAnswer: '70' }
+                    ]
+                  },
+                  {
+                    id: 'mod-tiu-numerik-p2-l2',
+                    title: 'Level 2',
+                    description: 'Persentase lanjutan level 2.',
+                    icon: 'Hash',
+                    content: 'Level 2: Perhitungan persentase angka acak.',
+                    quiz: [
+                      { id: 'tiu-n-p2-l2-1', question: '6 % dari 50 =', options: ['2', '3', '6', '12'], correctAnswer: '3' },
+                      { id: 'tiu-n-p2-l2-2', question: '12 % dari 50 =', options: ['6', '12', '24', '48'], correctAnswer: '6' },
+                      { id: 'tiu-n-p2-l2-3', question: '4 % dari 75 =', options: ['3', '4', '6', '8'], correctAnswer: '3' },
+                      { id: 'tiu-n-p2-l2-4', question: '15 % dari 40 =', options: ['4', '5', '6', '8'], correctAnswer: '6' },
+                      { id: 'tiu-n-p2-l2-5', question: '2 % dari 125 =', options: ['2', '2,5', '3', '5'], correctAnswer: '2,5' }
+                    ]
+                  },
+                  {
+                    id: 'mod-tiu-numerik-p2-l3',
+                    title: 'Level 3',
+                    description: 'Soal cerita persentase lanjutan.',
+                    icon: 'BookOpen',
+                    content: 'Level 3: Soal cerita terapan persentase.',
+                    quiz: [
+                      { id: 'tiu-n-p2-l3-1', question: 'Harga sebuah tas adalah Rp. 250.000. Jika toko memberikan diskon 12 %, berapa besar potongan harganya?', options: ['Rp 12.000', 'Rp 25.000', 'Rp 30.000', 'Rp 40.000'], correctAnswer: 'Rp 30.000' },
+                      { id: 'tiu-n-p2-l3-2', question: 'Pak Budi memanen 80 kg mangga. Sebanyak 15 % dari mangga tersebut ternyata belum matang. Berapa kg mangga yang belum matang?', options: ['8 kg', '10 kg', '12 kg', '15 kg'], correctAnswer: '12 kg' },
+                      { id: 'tiu-n-p2-l3-3', question: 'Sebuah sekolah memiliki 400 siswa. Jika 45 % dari siswa tersebut adalah perempuan, berapa jumlah siswa laki-laki?', options: ['180', '200', '220', '240'], correctAnswer: '220' },
+                      { id: 'tiu-n-p2-l3-4', question: 'Ibu membuat 60 kue. Sebanyak 20 % kue rasa cokelat dan sisanya rasa keju. Berapa banyak kue rasa cokelat?', options: ['10', '12', '15', '20'], correctAnswer: '12' },
+                      { id: 'tiu-n-p2-l3-5', question: 'Jarak kota A ke B adalah 120 km. Ayah menempuh 25% perjalanan. Berapa km jarak yang sudah ditempuh Ayah?', options: ['20 km', '25 km', '30 km', '40 km'], correctAnswer: '30 km' }
+                    ]
+                  }
+                ]
+              }
+            ]
           },
           {
-            id: 'tiu-2',
-            question: 'ARBITRER >< ...',
-            options: ['Militer', 'Orasi', 'Acak', 'Pemikir', 'Esensial'],
-            correctAnswer: 'Esensial',
-            explanation: 'Dalam KBBI, arbitrer artinya adalah sewenang-wenang; mana suka. Lawan maknanya (antonim) yang cocok adalah esensial.'
-          },
-          {
-            id: 'tiu-3',
-            question: 'RISET : DATA = ... : ...',
-            options: ['Survei : opini', 'Konfirmasi : kebenaran', 'Penelitian : fakta', 'Kuesioner : angket', 'Wawancara : pendapat'],
-            correctAnswer: 'Penelitian : fakta',
-            explanation: 'Riset didasarkan sesuai dengan data, sama halnya penelitian didasarkan sesuai dengan fakta.'
-          },
-          {
-            id: 'tiu-4',
-            question: 'a dan b merupakan bilangan bulat positif. Jika a dibagi 6 sisa 3, dan b dibagi 6 sisa 1, maka berapakah sisanya jika (a * b) dibagi 3?',
-            options: ['0', '1', '2', '3', '4'],
-            correctAnswer: '0',
-            explanation: 'a = 6n + 3, b = 6m + 1. (a * b) = (6n + 3)(6m + 1) = 36nm + 6n + 18m + 3. Semua suku habis dibagi 3, jadi sisanya 0.'
-          },
-          {
-            id: 'tiu-5',
-            question: 'Berapakah nilai dari 12³ + 14³ + 16³?',
-            options: ['8171', '8685', '8568', '8570', '8243'],
-            correctAnswer: '8568',
-            explanation: '12³ = 1728; 14³ = 2744; 16³ = 4096. Maka 1728 + 2744 + 4096 = 8568.'
-          },
-          {
-            id: 'tiu-6',
-            question: 'Citra menggunakan skala 1:250.000 pada peta. Berapakah panjang garis lurus di peta jika jarak sebenarnya adalah 55 Km?',
-            options: ['2,2 Cm', '22 Cm', '22 Mm', '220 Mm', '2,2 Dm'],
-            correctAnswer: '2,2 Dm',
-            explanation: 'Jarak di peta = 5.500.000 cm / 250.000 = 22 cm. Karena 22 cm = 2,2 dm, maka jawabannya adalah 2,2 Dm.'
-          },
-          {
-            id: 'tiu-7',
-            question: 'Sebuah kubus besar bervolume 512 cm³. Berapa banyak kubus kecil dengan panjang sisi 4 cm yang bisa dimasukkan ke dalamnya?',
-            options: ['4', '6', '8', '10', '12'],
-            correctAnswer: '8',
-            explanation: 'Volume kubus kecil = 4³ = 64. Banyaknya kubus = 512 / 64 = 8.'
-          },
-          {
-            id: 'tiu-8',
-            question: '765, 531, 297, ..., -171, -405',
-            options: ['86', '72', '67', '63', '36'],
-            correctAnswer: '63',
-            explanation: 'Pola: dikurangi 234 secara konsisten. 297 - 234 = 63. 63 - 234 = -171.'
-          },
-          {
-            id: 'tiu-9',
-            question: 'Jika 120 orang menghadiri konser musik dan rasio anak dibanding dewasa adalah 2:3, berapakah jumlah orang dewasa?',
-            options: ['48', '60', '72', '80', '100'],
-            correctAnswer: '72',
-            explanation: 'Total rasio = 2 + 3 = 5. Dewasa = (3/5) * 120 = 72.'
-          },
-          {
-            id: 'tiu-10',
-            question: 'Sebuah segitiga siku-siku memiliki alas 12 cm dan tinggi 16 cm dimasukkan ke dalam lingkaran sehingga titik-titiknya menyentuh busur lingkaran. Berapakah jari-jari lingkaran tersebut?',
-            options: ['8 cm', '10 cm', '12 cm', '15 cm', '16 cm'],
-            correctAnswer: '10 cm',
-            explanation: 'Sisi miring segitiga (hipotenusa) adalah diameter lingkaran jika segitiga itu siku-siku dan titik-titiknya di busur. Hipotenusa = sqrt(12^2 + 16^2) = 20 cm. Jari-jari = 10 cm.'
-          },
-          {
-            id: 'tiu-11',
-            question: '134, 5.790, 11.446, ..., 22.758',
-            options: ['15.102', '16.104', '17.102', '18.104', '19.102'],
-            correctAnswer: '17.102',
-            explanation: 'Pola: bertambah 5.656 secara konsisten. 11.446 + 5.656 = 17.102.'
-          },
-          {
-            id: 'tiu-12',
-            question: 'Semua strawberry adalah buah-buahan masam. Sebagian strawberry yang masam disukai oleh kakek. Kesimpulan yang paling tepat adalah …',
-            options: ['Semua strawberry disukai kakek', 'Sebagian buah-buahan masam disukai kakek', 'Semua buah-buahan masam adalah strawberry', 'Sebagian buah-buahan masam tidak disukai kakek', 'Sebagian strawberry tidak masam'],
-            correctAnswer: 'Sebagian buah-buahan masam disukai kakek',
-            explanation: 'Karena strawberry adalah buah masam dan sebagian strawberry disukai kakek, maka sebagian buah masam disukai kakek.'
-          },
-          {
-            id: 'tiu-13',
-            question: 'Setiap pengurus partai adalah menteri. Sebagian menteri adalah laki-laki. Kesimpulan yang paling tepat adalah …',
-            options: ['Semua pengurus partai adalah laki-laki', 'Sebagian pengurus partai adalah laki-laki', 'Sebagian laki-laki adalah menteri', 'Laki-laki yang menteri adalah pengurus partai', 'Semua laki-laki adalah menteri'],
-            correctAnswer: 'Sebagian laki-laki adalah menteri',
-            explanation: 'Jika sebagian menteri adalah laki-laki, maka sebagian laki-laki adalah menteri. Belum tentu pengurus partai itu laki-laki.'
-          },
-          {
-            id: 'tiu-14',
-            question: 'Dari 50 orang, 25 orang adalah pria, 30 orang berambut lurus, dan 7 orang di antaranya adalah wanita yang tidak berambut lurus. Berapa banyak wanita yang berambut lurus?',
-            options: ['11', '12', '18', '20', '25'],
-            correctAnswer: '18',
-            explanation: 'Wanita total = 50 - 25 = 25. Wanita yang rambut lurus = 25 - 7 = 18.'
-          },
-          {
-            id: 'tiu-15',
-            question: 'Seorang pedagang membeli 50 kg mangga. Peluang mangga yang busuk adalah 1/12. Jika mangga yang tidak busuk akan dijual, berapakah peluang seorang pembeli mendapatkan mangga yang tidak busuk?',
-            options: ['1/12', '5/12', '7/12', '11/12', '1/2'],
-            correctAnswer: '11/12',
-            explanation: 'Peluang komplemen: P(tidak busuk) = 1 - P(busuk) = 1 - 1/12 = 11/12.'
-          },
-          {
-            id: 'tiu-16',
-            question: 'Nilai dari (0,5 x 0,5) + (1,5 x 1,5) adalah ...',
-            options: ['2,5', '2,25', '2,75', '3,0', '3,25'],
-            correctAnswer: '2,5',
-            explanation: '0,25 + 2,25 = 2,5.'
-          },
-          {
-            id: 'tiu-17',
-            question: 'Rasio antara luas lingkaran A dan lingkaran B adalah 4:9. Berapakah rasio jari-jari mereka?',
-            options: ['2:1', '2:3', '1:2', '4:9', '16:81'],
-            correctAnswer: '2:3',
-            explanation: 'Rasio luas (r1^2 : r2^2) = 4 : 9. Maka r1 : r2 = sqrt(4) : sqrt(9) = 2 : 3.'
-          },
-          {
-            id: 'tiu-18',
-            question: 'Seorang pelari menempuh jarak 10 km dalam waktu 40 menit. Berapakah kecepatan rata-ratanya dalam km/jam?',
-            options: ['12', '15', '18', '20', '25'],
-            correctAnswer: '15',
-            explanation: '40 menit = 2/3 jam. Kecepatan = 10 / (2/3) = 15 km/jam.'
-          },
-          {
-            id: 'tiu-19',
-            question: 'Jika x = 12% dari 150 dan y = 15% dari 120, manakah pernyataan yang benar?',
-            options: ['x > y', 'x < y', 'x = y', 'x + y = 300', 'Hubungan tidak dapat ditentukan'],
-            correctAnswer: 'x = y',
-            explanation: 'x = 0,12 * 150 = 18. y = 0,15 * 120 = 18. Jadi x = y.'
-          },
-          {
-            id: 'tiu-20',
-            question: 'Jika 3 penjahit dapat menyelesaikan 15 baju dalam 5 hari, berapa banyak baju yang dapat diselesaikan oleh 5 penjahit dalam 2 hari?',
-            options: ['6', '8', '10', '12', '15'],
-            correctAnswer: '10',
-            explanation: 'Kecepatan 1 penjahit = 15 / (3*5) = 1 baju/hari. 5 penjahit dalam 2 hari = 5 * 2 * 1 = 10 baju.'
+            id: 'mod-skd-tiu-umum',
+            title: 'Latihan TIU Umum',
+            description: 'Campuran soal verbal, numerik, dan logika.',
+            icon: 'FileText',
+            content: 'Kumpulan soal TIU standar materi analogi, deret, dan logika.',
+            quiz: [
+              {
+                id: 'tiu-1',
+                question: 'EPIGON = ...',
+                options: ['Peniru mimik', 'Peniru sifat', 'Peniru gerakan', 'Peniru seniman', 'Peniru wajah'],
+                correctAnswer: 'Peniru seniman',
+                explanation: 'Dalam KBBI, epigon adalah orang yang tidak memiliki gagasan baru dan hanya mengikuti jejak pemikir atau seniman yang mendahuluinya.'
+              },
+              {
+                id: 'tiu-2',
+                question: 'ARBITRER >< ...',
+                options: ['Militer', 'Orasi', 'Acak', 'Pemikir', 'Esensial'],
+                correctAnswer: 'Esensial',
+                explanation: 'Dalam KBBI, arbitrer artinya adalah sewenang-wenang; mana suka. Lawan maknanya (antonim) yang cocok adalah esensial.'
+              },
+              {
+                id: 'tiu-3',
+                question: 'RISET : DATA = ... : ...',
+                options: ['Survei : opini', 'Konfirmasi : kebenaran', 'Penelitian : fakta', 'Kuesioner : angket', 'Wawancara : pendapat'],
+                correctAnswer: 'Penelitian : fakta',
+                explanation: 'Riset didasarkan sesuai dengan data, sama halnya penelitian didasarkan sesuai dengan fakta.'
+              },
+              {
+                id: 'tiu-4',
+                question: 'a dan b merupakan bilangan bulat positif. Jika a dibagi 6 sisa 3, dan b dibagi 6 sisa 1, maka berapakah sisanya jika (a * b) dibagi 3?',
+                options: ['0', '1', '2', '3', '4'],
+                correctAnswer: '0',
+                explanation: 'a = 6n + 3, b = 6m + 1. (a * b) = (6n + 3)(6m + 1) = 36nm + 6n + 18m + 3. Semua suku habis dibagi 3, jadi sisanya 0.'
+              },
+              {
+                id: 'tiu-5',
+                question: 'Berapakah nilai dari 12³ + 14³ + 16³?',
+                options: ['8171', '8685', '8568', '8570', '8243'],
+                correctAnswer: '8568',
+                explanation: '12³ = 1728; 14³ = 2744; 16³ = 4096. Maka 1728 + 2744 + 4096 = 8568.'
+              },
+              {
+                id: 'tiu-6',
+                question: 'Citra menggunakan skala 1:250.000 pada peta. Berapakah panjang garis lurus di peta jika jarak sebenarnya adalah 55 Km?',
+                options: ['2,2 Cm', '22 Cm', '22 Mm', '220 Mm', '2,2 Dm'],
+                correctAnswer: '2,2 Dm',
+                explanation: 'Jarak di peta = 5.500.000 cm / 250.000 = 22 cm. Karena 22 cm = 2,2 dm, maka jawabannya adalah 2,2 Dm.'
+              },
+              {
+                id: 'tiu-7',
+                question: 'Sebuah kubus besar bervolume 512 cm³. Berapa banyak kubus kecil dengan panjang sisi 4 cm yang bisa dimasukkan ke dalamnya?',
+                options: ['4', '6', '8', '10', '12'],
+                correctAnswer: '8',
+                explanation: 'Volume kubus kecil = 4³ = 64. Banyaknya kubus = 512 / 64 = 8.'
+              },
+              {
+                id: 'tiu-8',
+                question: '765, 531, 297, ..., -171, -405',
+                options: ['86', '72', '67', '63', '36'],
+                correctAnswer: '63',
+                explanation: 'Pola: dikurangi 234 secara konsisten. 297 - 234 = 63. 63 - 234 = -171.'
+              },
+              {
+                id: 'tiu-9',
+                question: 'Jika 120 orang menghadiri konser musik dan rasio anak dibanding dewasa adalah 2:3, berapakah jumlah orang dewasa?',
+                options: ['48', '60', '72', '80', '100'],
+                correctAnswer: '72',
+                explanation: 'Total rasio = 2 + 3 = 5. Dewasa = (3/5) * 120 = 72.'
+              },
+              {
+                id: 'tiu-10',
+                question: 'Sebuah segitiga siku-siku memiliki alas 12 cm dan tinggi 16 cm dimasukkan ke dalam lingkaran sehingga titik-titiknya menyentuh busur lingkaran. Berapakah jari-jari lingkaran tersebut?',
+                options: ['8 cm', '10 cm', '12 cm', '15 cm', '16 cm'],
+                correctAnswer: '10 cm',
+                explanation: 'Sisi miring segitiga (hipotenusa) adalah diameter lingkaran jika segitiga itu siku-siku dan titik-titiknya di busur. Hipotenusa = sqrt(12^2 + 16^2) = 20 cm. Jari-jari = 10 cm.'
+              },
+              {
+                id: 'tiu-11',
+                question: '134, 5.790, 11.446, ..., 22.758',
+                options: ['15.102', '16.104', '17.102', '18.104', '19.102'],
+                correctAnswer: '17.102',
+                explanation: 'Pola: bertambah 5.656 secara konsisten. 11.446 + 5.656 = 17.102.'
+              },
+              {
+                id: 'tiu-12',
+                question: 'Semua strawberry adalah buah-buahan masam. Sebagian strawberry yang masam disukai oleh kakek. Kesimpulan yang paling tepat adalah …',
+                options: ['Semua strawberry disukai kakek', 'Sebagian buah-buahan masam disukai kakek', 'Semua buah-buahan masam adalah strawberry', 'Sebagian buah-buahan masam tidak disukai kakek', 'Sebagian strawberry tidak masam'],
+                correctAnswer: 'Sebagian buah-buahan masam disukai kakek',
+                explanation: 'Karena strawberry adalah buah masam dan sebagian strawberry disukai kakek, maka sebagian buah masam disukai kakek.'
+              },
+              {
+                id: 'tiu-13',
+                question: 'Setiap pengurus partai adalah menteri. Sebagian menteri adalah laki-laki. Kesimpulan yang paling tepat adalah …',
+                options: ['Semua pengurus partai adalah laki-laki', 'Sebagian pengurus partai adalah laki-laki', 'Sebagian laki-laki adalah menteri', 'Laki-laki yang menteri adalah pengurus partai', 'Semua laki-laki adalah menteri'],
+                correctAnswer: 'Sebagian laki-laki adalah menteri',
+                explanation: 'Jika sebagian menteri adalah laki-laki, maka sebagian laki-laki adalah menteri. Belum tentu pengurus partai itu laki-laki.'
+              },
+              {
+                id: 'tiu-14',
+                question: 'Dari 50 orang, 25 orang adalah pria, 30 orang berambut lurus, dan 7 orang di antaranya adalah wanita yang tidak berambut lurus. Berapa banyak wanita yang berambut lurus?',
+                options: ['11', '12', '18', '20', '25'],
+                correctAnswer: '18',
+                explanation: 'Wanita total = 50 - 25 = 25. Wanita yang rambut lurus = 25 - 7 = 18.'
+              },
+              {
+                id: 'tiu-15',
+                question: 'Seorang pedagang membeli 50 kg mangga. Peluang mangga yang busuk adalah 1/12. Jika mangga yang tidak busuk akan dijual, berapakah peluang seorang pembeli mendapatkan mangga yang tidak busuk?',
+                options: ['1/12', '5/12', '7/12', '11/12', '1/2'],
+                correctAnswer: '11/12',
+                explanation: 'Peluang komplemen: P(tidak busuk) = 1 - P(busuk) = 1 - 1/12 = 11/12.'
+              },
+              {
+                id: 'tiu-16',
+                question: 'Nilai dari (0,5 x 0,5) + (1,5 x 1,5) adalah ...',
+                options: ['2,5', '2,25', '2,75', '3,0', '3,25'],
+                correctAnswer: '2,5',
+                explanation: '0,25 + 2,25 = 2,5.'
+              },
+              {
+                id: 'tiu-17',
+                question: 'Rasio antara luas lingkaran A dan lingkaran B adalah 4:9. Berapakah rasio jari-jari mereka?',
+                options: ['2:1', '2:3', '1:2', '4:9', '16:81'],
+                correctAnswer: '2:3',
+                explanation: 'Rasio luas (r1^2 : r2^2) = 4 : 9. Maka r1 : r2 = sqrt(4) : sqrt(9) = 2 : 3.'
+              },
+              {
+                id: 'tiu-18',
+                question: 'Seorang pelari menempuh jarak 10 km dalam waktu 40 menit. Berapakah kecepatan rata-ratanya dalam km/jam?',
+                options: ['12', '15', '18', '20', '25'],
+                correctAnswer: '15',
+                explanation: '40 menit = 2/3 jam. Kecepatan = 10 / (2/3) = 15 km/jam.'
+              },
+              {
+                id: 'tiu-19',
+                question: 'Jika x = 12% dari 150 dan y = 15% dari 120, manakah pernyataan yang benar?',
+                options: ['x > y', 'x < y', 'x = y', 'x + y = 300', 'Hubungan tidak dapat ditentukan'],
+                correctAnswer: 'x = y',
+                explanation: 'x = 0,12 * 150 = 18. y = 0,15 * 120 = 18. Jadi x = y.'
+              },
+              {
+                id: 'tiu-20',
+                question: 'Jika 3 penjahit dapat menyelesaikan 15 baju dalam 5 hari, berapa banyak baju yang dapat diselesaikan oleh 5 penjahit dalam 2 hari?',
+                options: ['6', '8', '10', '12', '15'],
+                correctAnswer: '10',
+                explanation: 'Kecepatan 1 penjahit = 15 / (3*5) = 1 baju/hari. 5 penjahit dalam 2 hari = 5 * 2 * 1 = 10 baju.'
+              }
+            ]
           }
         ]
       },
